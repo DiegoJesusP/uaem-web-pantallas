@@ -1,0 +1,44 @@
+.bg-blue {
+    background-color: #001660;
+    padding: 20px;
+}
+
+.header-image img {
+    display: block;
+    margin: 0 auto;
+}
+
+.header-text {
+    flex-grow: 1;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.header-text p,
+.header-text h2,
+.header-text h3 {
+    margin: 3px;
+    font-family: Arial, sans-serif;
+}
+
+.bg-custom-footer {
+    background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
+    color: white;
+    padding: 20px 0;
+}
+
+.bg-custom-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.bg-custom-footer a:hover {
+    color: #cccccc;
+}
+
+#footerContainer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}

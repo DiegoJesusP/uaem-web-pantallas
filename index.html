@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <p>hola</p>
+    <div id="footerContainer"></div>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('./templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+            });
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
+            });
+    </script>
+</body>
+</html>
