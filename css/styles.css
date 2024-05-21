@@ -102,3 +102,41 @@
     margin-right: 10px;
 }
 
+.vertical-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Establece la altura de la barra al 100% de la altura de la ventana */
+    overflow-y: auto; /* Agrega desplazamiento vertical si el contenido excede la altura */
+}
+
+.vertical-nav a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+/* Cambia el color del enlace al pasar el cursor sobre él */
+.vertical-nav a:hover {
+    background-color: #555;
+    color: white;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+/* Cambia el color del enlace al pasar el cursor sobre él */
+li a:hover {
+    background-color: #41538F;
+    color: white;
+}

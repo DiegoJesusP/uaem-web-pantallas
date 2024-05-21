@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Documentos de Consulta</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
 </head>
@@ -37,70 +37,8 @@
             </div>
         </div>
     </nav>
-    <!-- Fin de la NavBar -->
-    <!-- Contenidio de Inicio -->
-    <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div id="carouselExampleDark" class="carousel carousel-dark slide">
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div>
-              <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="10000">
-                  <img src="./img/3.jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="btn-custom">
-                      <img src="./img/accesoDos.png" alt="icon" class="btn-icon">
-                      Ir a la página
-                    </a>
-                  </div>
-                </div>
-                <div class="carousel-item" data-bs-interval="2000">
-                  <img src="./img/3.jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="btn-custom">
-                      <img src="./img/accesoDos.png" alt="icon" class="btn-icon">
-                      Ir a la página
-                    </a>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img src="./img/3.jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="btn-custom">
-                      <img src="./img/accesoDos.png" alt="icon" class="btn-icon">
-                      Ir a la página
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <h1><img src="./../img/mapas-y-banderas.png" alt="ubicacion" class="img-fluid" style="height: 48px;"> Presentación</h1>
-            <hr>
-            <p>Las políticas institucionales de capacidad académica del Plan Institucional de Desarrollo, 2018-2023, aluden a consolidar la habilitación y capacitación del personal docente, así como el fortalecimiento de los cuerpos académicos.</p>
-      
-            <p>En función de ello; la Universidad Autónoma del Estado de Morelos, parte de considerar la articulación de programas de mejoramiento al trabajo docente, desde el abordaje de la evaluación del desempeño del personal académico y de su formación y actualización permanente como elementos que constituyen en sí mismos, los cimientos hacia el desarrollo profesional de la docencia.</p>
-            
-            <p>Respecto a los instrumentos de evaluación docente: encuesta de opinión sobre el desempeño docente dirigido a los estudiantes, y una autoevaluación docente, fueron elaboradas a partir del planteamiento de 6 dimensiones: actividad de aprendizaje, ubicación y organización de actividades, manejo grupal, autonomía del alumno, evaluación de los aprendizajes, ética y valores.</p>
-          </div>
-        </div>
-      </div>
-    <!-- Fin de contenido Inicio
-    <div id="footerContainer"></div>
-    -->
+    <!-- -->
+    <!-- -->
     <footer class="bg-custom-footer py-2">
         <div class="container">
             <div class="row">
@@ -143,11 +81,6 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('headerContainer').innerHTML = data;
-            });
-        fetch('./templates/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footerContainer').innerHTML = data;
             });
     </script>
 </body>
