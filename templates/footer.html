@@ -6,18 +6,21 @@
     <title>Footer</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../css/custom.css">
 </head>
 <body>
-    <footer class="bg-custom-footer py-2">
+    <footer class="bg-custom-footer py-1">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6 text-center text-md-end mb-3 mb-md-0">
-                    <h5>Síguenos</h5>
-                    <a href="mailto:eval_docente@uaem.mx" class="text-white me-2"><img src="./../img/correo.png" alt="Correo" class="img-fluid" style="height: 50px;"></a>
-                    <a href="https://www.facebook.com/uaemformaciondocente" class="text-white me-2"><img src="./../img/facebook.png" alt="Facebook" class="img-fluid" style="height: 50px;"></a>
-                    <a href="https://www.youtube.com/channel/UCvc3SSAArfY-DsWXXZ4mwhg" class="text-white"><img src="./../img/youtube.png" alt="YouTube" class="img-fluid" style="height: 50px;"></a>
+                <div class="col-12 col-md-6 d-flex flex-column align-items-center align-items-md-center mb-3 mb-md-0 follow-us">
+                    <h5 class="text-center text-md-end">¡Síguenos en nuestras redes sociales!</h5>
+                    <div class="d-flex justify-content-center justify-content-md-end follow-us">
+                        <a href="mailto:eval_docente@uaem.mx" class="text-white me-2"><img src="./../img/correo.png" alt="Correo" class="img-fluid"></a>
+                        <a href="https://www.facebook.com/uaemformaciondocente" class="text-white me-2"><img src="./../img/facebook.png" alt="Facebook" class="img-fluid"></a>
+                        <a href="https://www.youtube.com/channel/UCvc3SSAArfY-DsWXXZ4mwhg" class="text-white"><img src="./../img/youtube.png" alt="YouTube" class="img-fluid"></a>
+                    </div>
                 </div>
-                <div class="col-12 col-md-6 text-center text-md-start">
+                <div class="col-12 col-md-6 text-center text-md-center">
                     <div class="mb-3">
                         <h5>Universidad Autónoma del Estado de Morelos</h5>
                         <p>Departamento de Formación Docente</p>
@@ -27,6 +30,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </footer>
     
     <script src="./../js/bootstrap.bundle.min.js"></script>

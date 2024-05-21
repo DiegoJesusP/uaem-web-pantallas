@@ -24,7 +24,7 @@
 .bg-custom-footer {
     background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
     color: white;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .bg-custom-footer a {
@@ -42,3 +42,63 @@
     bottom: 0;
     width: 100%;
 }
+
+.follow-us {
+    justify-content: center;
+}
+
+.follow-us img {
+    height: 60px;
+    margin-right: 10px;
+}
+
+.nav-link.active {
+    background-color: #001660;
+    color: white !important;
+}
+
+.container {
+    margin-bottom: 10px; /* Margen al final del contenido */
+  }
+  
+  /* Estilo para el carusel */
+  .carousel {
+    margin-right: 20px; /* Espacio entre el carusel y el texto/imagen */
+  }
+  
+  /* Estilo para el texto e imágenes del lado derecho */
+  .col-lg-6 {
+    padding: 20px;
+  }
+  
+  /* Estilo adicional para las imágenes si es necesario */
+  .col-lg-6 img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  nav {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* sombra con desplazamiento en Y de 4px y difuminación de 6px */
+  }
+
+/* Estilo personalizado para el botón */
+.btn-custom {
+    display: inline-flex;
+    align-items: center;
+    background-color: #c82333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.btn-icon {
+    height: 16px; /* Altura de la imagen del botón más pequeña */
+    margin-right: 10px;
+}
+
