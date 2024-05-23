@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>busqueda</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="card-form">
+            <div class="form-group">
+                <label for="search">Buscar</label>
+                <input type="text" class="form-control" id="search" placeholder="Ingrese texto para buscar">
+            </div>
+            <!-- Agrega el botón de búsqueda -->
+            <button type="button" class="btn btn-primary" id="search-btn">Buscar</button>
+        </form>
+        <hr>
+        <p>Resultados de busqueda</p>
+        <div id="filtered-cards" class="row">
+
+        </div>
+        <hr>
+        <p>Cards Originales</p>
+        <div class="row" id="card-container">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>aaa</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>p</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>aaa</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>r</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>aaa</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>123</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>aaa</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>o</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>aaa</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>l</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Obtener referencias a elementos
+        const searchInput = document.getElementById('search');
+        const searchBtn = document.getElementById('search-btn');
+
+        // Asignar evento de clic al botón de búsqueda
+        searchBtn.addEventListener('click', function() {
+            const searchQuery = searchInput.value.toLowerCase(); // Obtener el texto de búsqueda en minúsculas
+
+            // Filtrar las cards según el texto de búsqueda
+            const filteredCards = Array.from(document.querySelectorAll('.col-lg-3')).filter(card => {
+                const modalidadText = card.querySelector('.card-title b').innerText.toLowerCase();
+                const periodoText = card.querySelector('.card-text b').innerText.toLowerCase();
+                return modalidadText.includes(searchQuery) || periodoText.includes(searchQuery);
+            });
+
+            // Mostrar las cards filtradas en el contenedor
+            showFilteredCards(filteredCards);
+        });
+
+        function showFilteredCards(cards) {
+    const filteredContainer = document.getElementById('filtered-cards');
+
+    // Limpiar el contenedor antes de agregar las cards filtradas
+    filteredContainer.innerHTML = ''; // Eliminar esta línea para evitar borrar las cards existentes
+
+    // Agregar las cards filtradas al contenedor sin borrar las existentes
+    cards.forEach(card => {
+        filteredContainer.appendChild(card); // Agregar la card filtrada al contenedor
+    });
+}
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

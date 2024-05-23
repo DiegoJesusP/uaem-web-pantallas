@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Dinámicas</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="card-form">
+            <div class="form-group">
+                <label for="modalidad">Modalidad</label>
+                <input type="text" class="form-control" id="modalidad" placeholder="Ingrese la modalidad">
+            </div>
+            <div class="form-group mt-2">
+                <label for="periodo">Periodo de Evaluación</label>
+                <input type="text" class="form-control" id="periodo" placeholder="Ingrese el periodo de evaluación">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Agregar Card</button>
+        </form>
+        <hr>
+        <div class="row" id="card-container">
+            <!-- Las cards se agregarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('card-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe y la página se recargue
+
+            const modalidad = document.getElementById('modalidad').value;
+            const periodo = document.getElementById('periodo').value;
+
+            // Crea un nuevo elemento
+            const newCard = document.createElement('div');
+            newCard.className = 'col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4';
+            newCard.innerHTML = `
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            `;
+            /* Añade el evento de clic a la nueva card
+            newCard.querySelector('.card').addEventListener('click', function() {
+                window.location.href = 'https://uiverse.io/buttons';
+            });
+            */
+            // Agrega la nueva card al contenedor de cards
+            document.getElementById('card-container').appendChild(newCard);
+            // Limpiar el formulario después de agregar la card
+            document.getElementById('card-form').reset();
+        });
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
+
+<!-- 
+script
+        document.getElementById('card-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe y la página se recargue
+            //variables del formulario
+            const modalidad = document.getElementById('modalidad').value;
+            const periodo = document.getElementById('periodo').value;
+            // Crea un nuevo elemento
+            const newCard = document.createElement('div');
+            newCard.className = 'col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4';
+            newCard.innerHTML = `
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            `;
+            /*// Añade el evento de clic a la nueva card
+            newCard.querySelector('.card').addEventListener('click', function() {
+                window.location.href = 'https://uiverse.io/buttons';
+            });
+            */
+            // Agrega la nueva card al contenedor de cards
+            document.getElementById('card-container').appendChild(newCard);
+            // Limpiar el formulario después de agregar la card
+            document.getElementById('card-form').reset();
+        });
+
+        document.getElementById('search').addEventListener('input', function(event) {
+            const searchQuery = event.target.value.toLowerCase(); // Obtener el texto de búsqueda en minúsculas
+
+            // Filtrar las cards según el texto de búsqueda
+            const filteredCards = Array.from(document.querySelectorAll('.col-lg-3')).filter(card => {
+                const modalidadText = card.querySelector('.card-title b').innerText.toLowerCase();
+                const periodoText = card.querySelector('.card-text b').innerText.toLowerCase();
+                return modalidadText.includes(searchQuery) || periodoText.includes(searchQuery);
+            });
+
+            // Mostrar las cards filtradas en el contenedor
+            showFilteredCards(filteredCards);
+        });
+
+        function showFilteredCards(cards) {
+            const filteredContainer = document.getElementById('filtered-cards');
+
+            // Limpiar el contenedor antes de agregar las cards filtradas
+            // filteredContainer.innerHTML = ''; // Eliminar esta línea para evitar borrar las cards existentes
+
+            // Agregar las cards filtradas al contenedor sin borrar las existentes
+            cards.forEach(card => {
+                filteredContainer.appendChild(card); // Agregar la card filtrada al contenedor
+            });
+        }
+-->
