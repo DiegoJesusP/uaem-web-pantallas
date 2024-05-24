@@ -27,9 +27,11 @@
 }
 
 /*===== FOOTER =====*/
+
 /* Estilo de fondo con degradado y color blanco para el texto del pie de página */
 .bg-custom-footer {
     background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
+    
     color: white;
     padding: 10px 0;
 }
@@ -167,54 +169,61 @@ Estilo personalizado para el botón del carrusel
     margin-right: 10px;
 }
 ---
-*/
-.btn-custom {
-    position: relative;
-    overflow: hidden;
-    height: 3rem;
-    padding: 0 2rem;
-    border-radius: 1.5rem;
-    background: #e6283b;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+*//* Botón personalizado con degradado */
+.button {
+    line-height: 1;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-/* Espacio entre el icono y el texto */
-.btn-custom .btn-icon {
-    margin-right: 0.5rem;
-}
-/* Animacion */
-.btn-custom:hover::before {
-    transform: scaleX(1);
-}
-
-.btn-custom::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(
-      82.3deg,
-      rgba(150, 93, 233, 1) 10.8%,
-      rgba(99, 88, 238, 1) 94.3%
-    );
-    transition: transform 0.475s;
-    z-index: 0;
-}
-
-.btn-custom .button-content {
+    gap: .75rem;
+    background-color: var(--clr);
+    color: #fff;
+    border-radius: 10rem;
+    font-weight: 600;
+    padding: .75rem 1.5rem;
+    padding-left: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color .3s;
+  }
+  
+  .button__icon-wrapper {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
     position: relative;
-    z-index: 1;
-}
+    color: var(--clr);
+    background-color: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  
+  .button:hover {
+    background-color: #bb2d3b;
+  }
+  
+  .button:hover .button__icon-wrapper {
+    color: #bb2d3b;
+  }
+  
+  .button__icon-svg--copy {
+    position: absolute;
+    transform: translate(-150%, 150%);
+  }
+  
+  .button:hover .button__icon-svg:first-child {
+    transition: transform .3s ease-in-out;
+    transform: translate(150%, -150%);
+  }
+  
+  .button:hover .button__icon-svg--copy {
+    transition: transform .3s ease-in-out .1s;
+    transform: translate(0);
+  }
+  
 
 
 /*===== NAVEGACIÓN VERTICAL =====*/
@@ -225,7 +234,7 @@ Estilo personalizado para el botón del carrusel
     padding: 0;
     width: 200px;
     background-color: #f1f1f1;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     height: 100vh; /* Establece la altura de la barra al 100% de la altura de la ventana */
@@ -242,7 +251,7 @@ Estilo personalizado para el botón del carrusel
 
 /* Cambia el color del enlace al pasar el cursor sobre él */
 .vertical-nav a:hover {
-    background-color: #555;
+    background-color: #41538F;
     color: white;
 }
 
@@ -281,4 +290,55 @@ background-color: #204C87;
     margin-left: auto;
     margin-right: auto;
 }
+/**/
+.content-container {
+    margin: 20px; /* Márgenes alrededor del contenido */
+}
 
+.main-content {
+    background-color: #f9f9f9; /* Color de fondo para el contenido principal */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.icon {
+    height: 48px;
+    margin-right: 10px;
+}
+
+.content-section {
+    margin-bottom: 20px; /* Espaciado inferior para separar secciones */
+}
+
+.card {
+    background-color: #ffffff; /* Color de fondo de las tarjetas */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+    padding: 15px; /* Espaciado interno */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.nav-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    background-color: #f1f1f1;
+    color: #000;
+    border: none;
+    text-align: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: #41538F;
+    color: white;
+}
+
+.vertical-nav {
+    position: sticky;
+    top: 0;
+}
