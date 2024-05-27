@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institucional</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+    <style>
+        .icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .custom-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .custom-card.selected {
+            border-color: #2D4286;
+            background-color: #e9f5ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="container mt-4">
+        <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon">Resultado de la Institución</h1>
+        <hr>
+        <div class="row">
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card" onclick="selectCard(this)">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">INSTITUCIONAL</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card" onclick="selectCard(this)">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">DES</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card" onclick="selectCard(this)">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">NIVEL MEDIO</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card" onclick="selectCard(this)">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">SUPERIOR</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card" onclick="selectCard(this)">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">NIVEL SUPERIOR Y</h5>
+                        <h5 class="card-title text-center">HISTORICO</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="selection-info" class="mt-4"></div>
+    </div>
+    
+    <script>
+        fetch('./../templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+            });
+        function selectCard(card) {
+            var cards = document.querySelectorAll('.custom-card');
+            cards.forEach(function(c) {
+                c.classList.remove('selected');
+            });
+            card.classList.add('selected');
+            document.getElementById('selection-info').innerText = 'Seleccionaste: ' + card.querySelector('.card-title').innerText;
+        }
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -229,16 +229,12 @@ Estilo personalizado para el botón del carrusel
 /*===== NAVEGACIÓN VERTICAL =====*/
 /* Estilo para la barra de navegación vertical */
 .vertical-nav {
-    list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 200px;
     background-color: #f1f1f1;
-    position: relative;
+    position: sticky;
     top: 0;
     left: 0;
-    height: 100vh; /* Establece la altura de la barra al 100% de la altura de la ventana */
-    overflow-y: auto; /* Agrega desplazamiento vertical si el contenido excede la altura */
 }
 
 /* Estilo para los enlaces en la navegación vertical */
@@ -269,6 +265,24 @@ li a:hover {
     color: white;
 }
 
+.custom-btn-lateral {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #f8f9fa; /* Fondo claro predeterminado */
+    border: 1px solid transparent; /* Quita borde por defecto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añade sombreado */
+}
+
+/* Cambia el color del botón al pasar el cursor sobre él */
+.custom-btn-lateral:hover {
+    background-color: #41538F;
+    color: white;
+    border-color: #41538F; /* Añade borde para mejorar la visibilidad */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Aumenta el sombreado al hacer hover */
+}
+
 /*===== Estilo card dinamicas =====*/
 /* style.css */
 .card {
@@ -296,7 +310,7 @@ background-color: #204C87;
 }
 
 .main-content {
-    background-color: #f9f9f9; /* Color de fondo para el contenido principal */
+    background-color: #F6F6F6; /* Color de fondo para el contenido principal */
     padding: 20px; /* Espaciado interno */
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
@@ -338,7 +352,20 @@ background-color: #204C87;
     color: white;
 }
 
-.vertical-nav {
-    position: sticky;
-    top: 0;
+/* Estilo para las cards personalizadas */
+.custom-card {
+    width: 100%;
+    max-width: 300px; /* Ajusta el ancho máximo para que las cards sean más cuadradas */
+    margin: 0 auto; /* Centra las cards horizontalmente */
+}
+
+/* Estilo para las imágenes dentro de las cards */
+.custom-card .card-img-top {
+    height: 200px; /* Ajusta la altura de la imagen para que las cards sean más cuadradas */
+    object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+}
+
+/* Opcional: ajuste del botón para que ocupe todo el ancho del card */
+.custom-card .btn {
+    width: 100%;
 }
