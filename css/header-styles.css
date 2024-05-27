@@ -1,0 +1,27 @@
+/*===== HEADER =====*/
+/* Estilo de fondo azul para el encabezado con padding */
+.bg-blue {
+    background-color: #001660;
+    padding: 20px;
+}
+
+/* Centra y muestra la imagen del encabezado */
+.header-image img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Texto del encabezado con color blanco, centrado y flex-grow */
+.header-text {
+    flex-grow: 1;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+/* Margen y fuente para los párrafos y encabezados en el texto del encabezado */
+.header-text p,
+.header-text h2,
+.header-text h3 {
+    margin: 2px;
+    font-family: Arial, sans-serif;
+}

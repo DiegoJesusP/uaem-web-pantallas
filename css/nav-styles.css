@@ -1,0 +1,57 @@
+/*===== NavBar =====*/
+/* Estilo para la barra de navegación */
+.navbar {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Cambio de color al hacer scroll */
+.navbar.scrolled {
+    background-color: #001660;
+}
+
+/* Estilo para los enlaces de navegación */
+.navbar-nav .nav-link {
+    font-weight: 600;
+    color: #001660;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cambio de color al pasar el cursor sobre el enlace */
+.navbar-nav .nav-link:hover {
+    color: #41538F;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+/* Estilo para el enlace de la marca (logo) */
+.navbar-brand {
+    font-weight: bold;
+    color: #001660;
+    transition: color 0.3s ease;
+}
+
+/* Cambio de color al pasar el cursor sobre el logo */
+.navbar-brand:hover {
+    color: #41538F;
+}
+
+/* Estilo para el botón hamburguesa */
+.navbar-toggler {
+    border-color: #001660;
+}
+
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba%280, 22, 96, 0.5%29" stroke-width="2" linecap="round" linejoin="round" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+}
+
+/* Animación para los elementos de la lista de navegación */
+.navbar-nav .nav-item {
+    transition: transform 0.3s ease;
+}
+
+/* Animación al pasar el cursor sobre el elemento de la lista */
+.navbar-nav .nav-item:hover {
+    transform: scale(1.01);
+}
+

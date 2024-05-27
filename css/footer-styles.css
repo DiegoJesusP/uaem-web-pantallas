@@ -1,0 +1,46 @@
+/*===== FOOTER =====*/
+
+/* Estilo de fondo con degradado y color blanco para el texto del pie de página */
+.bg-custom-footer {
+    background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
+    
+    color: white;
+    padding: 10px 0;
+}
+
+/* Enlaces en el pie de página con color blanco y sin subrayado */
+.bg-custom-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Cambia el color del enlace al pasar el cursor sobre él */
+.bg-custom-footer a:hover {
+    color: #cccccc;
+}
+
+/* Contenedor del pie de página fijado en la parte inferior de la página */
+#footerContainer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.container {
+    margin-bottom: 5px;
+}
+
+/* Centra el contenido en la sección 'síguenos' del pie de página */
+.follow-us {
+    justify-content: center;
+}
+
+/* Ajusta la altura y el margen de las imágenes en la sección 'síguenos' */
+.follow-us img {
+    height: 60px;
+    margin-right: 10px;
+}
+.follow-us img:hover {
+    transform: scale(1.1);
+}

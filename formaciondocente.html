@@ -6,6 +6,7 @@
     <title>Formación Docente</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../css/footer-styles.css">
 </head>
 <body>
     <div id="headerContainer"></div>
@@ -38,7 +39,8 @@
         </div>
     </nav>
     <!-- -->
-    <!-- -->
+    <div id="footerContainer"></div>
+    <!-- 
     <footer class="bg-custom-footer py-2">
         <div class="container">
             <div class="row">
@@ -61,7 +63,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>-->
     <!-- Scripts -->
     <script src="./../js/bootstrap.bundle.min.js"></script>
     <script>
@@ -81,6 +83,11 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('headerContainer').innerHTML = data;
+            });
+            fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
             });
     </script>
 </body>
