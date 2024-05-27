@@ -52,6 +52,6 @@
 
 /* Animación al pasar el cursor sobre el elemento de la lista */
 .navbar-nav .nav-item:hover {
-    transform: scale(1.01);
+    transform: scale(1.05);
 }
 

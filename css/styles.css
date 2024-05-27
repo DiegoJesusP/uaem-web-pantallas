@@ -62,27 +62,7 @@ li a:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Aumenta el sombreado al hacer hover */
 }
 
-/*===== Estilo card dinamicas =====*/
-/* style.css */
-.card {
-    background-color: #ECEFF1;
-}
 
-.card div:hover{
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #FFFFFF;
-}
-.card a{
-background-color: #204C87;
-}
-.card a:hover{
-    background-color: #001D7D;
-}
-.center-btn {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 /**/
 
 
@@ -128,34 +108,42 @@ background-color: #204C87;
     color: white;
 }
 
+/**/
+/*=== Cards InstitucionDocente ===*/
 /* Estilo para las cards personalizadas */
 .custom-card {
-    width: 100%;
-    max-width: 300px; /* Ajusta el ancho máximo para que las cards sean más cuadradas */
+    align-items: center; /* Centra verticalmente el contenido dentro de la card */
+    width: 270px; /* Ancho máximo */
+    max-width: 400px; /* Ajusta el ancho máximo de la card */
+    height: auto; /* Altura automática según el contenido */
+    padding: 20px; /* Ajusta el padding según sea necesario */
     margin: 0 auto 20px; /* Centra las cards horizontalmente y agrega espacio inferior */
-    height: 100%; /* Asegura que la card tenga altura completa */
-    padding: 10px; /* Ajusta el padding según sea necesario */
 }
 
+/* Estilo para las imágenes dentro de las cards */
+.custom-card .card-img-top {
+    height: 129px; /* Ajusta la altura de la imagen */
+    width: 129px;
+    object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+    display: block; /* Asegura que se comporte como elemento de bloque */
+    margin: 0 auto 10px; /* Centra horizontalmente y agrega espacio inferior */
+}
+
+
+
+/* Opcional: ajuste del botón para que ocupe todo el ancho del card */
+.custom-card .btn {
+    width: 190px;
+}
 
 .custom-card .card-title{
     text-align: center;
 }
 
-/* Estilo para las imágenes dentro de las cards */
-.custom-card .card-img-top {
-    height: 200px; /* Ajusta la altura de la imagen para que las cards sean más cuadradas */
-    object-fit: scale-down; /* Asegura que la imagen se recorte adecuadamente */
-    height: 129px;
-    width: 129px;
-    align-items: center;
-    display: block;/* Asegura que se comporten como elementos de bloque */
-    margin-left: auto; /* Centra horizontalmente */
-    margin-right: auto; /* Centra horizontalmente */
-    padding-top: 10px; /* Ajusta el espacio superior según sea necesario */
+.card a{
+    background-color: #204C87;
 }
 
-/* Opcional: ajuste del botón para que ocupe todo el ancho del card */
-.custom-card .btn {
-    width: 100%;
+.card a:hover{
+    background-color: #001D7D;
 }
