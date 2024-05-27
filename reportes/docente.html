@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docente</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="container">
+     
+        <h1 class="mt-5">Resultados Docente</h1>
+        
+        <hr>
+        
+        <h3>Nombre de Usuario Sadce</h3>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon2">
+            <button class="btn btn-primary" type="button">Buscar</button>
+        </div>
+     
+        <hr>
+       
+        <div class="alert alert-primary" role="alert">
+            Datos Generales del Docente
+        </div>
+   
+        <p>Nombre Docente:</p>
+     
+        <p>Usuario Sadce:</p>
+     
+        <hr>
+        <p>Seleccione el periodo de evaluacion</p>
+    </div>
+    <script>
+        fetch('./../templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+            });
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
+            });
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

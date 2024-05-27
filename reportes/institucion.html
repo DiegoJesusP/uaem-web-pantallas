@@ -21,6 +21,13 @@
             border-color: #2D4286;
             background-color: #e9f5ff;
         }
+        .blue-box {
+            background-color: #2D4286;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -28,6 +35,7 @@
     <div class="container mt-4">
         <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon">Resultado de la Institución</h1>
         <hr>
+        <h2>SELECCIONE INFORME A CONSULTAR</h2>
         <div class="row">
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card" onclick="selectCard(this)">
@@ -66,14 +74,30 @@
                 </div>
             </div>
         </div>
+        <h2>SELECCIONE PERIODO</h2>
+        <div class="row mb-4">
+            <div class="col-lg-10">
+                <input type="text" class="form-control" placeholder="Buscar...">
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary w-100">Buscar</button>
+            </div>
+        </div>
+        <hr>
+        <div id="selected-card-info" class="blue-box">Selecciona una card</div>
         <div id="selection-info" class="mt-4"></div>
     </div>
-    
+    <div id="footerContainer"></div>
     <script>
         fetch('./../templates/header.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('headerContainer').innerHTML = data;
+            });
+            fetch('./../templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
             });
         function selectCard(card) {
             var cards = document.querySelectorAll('.custom-card');
@@ -81,7 +105,9 @@
                 c.classList.remove('selected');
             });
             card.classList.add('selected');
-            document.getElementById('selection-info').innerText = 'Seleccionaste: ' + card.querySelector('.card-title').innerText;
+            var selectedText = card.querySelector('.card-title').innerText;
+            document.getElementById('selection-info').innerText = 'Seleccionaste: ' + selectedText;
+            document.getElementById('selected-card-info').innerText = selectedText;
         }
     </script>
     <script src="./../js/bootstrap.bundle.min.js"></script>

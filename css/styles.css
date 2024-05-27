@@ -70,10 +70,9 @@
     transform: scale(1.1);
 }
 /*===== NAVBAR =====*/
-/* Estilo para el enlace activo de la barra de navegación */
-.nav-link.active {
-    background-color: #001660;
-    color: white !important;
+/* sombra con desplazamiento en Y de 4px y difuminación de 6px */
+nav {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 /*===== Contenido (body) =====*/
@@ -99,10 +98,7 @@
     height: auto;
 }
 
-/* sombra con desplazamiento en Y de 4px y difuminación de 6px */
-nav {
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-}
+
 
 /*===== BOTÓN PERSONALIZADO carrusel=====*/
 /* Estilo personalizado para el botón del carrusel
@@ -344,7 +340,6 @@ background-color: #204C87;
     padding: 8px 16px;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .nav-btn:hover {

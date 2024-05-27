@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docente</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="container">
+        
+        <h1 class="mt-5">Resultados Docente</h1>
+        
+        <hr>
+        <a>Instructivo</a>
+        <div class="alert alert-primary" role="alert">
+            Reporte Individual
+        </div>
+        <p>Nombre del docente:</p>
+       
+        <p>Núm. de reportes</p>
+        <hr>
+        <p>reporte Individual</p>
+    </div>
+    <script>
+        fetch('./../templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+            });
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
+            });
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
