@@ -6,67 +6,46 @@
     <title>Institucional</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
-    <style>
-        .icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-        .custom-card {
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-        .custom-card.selected {
-            border-color: #2D4286;
-            background-color: #e9f5ff;
-        }
-        .blue-box {
-            background-color: #2D4286;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="./../css/cards-styles.css">
+    <link rel="stylesheet" href="./../css/header-styles.css">
 </head>
 <body>
     <div id="headerContainer"></div>
     <div class="container mt-4">
-        <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon">Resultado de la Institución</h1>
+        <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
-        <h2>SELECCIONE INFORME A CONSULTAR</h2>
+        <p><b>SELECCIONE INFORME A CONSULTAR.</b></p>
         <div class="row">
             <div class="col-lg-2 mb-4">
-                <div class="card custom-card" onclick="selectCard(this)">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
                         <h5 class="card-title text-center">INSTITUCIONAL</h5>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
-                <div class="card custom-card" onclick="selectCard(this)">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
                         <h5 class="card-title text-center">DES</h5>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
-                <div class="card custom-card" onclick="selectCard(this)">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
                         <h5 class="card-title text-center">NIVEL MEDIO</h5>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
-                <div class="card custom-card" onclick="selectCard(this)">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
                         <h5 class="card-title text-center">SUPERIOR</h5>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
-                <div class="card custom-card" onclick="selectCard(this)">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
                         <h5 class="card-title text-center">NIVEL SUPERIOR Y</h5>
                         <h5 class="card-title text-center">HISTORICO</h5>
@@ -74,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <h2>SELECCIONE PERIODO</h2>
+        <p><b>SELECCIONE PERIODO...</b></p>
         <div class="row mb-4">
             <div class="col-lg-10">
                 <input type="text" class="form-control" placeholder="Buscar...">
@@ -84,31 +63,94 @@
             </div>
         </div>
         <hr>
-        <div id="selected-card-info" class="blue-box">Selecciona una card</div>
+        <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
+            <div class="header-text text-center">
+                <h2 class="mb-3">INFORME <span id="selected-card-text">NINGUNO</span></h2>
+            </div>
+        </div>
         <div id="selection-info" class="mt-4"></div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="footerContainer"></div>
     <script>
-        fetch('./../templates/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('headerContainer').innerHTML = data;
-            });
-            fetch('./../templates/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footerContainer').innerHTML = data;
-            });
         function selectCard(card) {
-            var cards = document.querySelectorAll('.custom-card');
+            var cards = document.querySelectorAll('.custom-card-sel');
             cards.forEach(function(c) {
                 c.classList.remove('selected');
             });
             card.classList.add('selected');
             var selectedText = card.querySelector('.card-title').innerText;
             document.getElementById('selection-info').innerText = 'Seleccionaste: ' + selectedText;
-            document.getElementById('selected-card-info').innerText = selectedText;
+            document.getElementById('selected-card-text').innerText = selectedText;
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('./../templates/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('headerContainer').innerHTML = data;
+                });
+            fetch('./../templates/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footerContainer').innerHTML = data;
+                });
+        });
     </script>
     <script src="./../js/bootstrap.bundle.min.js"></script>
 </body>
