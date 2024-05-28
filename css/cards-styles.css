@@ -19,31 +19,5 @@ background-color: #204C87;
     margin-left: auto;
     margin-right: auto;
 }
-/**/
-.custom-card-sel {
-    border: 1px solid #ECEFF1;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 250px; /* Ajusta la altura para hacer las cards cuadradas */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.custom-card-sel:hover {
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.custom-card-sel.selected {
-    background-color: #2D4286;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 1px solid #2D4286;
-    color: white; /* Cambia el color del texto a blanco */
-}
-
-.custom-card-sel.selected .card-title {
-    color: white; /* Asegúrate de que los títulos también sean blancos */
-}
 

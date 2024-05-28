@@ -3,9 +3,8 @@
 /* Estilo de fondo con degradado y color blanco para el texto del pie de página */
 .bg-custom-footer {
     background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
-    
     color: white;
-    padding: 10px 0;
+    padding: 5px 0; /* Reduce padding superior e inferior */
 }
 
 /* Enlaces en el pie de página con color blanco y sin subrayado */
@@ -28,7 +27,7 @@
 }
 
 .container {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 /* Centra el contenido en la sección 'síguenos' del pie de página */
@@ -38,9 +37,26 @@
 
 /* Ajusta la altura y el margen de las imágenes en la sección 'síguenos' */
 .follow-us img {
-    height: 60px;
-    margin-right: 10px;
+    height: 40px; /* Reduce altura de las imágenes */
+    margin-right: 5px; /* Reduce margen derecho de las imágenes */
 }
 .follow-us img:hover {
     transform: scale(1.1);
+}
+
+/* Ajusta el tamaño del texto en el pie de página */
+h5, h6 {
+    font-size: 1rem; /* Ajusta el tamaño del texto del encabezado */
+    margin-bottom: 0.5rem; /* Reduce margen inferior del encabezado */
+}
+p {
+    margin-bottom: 0.25rem; /* Reduce margen inferior de los párrafos */
+    font-size: 0.875rem; /* Ajusta el tamaño del texto de los párrafos */
+}
+
+/* Ajusta el tamaño de los iconos en los párrafos */
+.footer-icon {
+    height: 14px; /* Reduce altura de los iconos en los párrafos */
+    vertical-align: middle; /* Alinea verticalmente los iconos con el texto */
+    margin-right: 3px; /* Reduce margen derecho de los iconos */
 }

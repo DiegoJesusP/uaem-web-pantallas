@@ -6,15 +6,15 @@
     <title>Institucional</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
-    <link rel="stylesheet" href="./../css/cards-styles.css">
-    <link rel="stylesheet" href="./../css/header-styles.css">
+    <link rel="stylesheet" href="./../css/cards-sel-styles.css">
+    <link rel="stylesheet" href="./../css/search-styles.css">
 </head>
 <body>
     <div id="headerContainer"></div>
     <div class="container mt-4">
-        <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
+        <h1 style="text-align: center;"><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
-        <p><b>SELECCIONE INFORME A CONSULTAR.</b></p>
+        <p><b>Selecciona el informe que desee consultar.</b></p>
         <div class="row">
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
@@ -47,21 +47,26 @@
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
-                        <h5 class="card-title text-center">NIVEL SUPERIOR Y</h5>
+                        <h5 class="card-title text-center">NIVEL SUPERIOR Y POSTGRADO</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="card custom-card-sel" onclick="selectCard(this)">
+                    <div class="card-body">
                         <h5 class="card-title text-center">HISTORICO</h5>
                     </div>
                 </div>
             </div>
         </div>
-        <p><b>SELECCIONE PERIODO...</b></p>
-        <div class="row mb-4">
-            <div class="col-lg-10">
-                <input type="text" class="form-control" placeholder="Buscar...">
-            </div>
-            <div class="col-lg-2">
-                <button class="btn btn-primary w-100">Buscar</button>
-            </div>
-        </div>
+        <p><b>Seleccione el  periodo...</b></p>
+<div class="container-input">
+    <input type="text" placeholder="Search" name="text" class="input">
+    <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+        <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
+    </svg>
+</div>
+
         <hr>
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
             <div class="header-text text-center">
@@ -126,8 +131,11 @@
             </div>
         </div>
     </div>
-    <div id="footerContainer"></div>
+
+    <!-- <div id="footerContainer"></div> -->
     <script>
+        // Matutino - 0
+        //Vespertino - 1 
         function selectCard(card) {
             var cards = document.querySelectorAll('.custom-card-sel');
             cards.forEach(function(c) {

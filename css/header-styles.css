@@ -2,13 +2,18 @@
 /* Estilo de fondo azul para el encabezado con padding */
 .bg-blue {
     background-color: #001660;
-    padding: 20px;
+    padding: 10px 0; /* Reduce padding superior e inferior */
 }
 
 /* Centra y muestra la imagen del encabezado */
 .header-image img {
     display: block;
     margin: 0 auto;
+}
+
+/* Tamaño reducido para las imágenes del encabezado */
+.header-logo {
+    height: 50px; /* Ajusta el tamaño de las imágenes del encabezado */
 }
 
 /* Texto del encabezado con color blanco, centrado y flex-grow */
@@ -21,7 +26,17 @@
 /* Margen y fuente para los párrafos y encabezados en el texto del encabezado */
 .header-text p,
 .header-text h2,
-.header-text h3 {
-    margin: 2px;
+.header-text h3,
+.header-text h4 {
+    margin: 2px; /* Reduce margen inferior de los encabezados */
     font-family: Arial, sans-serif;
+}
+
+/* Tamaño de fuente ajustado para hacer el header más compacto */
+.header-text h3 {
+    font-size: 1.25rem; /* Ajusta el tamaño del texto del encabezado */
+}
+
+.header-text h4 {
+    font-size: 1rem; /* Ajusta el tamaño del texto del subencabezado */
 }
