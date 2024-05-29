@@ -6,6 +6,7 @@
     <title>Docente</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../css/btn-regresar-styles.css">
 </head>
 <body>
     <div id="headerContainer"></div>
@@ -32,7 +33,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -41,7 +42,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +51,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -59,7 +60,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +69,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -77,11 +78,20 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesDocente.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Botón regresar -->
+    <div class="fixed-button-container">
+        <a href="./docente.html" class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+            </svg>
+            <div class="text"><h5>Regresar</h5></div>
+        </a>
     </div>
     <script>
         fetch('./../templates/header.html')

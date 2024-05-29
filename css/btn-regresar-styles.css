@@ -1,0 +1,45 @@
+.button {
+    background-color: #FFFFFF;
+    width: 8.5em;
+    height: 2.9em;
+    border: #001660 0.2em solid;
+    border-radius: 11px;
+    text-align: right;
+    transition: all 0.2s ease;
+    color: #000;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: none; /* Añadir esta línea para quitar el subrayado del enlace */
+}
+
+.button:hover {
+    background-color: #001660;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.button svg {
+    width: 1.6em;
+    margin: 1em 0.3em 1em;
+    position: absolute;
+    display: flex;
+    transition: all 0.5s ease;
+}
+
+.button:hover svg {
+    transform: translateX(5px);
+}
+
+.text {
+    margin-top: 5%;
+    margin-left: 28%;
+}
+
+.fixed-button-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+}

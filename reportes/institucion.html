@@ -6,41 +6,51 @@
     <title>Institucional</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../css/btn-regresar-styles.css">
     <link rel="stylesheet" href="./../css/cards-sel-styles.css">
     <link rel="stylesheet" href="./../css/search-styles.css">
 </head>
-<body>
+<body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
+    
     <div class="container mt-4">
         <h1 style="text-align: center;"><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
-        <p><b>Selecciona el informe que desee consultar.</b></p>
+        <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
         <div class="row">
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
+                        <p></p>
                         <h5 class="card-title text-center">INSTITUCIONAL</h5>
+                        <p></p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
+                        <p></p>
                         <h5 class="card-title text-center">DES</h5>
+                        <p></p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
+                        <P></P>
                         <h5 class="card-title text-center">NIVEL MEDIO</h5>
+                        <P></P>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
+                        <p></p>
                         <h5 class="card-title text-center">SUPERIOR</h5>
+                        <P></P>
                     </div>
                 </div>
             </div>
@@ -54,7 +64,9 @@
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
+                        <p></p>
                         <h5 class="card-title text-center">HISTORICO</h5>
+                        <p></p>
                     </div>
                 </div>
             </div>
@@ -80,7 +92,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -89,7 +101,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -98,7 +110,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -107,7 +119,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -116,7 +128,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
@@ -125,12 +137,23 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
                         <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="https://uiverse.io/buttons" class="btn btn-primary">Generar</a>
+                        <a href="./reportesInstitucional.html" class="btn btn-primary">Generar</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Botón regresar -->
+    <div class="fixed-button-container">
+        <a href="./../evaluaciondocente.html#reporte" class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+            </svg>
+            <div class="text"><h5>Regresar</h5></div>
+        </a>
+    </div>
+
+
 
     <!-- <div id="footerContainer"></div> -->
     <script>
