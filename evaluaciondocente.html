@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Docente</title>
-    <link rel="stylesheet" href="./../css/bootstrap.min.css">
-    <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../assets/css/styles.css">
+    <link rel="stylesheet" href="./../assets/css/cards-evadocente-styles.css">
+    <link rel="stylesheet" href="./../assets/css/footer-styles.css">
 </head>
 <body>
     <div id="headerContainer"></div>
     <!-- NavBAR -->
     <div id="navContainer"></div>
     <!-- Body -->
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
     
             <!-- Vertical Navigation -->
@@ -28,34 +30,37 @@
             <!-- Main Content -->
             <div class="col-lg-10 main-content d-flex flex-column min-vh-100">
                 <section id="instrumento">
-                    <h1><img src="./../img/instrumento.png" alt="ubicacion" class="img-fluid icon"> Instrumento de evaluación docente</h1>
+                    <h1><img src="./../assets/img/instrumento.png" alt="ubicacion" class="img-fluid icon"> Instrumento de evaluación docente</h1>
                     <hr>
                     <div class="content-section">
-                        <p>Contenido del instrumento de evaluación docente.</p>
-                        <br>
                         <p>En este proceso de Evaluación y Formación Docente, se considera una vertiente amplia que reconoce al personal académico como sujeto crítico, auto-reflexivo y participativo, mediador y facilitador de experiencias para estimular y facilitar el aprendizaje de los estudiantes, que a partir de su participación en los procesos de evaluación y formación, realiza un ejercicio que lo conduce a comprender, reflexionar y mejorar su actividad académica para la transformación de los procesos.</p>
-                        <p>De esta manera, se parte de considerar el proceso de la evaluación docente, como un ejercicio reflexivo de su práctica, a través de medios valorativos que permitan detectar debilidades y reconocer fortalezas. Sus principios descansan en términos de orientación formativa, participativa, humanista, multidimensional y multireferencial, hacia la búsqueda e inmersión de fuentes de apoyo para su propio perfeccionamiento.</p>
-                        <div class="d-flex justify-content-center">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="card mb-4 custom-card">
-                                        <h5 class="card-title">Autoevaluación Docente</h5>
-                                        <div class="card-body">
-                                            <img src="./img/docente.png" class="card-img-top" alt="Descripción de la imagen 2">
-                                            <p class="card-text">Si usted es docente, haga clic en
-                                                el siguiente botón</p>
-                                            <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluaciond.php" class="btn btn-primary">Entrar</a>
+                        <br>
+                        <p>De esta manera, se parte de considerar <b>el proceso de la evaluación docente, como un ejercicio reflexivo de su práctica, a través de medios valorativos que permitan detectar debilidades y reconocer fortalezas.</b> Sus principios descansan en términos de orientación formativa, participativa, humanista, multidimensional y multireferencial, hacia la búsqueda e inmersión de fuentes de apoyo para su propio perfeccionamiento.</p>
+                        <div class="container-fluid">
+                            <div class="row text-center">
+                                <div class="col-12 col-md-6  text-white p-1">
+                                    <div style="background-color: #41538F; color: #ffffff; border-radius: 65px 0 0 0;"><h2>Si usted es Docente</h2></div>
+                                    <div class="p-4" style="background-color: #7a91db;">
+                                        <div class="card custom-card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Autoevaluación Docente</h5>
+                                                <img src="./assets/img/docente.png" class="card-img-top mb-3" alt="Docente">
+                                                <p class="card-text">Si usted es docente, haga clic en el siguiente botón</p>
+                                                <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluaciond.php" class="btn" style="background-color: #41538F; color: #ffffff;">Entrar</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="card mb-4 custom-card">
-                                        <h5 class="card-title">
-                                            Opinión de Estudiantes</h5>
-                                        <div class="card-body">
-                                            <img src="./img/alumno.png" class="card-img-top" alt="Descripción de la imagen 2">
-                                            <p class="card-text">Si eres estudiante, haz clic en el siguiente botón</p>
-                                            <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluacione.php" class="btn btn-primary">Entrar</a>
+                                <div class="col-12 col-md-6  text-white p-1">
+                                    <div style="background-color: #f38620; color: #ffffff; border-radius: 0 65px 0 0;"><h2>Si eres Estudiante</h2></div>
+                                    <div class="p-4" style="background-color: #eeb178;">
+                                        <div class="card custom-card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Opinión de Estudiantes</h5>
+                                                <img src="./assets/img/alumno.png" class="card-img-top mb-3" alt="Estudiante">
+                                                <p class="card-text">Si eres estudiante, haz clic en el siguiente botón</p>
+                                                <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluacione.php" class="btn" style="background-color: #f18117; color: #ffffff;">Entrar</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +70,7 @@
                 </section>
     
                 <section id="cronograma">
-                    <h1><img src="./../img/lista.png" alt="ubicacion" class="img-fluid icon">Cronograma</h1>
+                    <h1><img src="./../assets/img/lista.png" alt="ubicacion" class="img-fluid icon">Cronograma</h1>
                     <hr>
                     <div class="content-section">
                         <p>Contenido del cronograma.</p>
@@ -73,7 +78,7 @@
                 </section>
     
                 <section id="fechas">
-                    <h1><img src="./../img/calendario.png" alt="ubicacion" class="img-fluid icon">Fechas de aplicación</h1>
+                    <h1><img src="./../assets/img/calendario.png" alt="ubicacion" class="img-fluid icon">Fechas de aplicación</h1>
                     <hr>
                     <div class="content-section">
                         <p>Contenido de las fechas de aplicación.</p>
@@ -82,7 +87,7 @@
                 </section>
     
                 <section id="reporte">
-                    <h1><img src="./../img/resultados.png" alt="ubicacion" class="img-fluid icon">Reporte de Resultados</h1>
+                    <h1><img src="./../assets/img/resultados.png" alt="ubicacion" class="img-fluid icon">Reporte de Resultados</h1>
                     <hr>
                     <div class="content-section">
                         <p>Contenido del reporte de resultados.</p>
@@ -93,26 +98,25 @@
                             <li><strong>Individual:</strong> análisis cuantitativo que comprende un marco de referencia institucional sobre los resultados de la UAEM, del nivel educativo, en el que fue evaluado, de su unidad académica y un promedio global de las asignaturas en las que fue evaluado su desempeño docente. Este reporte es de carácter estrictamente confidencial.</li>
                         </ul>
                     </div>
-                
-                    <div class="d-flex justify-content-center">
-                        <div class="row">
-                            <div class="col-lg-6">
+                    <div class="container-fluid">
+                        <div class="row text-center">
+                            <div class="col-12 col-md-6 text-white p-4">
                                 <div class="card mb-4 custom-card">
                                     <h5 class="card-title">INSTITUCIÓN</h5>
                                     <div class="card-body">
-                                        <img src="./img/resultado_escuela.png" class="card-img-top" alt="Descripción de la imagen 2">
+                                        <img src="./assets/img/resultado_escuela.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados de la institución.</p>
-                                        <a href="./reportes/institucion.html" class="btn btn-primary">Entrar</a>
+                                        <a href="./reportes/institucion.php" class="btn btn-primary" onclick="redirectToInstitucion()">Entrar</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-12 col-md-6 text-white p-4">
                                 <div class="card mb-4 custom-card">
                                     <h5 class="card-title">DOCENTE</h5>
                                     <div class="card-body">
-                                        <img src="./img/resultado_docente.png" class="card-img-top" alt="Descripción de la imagen 2">
+                                        <img src="./assets/img/resultado_docente.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados del docente.</p>
-                                        <a href="./reportes/docente.html" class="btn btn-primary">Entrar</a>
+                                        <a href="./reportes/docente.php" class="btn btn-primary">Entrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +129,7 @@
     
     <div id="footerContainer"></div>
     <!-- Scripts -->
-    <script src="./../js/bootstrap.bundle.min.js"></script>
+    <script src="./../assets/js/bootstrap.bundle.min.js"></script>
     <script>
         function activateLink(element) {
             // Remove 'active' class from all nav links
@@ -154,6 +158,10 @@
             .then(data => {
                 document.getElementById('navContainer').innerHTML = data;
             });
+
+            function redirectToInstitucion() {
+        window.location.href = './reportes/institucion.html';
+    }
     </script>
 </body>
 </html>

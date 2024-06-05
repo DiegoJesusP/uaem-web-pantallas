@@ -38,7 +38,7 @@
 /* Ajusta la altura y el margen de las imágenes en la sección 'síguenos' */
 .follow-us img {
     height: 40px; /* Reduce altura de las imágenes */
-    margin-right: 5px; /* Reduce margen derecho de las imágenes */
+    margin-right: 15px; /* Reduce margen derecho de las imágenes */
 }
 .follow-us img:hover {
     transform: scale(1.1);

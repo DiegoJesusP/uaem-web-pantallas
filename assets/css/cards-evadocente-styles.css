@@ -1,0 +1,40 @@
+/*=== Cards InstitucionDocente ===*/
+/* Estilo para las cards personalizadas */
+.custom-card {
+    align-items: center; /* Centra verticalmente el contenido dentro de la card */
+    width: 225px; /* Ancho máximo */
+    max-width: 300px; /* Ajusta el ancho máximo de la card */
+    height: auto; /* Altura automática según el contenido */
+    padding: 10px; /* Ajusta el padding según sea necesario */
+    margin: 0 auto 20px; /* Centra las cards horizontalmente y agrega espacio inferior */
+    
+}
+
+/* Estilo para las imágenes dentro de las cards */
+.custom-card .card-img-top {
+    height: 110px; /* Ajusta la altura de la imagen */
+    width: 110px;
+    object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+    display: block; /* Asegura que se comporte como elemento de bloque */
+    margin: 0 auto 10px; /* Centra horizontalmente y agrega espacio inferior */
+
+}
+
+
+
+/* Opcional: ajuste del botón para que ocupe todo el ancho del card */
+.custom-card .btn {
+    width: 190px;
+}
+
+.custom-card .card-title{
+    text-align: center;
+}
+
+.card a{
+    background-color: #204C87;
+}
+
+.card a:hover{
+    background-color: #001D7D;
+}   

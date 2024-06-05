@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docente</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/styles.css">
+    <link rel="stylesheet" href="./../css/btn-regresar-styles.css">
+    <link rel="stylesheet" href="./../css/search-styles.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="container">
+     
+        <h1 class="mt-5">Docente</h1>
+        
+        <hr>
+        
+        <h3>Nombre de Usuario Sadce</h3>
+        <div class="container-input">
+            <input type="text" placeholder="Search" name="text" class="input">
+            <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
+            </svg>
+        </div>
+        <hr>
+       
+        <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
+            <div class="header-text text-center">
+                <h2 class="mb-3">Datos generales del docente</h2>
+            </div>
+        </div>
+   
+        <p>Nombre Docente:</p>
+     
+        <p>Usuario Sadce:</p>
+     
+        <hr>
+        <p>Seleccione el periodo de evaluacion</p>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="width: 18rem; cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
+                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
+                        <a href="./resultadosdocente.html" class="btn btn-primary">Consultar Reporte(s)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Botón regresar -->
+    <div class="fixed-button-container">
+        <a href="./../evaluaciondocente.html#reporte" class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+            </svg>
+            <div class="text"><h5>Regresar</h5></div>
+        </a>
+    </div>
+    <script>
+        fetch('./../templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+            });
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footerContainer').innerHTML = data;
+            });
+    </script>
+    <script src="./../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

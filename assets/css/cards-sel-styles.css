@@ -1,20 +1,17 @@
-
 /* */
-
 .custom-card-sel {
-    border: 1px solid #ECEFF1;
-    border-radius: 30px;
+    background-color: #ECEFF1;
     cursor: pointer;
     transition: all 0.3s ease;
-    height: 250px; /* Ajusta la altura para hacer las cards cuadradas */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px; /* Añade un espacio interno */
 }
 
 .custom-card-sel .card-body {
-    text-align: center; /* Centra el contenido horizontalmente */
+    
+    text-align: center;
+    height: 80px;
 }
 
 .custom-card-sel:hover {
