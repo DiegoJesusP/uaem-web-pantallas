@@ -1,48 +1,29 @@
-.container {
-    position: relative;
-    --size-button: 40px;
-    color: white;
-  }
-  
-  .input {
-    padding-left: var(--size-button);
-    height: var(--size-button);
-    font-size: 15px;
-    border: none;
-    color: #fff;
-    outline: none;
-    width: var(--size-button);
-    transition: all ease 0.3s;
-    background-color: #191A1E;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  
-  .input:focus,
-  .input:not(:invalid) {
-    width: 200px;
-    cursor: text;
-    box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
-  }
-  
-  .input:focus + .icon,
-  .input:not(:invalid) + .icon {
-    pointer-events: all;
-    cursor: pointer;
-  }
-  
-  .container .icon {
-    position: absolute;
-    width: var(--size-button);
-    height: var(--size-button);
-    top: 0;
-    left: 0;
-    padding: 8px;
-    pointer-events: none;
-  }
-  
-  .container .icon svg {
-    width: 100%;
-    height: 100%;
-  }
+/* Estilos para botones */
+.boton-buscar {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6d6d6d;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: .3s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  margin-left: 10px;
+}
+.boton-buscar svg {
+  width: 18px;
+  height: 18px;
+}
+.boton-buscar path {
+  fill: white;
+}
+.boton-buscar:hover {
+  background-color: #41538F;
+}
+.boton-buscar:active {
+  transform: scale(0.8);
+}
