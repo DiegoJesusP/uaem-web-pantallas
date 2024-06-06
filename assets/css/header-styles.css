@@ -25,11 +25,15 @@
 
 /* Margen y fuente para los párrafos y encabezados en el texto del encabezado */
 .header-text p,
-.header-text h2,
 .header-text h3,
 .header-text h4 {
     margin: 2px; /* Reduce margen inferior de los encabezados */
     font-family: Arial, sans-serif;
+}
+.header-text h2 {
+    margin: 2px; /* Reduce margen inferior de los encabezados */
+    font-family: 'Aleo';
+    font-size: 36px;
 }
 
 /* Tamaño de fuente ajustado para hacer el header más compacto */

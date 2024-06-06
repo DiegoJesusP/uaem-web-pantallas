@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Institucional</title>
-    <link rel="stylesheet" href="./../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./../assets/css/styles.css">
-    <link rel="stylesheet" href="./../assets/css/btn-regresar-styles.css">
-    <link rel="stylesheet" href="./../assets/css/cards-sel-styles.css">
-    <link rel="stylesheet" href="./../assets/css/select-styles.css">
+    <link rel="Shortcut Icon" href="http://localhost/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/styles.css">
+    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
+    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/cards-sel-styles.css">
+    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/select-styles.css">
+    <style>
+    .textB {
+        font-family: 'Aleo';font-size: 22px;
+        }
+        </style>
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
     
-    <div class="container mt-4">
-        <h1 style="text-align: center;"><img src="./../assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
+    <div class="container mt-4 textB">
+        <h1 style="text-align: center;"><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
         <!-- Tipo informe (Cards Seleccion)-->
         <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
@@ -83,7 +89,7 @@
     </div>
     <!-- botton regresar -->
     <div class="fixed-button-container d-none d-md-block d-xl-block d-xxl-block">
-        <a href="./../evaluaciondocente.html#reporte" class="button">
+        <a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte" class="button">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
             </svg>
@@ -118,19 +124,6 @@
             selectedCardInfo.innerHTML = `<h2>INFORME <span>${selectedText}</span> - <span>${selectedPeriodo}</span></h2>`;  // Añadir el nuevo contenido
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('./../templates/header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('headerContainer').innerHTML = data;
-                });
-            fetch('./../templates/footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('footerContainer').innerHTML = data;
-                });
-        });
-
         // Agregar evento change al select para actualizar el texto seleccionado cuando se cambie el periodo
         document.getElementById('periodo-select').addEventListener('change', function() {
             var selectedCard = document.querySelector('.custom-card-sel.selected');
@@ -145,6 +138,7 @@
             }
         });
     </script>
-    <script src="./../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
 </body>
 </html>

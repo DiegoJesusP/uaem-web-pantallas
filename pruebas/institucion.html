@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Institucional</title>
-    <link rel="stylesheet" href="./../css/bootstrap.min.css">
-    <link rel="stylesheet" href="./../css/styles.css">
-    <link rel="stylesheet" href="./../css/btn-regresar-styles.css">
-    <link rel="stylesheet" href="./../css/cards-sel-styles.css">
-    <link rel="stylesheet" href="./../css/search-styles.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/btn-regresar-styles.css">
+    <link rel="stylesheet" href="./css/cards-sel-styles.css">
+    <link rel="stylesheet" href="./css/search-styles.css">
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
@@ -171,7 +171,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('./../templates/header.html')
+            fetch('./templates/header.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('headerContainer').innerHTML = data;
@@ -183,6 +183,6 @@
                 });
         });
     </script>
-    <script src="./../js/bootstrap.bundle.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
