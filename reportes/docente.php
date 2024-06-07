@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/search-styles.css">
     <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/buttons-search-styles.css">
     <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/cards-styles.css">
+    
     <style>
     .textB {
         font-family: 'Aleo';font-size: 22px;
-        }
-        </style>
+    }
+    </style>
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
@@ -24,34 +25,92 @@
         <hr>
         <div class="container text-center">
             <h5 class="textB">Nombre de usuario SADCE</h5>
-            <div class="row row-cols-auto justify-content-center">
-                <div class="col">
-                    <input type="text" placeholder="Nombre de usuario" name="text" class="shadow input" id="usernameInput" required>
+            <form method="post" action="">
+                <div class="row row-cols-auto justify-content-center">
+                    <div class="col">
+                        <input type="text" placeholder="Nombre de usuario" name="usadce" class="shadow input" id="usernameInput" required>
+                    </div>
+                    <div class="col">
+                        <button class="boton-buscar shadow" id="usadceButton" name="usadceButton" onclick="buscarUsuario(event)" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="col">
-                    <button class="boton-buscar shadow" onclick="buscarUsuario()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div id="error-message" style="color: red;"></div>
+                <div id="error-message" style="color: red;"></div>
+            </form>
         </div>
         <hr>
+        
         <div id="selected-card-info" class="textB" style="border-radius: 20px; background-color: #001660; padding: 10px 0;">
             <div class="textB header-text text-center">
                 <h2>Datos generales del docente</h2>
             </div>
         </div>
         <div style="margin-top: 20px;">
+        <?php
+        include('./../php/conexion.php');
+        $conexion = new CConexion();
+        $conn = $conexion->conexionBD();
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $usadce = htmlspecialchars($_POST['usadce']);
+            //echo "<div class='container text-center'><p><b>Usuario SADCE:</b> $usadce</p></div>";
+            
+            // Prepara la consulta SQL
+            $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
+            // Vincula los parámetros
+            $consulta->bindParam(':numcontrol', $usadce);
+            // Ejecuta la consulta
+            $consulta->execute();
+            
+            // Obtiene los resultados
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+            
+            // Muestra los resultados
+            /*
+            <div style="margin-top: 20px;">
             <p>Nombre Docente: <b><span id="nombredocente"></span></b></p>
             <p>Usuario SADCE: <b><span id="usuarioSadce"></span></b></p>
+            </div>
+            */
+            if ($resultado) {
+                echo "<div class='container'>";
+                echo "<p><b>Nombre del docente:</b> " . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</p>";
+                echo "<p><b>Usuario SADCE:</b> " . $resultado['numcontrol'] . "</p>";
+                echo "</div>";
+            } else {
+                echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$usadce</b></p></div>";
+            }
+            //$conn = null;
+        }
+        ?>
         </div>
         <hr>
-        <b>Seleccione el periodo de evaluacion...</b>
+        <div style="margin-bottom: 20px;" class="row align-items-center">
+            <div class="col-12 col-md-8">
+                <b>Seleccione el periodo de evaluación...</b>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
+                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte';">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                    </svg>
+                    <div class="text-btn">Regresar</div>
+                </button>
+            </div>
+        </div>
         <!-- 
-        <div class="row d-flex justify-content-center">
+        <a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                    </svg>
+                    <div class="text"><h5>Regresar</h5></div>
+                </a>
+        
+        Cards
+        <div class="row d-flex">
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
                 <div class="card" style="width: 18rem; cursor: pointer;">
                     <div class="card-body text-center">
@@ -116,25 +175,13 @@
                     </div>
                 </div>
             </div>
-        </div> -->
-        
+        </div>-->
     </div>
-    <!-- botton regresar -->
-    <div class="fixed-button-container d-none d-md-block d-xl-block d-xxl-block">
-        <a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte" class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-            </svg>
-            <div class="text"><h5>Regresar</h5></div>
-        </a>
     </div>
-    <?php
-    include('./../php/filtrarDocente.php');
-    ?>
     <script>
     function buscarUsuario() {
         var username = document.getElementById('usernameInput').value;
-
+        
         // Validar que se haya ingresado un nombre de usuario antes de enviar la solicitud
         if (username.trim() === '') {
             document.getElementById('error-message').innerText = 'Por favor ingresa un nombre de usuario.';
@@ -144,7 +191,6 @@
         // Limpiar mensajes de error previos
         document.getElementById('error-message').innerText = '';
 
-        // Resto del código AJAX...
     }
 </script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>

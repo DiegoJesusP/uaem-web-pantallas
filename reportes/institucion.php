@@ -85,16 +85,20 @@
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
             <div id="titulo" class="header-text d-flex justify-content-center"></div>
         </div>
+        <div style="margin-bottom: 20px; margin-top: 20px;" class="row align-items-center">
+            <div class="col-12 col-md-8">
+                <b>Seleccione un informe...</b>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
+                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte';">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                    </svg>
+                    <div class="text-btn">Regresar</div>
+                </button>
+            </div>
+        </div>
         <div id="selection-info" class="mt-4"></div>
-    </div>
-    <!-- botton regresar -->
-    <div class="fixed-button-container d-none d-md-block d-xl-block d-xxl-block">
-        <a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte" class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-            </svg>
-            <div class="text"><h5>Regresar</h5></div>
-        </a>
     </div>
 
     <script>

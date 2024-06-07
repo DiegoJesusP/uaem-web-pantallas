@@ -9,10 +9,10 @@ class CConexion {
 
         try {
             $conn = new PDO("pgsql:host=$host;dbname=$dbname", $username, $pasword);
-            echo "Segun si conecto";
+            //echo "Segun si conecto c:";
         } 
         catch (PDOException $exp) {
-            echo "No se conecto a la base de datos: " . $exp->getMessage();
+            echo "No se conecto a la base de datos :c" . $exp->getMessage();
         }
 
         return $conn;

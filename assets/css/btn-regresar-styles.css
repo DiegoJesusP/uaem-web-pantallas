@@ -31,9 +31,9 @@
     transform: translateX(5px);
 }
 
-.text {
-    margin-top: 5%;
-    margin-left: 28%;
+.text-btn {
+    margin-top: 0;
+    margin-left: 50px;
 }
 
 .fixed-button-container {
