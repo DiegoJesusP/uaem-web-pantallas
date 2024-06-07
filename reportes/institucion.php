@@ -24,7 +24,8 @@
         <hr>
         <!-- Tipo informe (Cards Seleccion)-->
         <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
-        <div class="row">
+        <div class="container">
+        <div class="row justify-content-center">
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
@@ -49,13 +50,6 @@
             <div class="col-lg-2 mb-4">
                 <div class="card custom-card-sel" onclick="selectCard(this)">
                     <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">SUPERIOR</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
                         <h6 class="card-title position-absolute top-50 start-50 translate-middle">NIVEL SUPERIOR Y POSTGRADO</h6>
                     </div>
                 </div>
@@ -67,6 +61,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <!-- Periodo (Barra busqueda)-->
         <p><b>Seleccione el periodo...</b></p>
@@ -87,10 +82,10 @@
         </div>
         <div style="margin-bottom: 20px; margin-top: 20px;" class="row align-items-center">
             <div class="col-12 col-md-8">
-                <b>Seleccione un informe...</b>
+                <p>Seleccione un informe...</p>
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte';">
+                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/resultados.html';">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                     </svg>

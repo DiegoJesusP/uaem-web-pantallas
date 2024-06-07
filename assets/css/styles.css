@@ -93,10 +93,7 @@ li a:hover {
 
 
 .main-content {
-    background-color: #F6F6F6; /* Color de fondo para el contenido principal */
-    padding: 20px; /* Espaciado interno */
-    border-radius: 10px; /* Bordes redondeados */
-    
+    background-color: #F6F6F6; /* Color de fondo para el contenido principal */ /* Espaciado interno */ /* Bordes redondeados */
 }
 
 .icon {
