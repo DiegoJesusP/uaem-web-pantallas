@@ -178,6 +178,7 @@
         </div>-->
     </div>
     </div>
+    <div id="footerEvaContainer"></div>
     <script>
     function buscarUsuario() {
         var username = document.getElementById('usernameInput').value;
@@ -194,6 +195,7 @@
     }
 </script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadFooterEva.js"></script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
