@@ -85,6 +85,59 @@
             }
             //$conn = null;
         }
+
+        if ($usadce){
+            $consultaCard = $conn->prepare("SELECT
+                numcontrol,
+                EXTRACT(YEAR FROM fecha) AS año,
+                CASE
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                    ELSE 'Otro'
+                END AS periodo,
+                COUNT(*) AS total_respuestas
+            FROM
+                preguntav
+            WHERE
+                numcontrol = :numcontrol
+            GROUP BY
+                numcontrol,
+                EXTRACT(YEAR FROM fecha),
+                CASE
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                    ELSE 'Otro'
+                END
+            ORDER BY
+                año, periodo");
+                $consultaCard->bindParam(':numcontrol', $usadce);
+        }
+
+        /*
+        SELECT
+    numcontrol,
+    EXTRACT(YEAR FROM fecha) AS año,
+    CASE
+        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+        ELSE 'Otro'
+    END AS periodo,
+    COUNT(*) AS total_respuestas
+FROM
+    preguntav
+WHERE
+    numcontrol = 'AARGOTE'
+GROUP BY
+    numcontrol,
+    EXTRACT(YEAR FROM fecha),
+    CASE
+        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+        ELSE 'Otro'
+    END
+ORDER BY
+    año, periodo;
+        */
         ?>
         </div>
         <hr>
@@ -195,7 +248,7 @@
     }
 </script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadFooterEva.js"></script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadFooterEva.js"></script> -->
 </body>
 </html>
