@@ -25,11 +25,10 @@
     bottom: 0;
     width: 100%;
 }
-/*
+
 .container {
     margin-bottom: 0px;
 }
-*/
 
 /* Centra el contenido en la sección 'síguenos' del pie de página */
 .follow-us {
@@ -45,24 +44,15 @@
     transform: scale(1.1);
 }
 
-.img-eva {
-    justify-content: center;
-}
-
-.img-eva img {
-    height: 40px; /* Reduce altura de las imágenes */
-    margin-right: 15px; /* Reduce margen derecho de las imágenes */
-}
-/* Ajusta el tamaño del texto en el pie de página /
- h5, h6 {
-    font-size: 1rem; / Ajusta el tamaño del texto del encabezado /
-    margin-bottom: 0.5rem; / Reduce margen inferior del encabezado /
+/* Ajusta el tamaño del texto en el pie de página */
+h5, h6 {
+    font-size: 1rem; /* Ajusta el tamaño del texto del encabezado */
+    margin-bottom: 0.5rem; /* Reduce margen inferior del encabezado */
 }
 p {
-    margin-bottom: 0.25rem; / Reduce margen inferior de los párrafos *
-    font-size: 0.875rem; / Ajusta el tamaño del texto de los párrafos /
+    margin-bottom: 0.25rem; /* Reduce margen inferior de los párrafos */
+    font-size: 0.875rem; /* Ajusta el tamaño del texto de los párrafos */
 }
-*/
 
 /* Ajusta el tamaño de los iconos en los párrafos */
 .footer-icon {

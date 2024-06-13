@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/select-styles.css">
     <style>
     .textB {
-        font-family: 'Aleo';font-size: 22px;
+        font-family: 'Ubuntu';font-size: 22px;
         }
         </style>
 </head>

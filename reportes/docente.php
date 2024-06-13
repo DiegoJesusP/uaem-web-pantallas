@@ -14,7 +14,7 @@
     
     <style>
     .textB {
-        font-family: 'Aleo';font-size: 22px;
+        font-family: 'Ubuntu';font-size: 22px;
     }
     </style>
 </head>
@@ -50,46 +50,55 @@
         </div>
         <div style="margin-top: 20px;">
         <?php
-        include('./../php/conexion.php');
-        $conexion = new CConexion();
-        $conn = $conexion->conexionBD();
-        
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $usadce = htmlspecialchars($_POST['usadce']);
-            //echo "<div class='container text-center'><p><b>Usuario SADCE:</b> $usadce</p></div>";
-            
-            // Prepara la consulta SQL
-            $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
-            // Vincula los parámetros
-            $consulta->bindParam(':numcontrol', $usadce);
-            // Ejecuta la consulta
-            $consulta->execute();
-            
-            // Obtiene los resultados
-            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-            
-            // Muestra los resultados
-            /*
-            <div style="margin-top: 20px;">
-            <p>Nombre Docente: <b><span id="nombredocente"></span></b></p>
-            <p>Usuario SADCE: <b><span id="usuarioSadce"></span></b></p>
-            </div>
-            */
-            if ($resultado) {
-                echo "<div class='container'>";
-                echo "<p><b>Nombre del docente:</b> " . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</p>";
-                echo "<p><b>Usuario SADCE:</b> " . $resultado['numcontrol'] . "</p>";
-                echo "</div>";
-            } else {
-                echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$usadce</b></p></div>";
-            }
-            //$conn = null;
-        }
+        $usadce = '';
+include('./../php/conexion.php');
+$conexion = new CConexion();
+$conn = $conexion->conexionBD();
 
-        if ($usadce){
-            $consultaCard = $conn->prepare("SELECT
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usadce = htmlspecialchars($_POST['usadce']);
+
+    // Prepara la consulta SQL
+    $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
+    // Vincula los parámetros
+    $consulta->bindParam(':numcontrol', $usadce);
+    // Ejecuta la consulta
+    $consulta->execute();
+
+    // Obtiene los resultados
+    $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+    // Muestra los resultados
+    if ($resultado) {
+        echo "<div class='container'>";
+        echo "<p>Nombre del docente: <b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></p>";
+        echo "<p>Usuario SADCE: <b>" . $resultado['numcontrol'] . "</b></p>";
+        echo "</div>";
+    } else {
+        echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$usadce</b></p></div>";
+    }
+}
+?>
+        </div>
+        <hr>
+        <div style="margin-bottom: 20px;" class="row align-items-center">
+            <div class="col-12 col-md-8">
+                <p>Seleccione el periodo de evaluación...</p>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
+                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/resultados.html';">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                    </svg>
+                    <div class="text-btn">Regresar</div>
+                </button>
+            </div>
+        </div>
+        <?php
+        if ($usadce) {
+            $consultacard = $conn->prepare("SELECT
                 numcontrol,
-                EXTRACT(YEAR FROM fecha) AS año,
+                EXTRACT(YEAR FROM fecha) AS anio,
                 CASE
                     WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
                     WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
@@ -109,126 +118,38 @@
                     ELSE 'Otro'
                 END
             ORDER BY
-                año, periodo");
-                $consultaCard->bindParam(':numcontrol', $usadce);
+                anio, periodo");
+    
+            // Vincula los parámetros
+            $consultacard->bindParam(':numcontrol', $usadce);
+            // Ejecuta la consulta
+            $consultacard->execute();
+            $resultadocard = $consultacard->fetchAll(PDO::FETCH_ASSOC);
+    
+            if ($resultadocard) {
+                echo "<div class='row d-flex'>";
+                foreach ($resultadocard as $fila) {
+                    echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                    echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                    echo "<div class='card-body text-center'>";
+                    echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . " " . $fila['anio'] . "</b></h5>";
+                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+                echo "</div>";
+            } else {
+                echo "<div class='d-flex justify-content-center'>";
+                echo "<p>No se encontró al usuario</p>";
+                echo "</div>";
+            }
+        } else {
+            echo "<div class='d-flex justify-content-center'>";
+            echo "<p>No se ha ingresado ningún usuario SADCE</p>";
+            echo "</div>";
         }
-
-        /*
-        SELECT
-    numcontrol,
-    EXTRACT(YEAR FROM fecha) AS año,
-    CASE
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
-        ELSE 'Otro'
-    END AS periodo,
-    COUNT(*) AS total_respuestas
-FROM
-    preguntav
-WHERE
-    numcontrol = 'AARGOTE'
-GROUP BY
-    numcontrol,
-    EXTRACT(YEAR FROM fecha),
-    CASE
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
-        ELSE 'Otro'
-    END
-ORDER BY
-    año, periodo;
-        */
         ?>
-        </div>
-        <hr>
-        <div style="margin-bottom: 20px;" class="row align-items-center">
-            <div class="col-12 col-md-8">
-                <p>Seleccione el periodo de evaluación...</p>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/resultados.html';">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                    </svg>
-                    <div class="text-btn">Regresar</div>
-                </button>
-            </div>
-        </div>
-        <!-- 
-        <a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html#reporte" class="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                    </svg>
-                    <div class="text"><h5>Regresar</h5></div>
-                </a>
-        
-        Cards
-        <div class="row d-flex">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php" class="btn btn-primary">Consultar Reporte(s)</a>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     </div>
     </div>
     <div id="footerEvaContainer"></div>
@@ -246,6 +167,19 @@ ORDER BY
         document.getElementById('error-message').innerText = '';
 
     }
+    document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.consultar-reporte');
+    
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var numcontrol = button.getAttribute('data-numcontrol');
+            var periodo = button.getAttribute('data-periodo');
+            var anio = button.getAttribute('data-anio');
+            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+        });
+    });
+});
 </script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
