@@ -95,6 +95,71 @@
         </div>
         
     </div>
+    <?php
+    //cards de reportes
+    /*
+    SELECT matricula
+    FROM preguntav
+    WHERE numcontrol = :numcontrol 
+    AND (
+    (:periodo = 'Enero a Junio' AND EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6) OR
+    (:periodo = 'Agosto a Diciembre' AND EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12)
+    );
+    */
+    $consulta = $conn->prepare("SELECT matricula
+    FROM preguntav
+    WHERE numcontrol = :numcontrol 
+    AND (
+    (:periodo = 'Enero a Junio' AND EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6) OR
+    (:periodo = 'Agosto a Diciembre' AND EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12)
+    )");
+    $consulta->bindParam(':numcontrol', $numcontrol);
+    $consulta->bindParam(':periodo', $periodo);
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $matriculas = array();
+
+    if ($resultado) {
+        foreach ($resultado as $fila) {
+            $matriculas[] = $fila['matricula'];
+        }
+    }
+    
+    /*
+    SELECT DISTINCT unidad, nivel
+FROM virtuales
+WHERE matricula = :matriculas;
+--
+if (!empty($matriculas)) {
+    // Crear una cadena de placeholders para las matrículas en la consulta
+    $placeholders = str_repeat('?,', count($matriculas) - 1) . '?';
+
+    // Consulta SQL para obtener unidad y nivel basado en las matrículas
+    $sql = "SELECT unidad, nivel
+            FROM virtuales
+            WHERE matricula IN ($placeholders)";
+
+    // Preparar la consulta
+    $consulta = $conn->prepare($sql);
+
+    // Vincular las matrículas como parámetros
+    $consulta->execute($matriculas);
+
+    // Obtener el resultado de la consulta
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    // Ahora puedes trabajar con $resultado que contiene la información de unidad y nivel para las matrículas especificadas
+}
+    --
+    */
+    //solo para comprobar las matriculas
+    echo "<ul>";
+    foreach ($matriculas as $matricula) {
+        echo "<li>$matricula</li>";
+    }
+    echo "</ul>";
+    ?>
     <!-- Botón regresar 
     <div class="fixed-button-container">
         <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php" class="button">

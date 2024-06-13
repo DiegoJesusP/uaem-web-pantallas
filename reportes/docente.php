@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <?php
         if ($usadce) {
-            $consultacard = $conn->prepare("SELECT
+            $consulta = $conn->prepare("SELECT
                 numcontrol,
                 EXTRACT(YEAR FROM fecha) AS anio,
                 CASE
@@ -121,14 +121,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 anio, periodo");
     
             // Vincula los parámetros
-            $consultacard->bindParam(':numcontrol', $usadce);
+            $consulta->bindParam(':numcontrol', $usadce);
             // Ejecuta la consulta
-            $consultacard->execute();
-            $resultadocard = $consultacard->fetchAll(PDO::FETCH_ASSOC);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
     
-            if ($resultadocard) {
+            if ($resultado) {
                 echo "<div class='row d-flex'>";
-                foreach ($resultadocard as $fila) {
+                foreach ($resultado as $fila) {
                     echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
