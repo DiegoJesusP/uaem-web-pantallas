@@ -22,7 +22,7 @@
         
         <hr>
         <div class="col-12 d-flex justify-content-end">
-            <a href="#" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
+            <a href="./../docs/pruebapdf.pdf" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
         </div>
         <?php
         $numcontrol = '';
@@ -73,7 +73,7 @@
             // Muestra los resultados
             if ($resultado) {
             echo "<p>Nombre del docente: <b><span id='nombredocente'><b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></span></b></p>";
-            echo "<p>Núm. de reportes: <b><span id='numreportes'></span></b></p>";
+            echo "<p>Núm. de reportes: <b><span id='numreportes'> </span></b></p>";
             } else {
                 echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$numcontrol</b></p></div>";
             }
@@ -93,9 +93,7 @@
                 </button>
             </div>
         </div>
-        
-    </div>
-    <?php
+        <?php
     //cards de reportes
     /*
     SELECT matricula
@@ -127,39 +125,100 @@
     }
     
     /*
-    SELECT DISTINCT unidad, nivel
-FROM virtuales
-WHERE matricula = :matriculas;
---
-if (!empty($matriculas)) {
-    // Crear una cadena de placeholders para las matrículas en la consulta
-    $placeholders = str_repeat('?,', count($matriculas) - 1) . '?';
-
-    // Consulta SQL para obtener unidad y nivel basado en las matrículas
-    $sql = "SELECT unidad, nivel
-            FROM virtuales
-            WHERE matricula IN ($placeholders)";
-
-    // Preparar la consulta
-    $consulta = $conn->prepare($sql);
-
-    // Vincular las matrículas como parámetros
-    $consulta->execute($matriculas);
-
-    // Obtener el resultado de la consulta
-    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    // Ahora puedes trabajar con $resultado que contiene la información de unidad y nivel para las matrículas especificadas
-}
-    --
+    SELECT DISTINCT unidad, nivel, numcontrol, id_grupo, acta_id
+    FROM virtuales
+    WHERE matricula = :matriculas;
     */
-    //solo para comprobar las matriculas
+
+    if (!empty($matriculas) && !empty($numcontrol)) {
+        // Crear una cadena de placeholders para las matrículas en la consulta
+        $placeholders = str_repeat('?,', count($matriculas) - 1) . '?';
+    
+        // Consulta SQL para obtener unidad y nivel basado en las matrículas y numcontrol
+        $sql = "SELECT unidad, nivel, numcontrol, id_grupo, acta_id
+                FROM virtuales
+                WHERE numcontrol = ? AND matricula IN ($placeholders)";
+    
+        // Preparar la consulta
+        $consulta = $conn->prepare($sql);
+    
+        // Vincular el numcontrol y las matrículas como parámetros
+        $params = array_merge([$numcontrol], $matriculas);
+        $consulta->execute($params);
+    
+        // Obtener el resultado de la consulta
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Agrupar los resultados por acta_id e id_grupo
+        $agrupados = [];
+        foreach ($resultado as $fila) {
+            $clave = $fila['acta_id'] . '-' . $fila['id_grupo'];
+            if (!isset($agrupados[$clave])) {
+                $agrupados[$clave] = [
+                    'unidad' => $fila['unidad'],
+                    'nivel' => $fila['nivel'],
+                    'numcontrol' => $fila['numcontrol'],
+                    'id_grupo' => $fila['id_grupo'],
+                    'acta_id' => $fila['acta_id'],
+                    'numcontrol_igual' => true
+                ];
+            } else {
+                // Verificar si numcontrol es igual
+                if ($agrupados[$clave]['numcontrol'] !== $fila['numcontrol']) {
+                    $agrupados[$clave]['numcontrol_igual'] = false;
+                }
+            }
+        }
+    
+        // Contador de cards
+        $contador_cards = 0;
+    
+        // Generar las cards
+        if (!empty($agrupados)) {
+            echo "<div class='row d-flex'>";
+            foreach ($agrupados as $clave => $grupo) {
+                if ($grupo['numcontrol_igual']) { // Validación de numcontrol igual
+                    echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                    echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                    echo "<div class='card-body text-center'>";
+                    echo "<h5 class='card-title'>Unidad académica: <br><b>" . $grupo['unidad'] . "</b> <br>Nivel educativo: <br><b>" . $grupo['nivel'] . "</b><br><p>" . $grupo['numcontrol'] . "</p></h5>";
+                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' data-id_grupo='" . $grupo['id_grupo'] . "' data-acta_id='" . $grupo['acta_id'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+    
+                    // Incrementar contador de cards
+                    $contador_cards++;
+                }
+            }
+            echo "</div>";
+        } else {
+            echo "<div class='d-flex justify-content-center'>";
+            echo "<p>No se encontró al usuario</p>";
+            echo "</div>";
+        }
+    
+        // Mostrar contador de cards (en otro lugar)
+        echo "<script>var contadorCards = $contador_cards;</script>";
+    }
+    
+    
+    
+    
+    
+    /*solo para comprobar las matriculas
     echo "<ul>";
+    $cont = 1;
     foreach ($matriculas as $matricula) {
-        echo "<li>$matricula</li>";
+        echo "<li>$cont: $matricula</li>";
+        $cont ++;
     }
     echo "</ul>";
+    */
+    
     ?>
+    </div>
+    
     <!-- Botón regresar 
     <div class="fixed-button-container">
         <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php" class="button">
@@ -237,6 +296,23 @@ if (!empty($matriculas)) {
             .then(data => {
                 document.getElementById('footerContainer').innerHTML = data;
             });
+            //
+            document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.consultar-reporte');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var numcontrol = button.getAttribute('data-numcontrol');
+            var id_grupo = button.getAttribute('data-id_grupo');
+            var acta_id = button.getAttribute('data-acta_id');
+            var periodo = '<?php echo $periodo; ?>'; // Obtener periodo desde PHP
+            var anio = '<?php echo $anio; ?>'; // Obtener anio desde PHP
+            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&id_grupo=' + id_grupo + '&acta_id=' + acta_id + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+        });
+    });
+});
+//
+
     </script>
     <script src="./../js/bootstrap.bundle.min.js"></script>
 </body>

@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
-                    echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . " " . $fila['anio'] . "</b></h5>";
+                    echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
                     echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
                     echo "</div>";
                     echo "</div>";
@@ -170,17 +170,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.querySelectorAll('.consultar-reporte');
     
-    buttons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            var numcontrol = button.getAttribute('data-numcontrol');
-            var periodo = button.getAttribute('data-periodo');
-            var anio = button.getAttribute('data-anio');
-            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var numcontrol = button.getAttribute('data-numcontrol');
+                var periodo = button.getAttribute('data-periodo');
+                var anio = button.getAttribute('data-anio');
+                window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+            });
         });
     });
-});
-</script>
+    </script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
     <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadFooterEva.js"></script> -->
