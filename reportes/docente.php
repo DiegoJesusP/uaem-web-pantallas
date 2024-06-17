@@ -28,7 +28,7 @@
             <form method="post" action="">
                 <div class="row row-cols-auto justify-content-center">
                     <div class="col">
-                        <input type="text" placeholder="Nombre de usuario" name="usadce" class="shadow input" id="usernameInput" required>
+                        <input type="text" placeholder="Nombre de usuario" name="usadce" class="shadow input" id="usernameInput" required oninput="convertirAMayusculas(this)">
                     </div>
                     <div class="col">
                         <button class="boton-buscar shadow" id="usadceButton" name="usadceButton" onclick="buscarUsuario(event)" type="submit">
@@ -167,6 +167,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('error-message').innerText = '';
 
     }
+
+    function convertirAMayusculas(elemento) {
+        elemento.value = elemento.value.toUpperCase();
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.querySelectorAll('.consultar-reporte');
     
