@@ -85,7 +85,7 @@
                 <b>Seleccione un reporte individual...</b>
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-            <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php';">
+                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php';">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                     </svg>
@@ -197,9 +197,12 @@
             echo "<p>No se encontró al usuario</p>";
             echo "</div>";
         }
-    
-        // Mostrar contador de cards (en otro lugar)
-        echo "<script>var contadorCards = $contador_cards;</script>";
+        
+        echo "
+        <script>
+            var contadorCards = $contador_cards;
+            document.getElementById('numreportes').innerHTML = contadorCards;
+        </script>";
     }
     
     
@@ -286,6 +289,8 @@
         </div>
     -->
     <script>
+        
+
         fetch('./../templates/header.html')
             .then(response => response.text())
             .then(data => {
@@ -305,8 +310,8 @@
             var numcontrol = button.getAttribute('data-numcontrol');
             var id_grupo = button.getAttribute('data-id_grupo');
             var acta_id = button.getAttribute('data-acta_id');
-            var periodo = '<?php echo $periodo; ?>'; // Obtener periodo desde PHP
-            var anio = '<?php echo $anio; ?>'; // Obtener anio desde PHP
+            var periodo = '<?php echo $periodo; ?>';
+            var anio = '<?php echo $anio; ?>'; 
             window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&id_grupo=' + id_grupo + '&acta_id=' + acta_id + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
         });
     });
