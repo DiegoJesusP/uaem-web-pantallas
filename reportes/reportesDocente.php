@@ -1,122 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes Docente</title>
-    <link rel="Shortcut Icon" href="http://localhost/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
-</head>
-<body>
-    <div class="container">
-        <?php
-        $numcontrol = '';
-        $id_grupo = 0;
-        $acta_id = 0;
+<?php
+require('./../fpdf/fpdf.php');
+include('./../php/conexion.php');
+
+// Clase PDF extendida con funciones personalizadas
+class PDF extends FPDF
+{
+    // Cabecera de página
+    function Header()
+{
+    // Background color
+    $this->SetFillColor(48, 83, 149); // Blue color in RGB
+    $this->Rect(0, 0, $this->w, 30, 'F'); // Draw filled rectangle
+    
+    // Logo
+    $this->Image('./../assets/img/LogoUAEMBlanco.png', 10, 5, 29);
+    
+    // Title
+    $this->SetFont('Arial', 'B', 13 );
+    $this->SetTextColor(255, 255, 255); // White color
+    $this->Cell(0, 5, 'Reporte de evaluacion de asignaturas hibridas y virtuales', 0, 1, 'C');
+    
+    // Grey background for subtitle
+    $this->SetFillColor(231, 230, 230); // Grey color in RGB
+    $this->Rect(0, $this->GetY()+10, $this->w, 13, 'F'); // Draw filled rectangle for subtitle
+    
+    // Subtitle
+    $this->SetFont('Arial', 'B', 10);
+    $this->SetTextColor(0, 0, 0); // Black color
+    $this->Cell(0, 29, 'Opinion de Estudiantes', 0, 1, 'C');
+
+    // Obtener el valor del período desde el parámetro GET
+    if (isset($_GET['periodo'])) {
+        $periodo = htmlspecialchars($_GET['periodo']);
+    } else {
         $periodo = '';
-        $anio = 0;
+    }
 
-        if (isset($_GET['numcontrol'])) {
-            $numcontrol = htmlspecialchars($_GET['numcontrol']);
-            echo "$numcontrol<br>";
-        } else {
-            echo "No se ha proporcionado un número de control.<br>";
+    // Mostrar el valor del período de manera dinámica
+    $this->SetFont('Arial', '', 10);
+    $this->Cell(0, -18, 'Periodo: ' . $periodo, 0, 1, 'C');
+    
+    $this->Ln(15);
+}
+
+
+    // Pie de página
+    function Footer()
+    {
+        $this->SetY(-15);
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Página ' . $this->PageNo() . ' / {nb}', 0, 0, 'C');
+    }
+
+    // Función para crear la tabla de datos
+    function FancyTable($header, $data)
+    {
+        // Colores, ancho de línea y fuente en negrita
+        $this->SetFillColor(48, 83, 149); // Color azul en RGB
+        $this->SetTextColor(255);
+        $this->SetDrawColor(48, 83, 149); // Color azul en RGB
+        $this->SetLineWidth(.3);
+        $this->SetFont('', 'B');
+        // Cabecera
+        $w = array(95, 95); // Ajustamos el ancho de las columnas para dos columnas
+        for ($i = 0; $i < count($header); $i++) {
+            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
         }
-
-        if (isset($_GET['id_grupo'])) {
-            $id_grupo = htmlspecialchars($_GET['id_grupo']);
-            echo "$id_grupo<br>";
-        } else {
-            echo "No se ha proporcionado un id_grupo.<br>";
-        }
-
-        if (isset($_GET['acta_id'])) {
-            $acta_id = htmlspecialchars($_GET['acta_id']);
-            echo "$acta_id<br>";
-        } else {
-            echo "No se ha proporcionado un acta_id.<br>";
-        }
-
-        if (isset($_GET['periodo'])) {
-            $periodo = htmlspecialchars($_GET['periodo']);
-            echo "$periodo<br>";
-        } else {
-            echo "No se ha proporcionado un periodo.<br>";
-        }
-
-        if (isset($_GET['anio'])) {
-            $anio = htmlspecialchars($_GET['anio']);
-            echo "$anio<br>";
-        } else {
-            echo "No se ha proporcionado un año.<br>";
-        }
-        ?>
-        <div style="margin-bottom: 20px;" class="row">
-            <div class="col-12 d-flex justify-content-start d-none d-md-flex">
-                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php?numcontrol=<?php echo $numcontrol; ?>&id_grupo=<?php echo $id_grupo; ?>&acta_id=<?php echo $acta_id; ?>&periodo=<?php echo urlencode($periodo); ?>&anio=<?php echo $anio; ?>';">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                    </svg>
-                    <div class="text-btn">Regresar</div>
-                </button>
-            </div>
-        </div>
-        <h2>reportesDocente PHP</h2>
-        <p>Aqui se generaria un reporte en php, pero luego trabajamos en ello</p>
-        <?php
-        include('./../php/conexion.php');
-        $conexion = new CConexion();
-        $conn = $conexion->conexionBD();
-
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-
-            // Prepara la consulta SQL
-            $consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo AND acta_id = :acta_id");
-            // Vincula los parámetros
-            $consulta->bindParam(':numcontrol', $numcontrol);
-            $consulta->bindParam(':id_grupo', $id_grupo);
-            $consulta->bindParam(':acta_id', $acta_id);
-            // Ejecuta la consulta
-            $consulta->execute();
-
-            // Obtiene los resultados
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-            // Muestra los resultados
-            echo "c:";
-            foreach ($resultado as $fila) {
-                echo "<hr>";
-                echo "<p>respuesta 1: " . $fila['r1'] . "</p>";
-                echo "<p>respuesta 2: " . $fila['r2'] . "</p>";
-                echo "<p>respuesta 3: " . $fila['r3'] . "</p>";
-                echo "<p>respuesta 4: " . $fila['r4'] . "</p>";
-                echo "<p>respuesta 5: " . $fila['r5'] . "</p>";
-                echo "<p>respuesta 6: " . $fila['r6'] . "</p>";
-                echo "<p>respuesta 7: " . $fila['r7'] . "</p>";
-                echo "<p>respuesta 8: " . $fila['r8'] . "</p>";
-                echo "<p>respuesta 9: " . $fila['r9'] . "</p>";
-                echo "<p>respuesta 10: " . $fila['r10'] . "</p>";
-                echo "<p>respuesta 11: " . $fila['r11'] . "</p>";
-                echo "<p>respuesta 12: " . $fila['r12'] . "</p>";
-                echo "<p>respuesta 13: " . $fila['r13'] . "</p>";
-                echo "<p>respuesta 14: " . $fila['r14'] . "</p>";
-                echo "<p>respuesta 15: " . $fila['r15'] . "</p>";
-                echo "<p>respuesta 16: " . $fila['r16'] . "</p>";
-                echo "<p>respuesta 17: " . $fila['r17'] . "</p>";
-                echo "<p>respuesta 18: " . $fila['r18'] . "</p>";
-                echo "<p>respuesta 19: " . $fila['r19'] . "</p>";
-                echo "<p>respuesta 20: " . $fila['r20'] . "</p>";
-                echo "<p>respuesta 21: " . $fila['r21'] . "</p>";
-                echo "<p>respuesta 22: " . $fila['r22'] . "</p>";
-                echo "<p>respuesta 23: " . $fila['r23'] . "</p>";
-                // Aquí puedes mostrar más campos según sea necesario
+        $this->Ln();
+        // Restauración de colores y fuentes
+        $this->SetFillColor(224, 235, 255);
+        $this->SetTextColor(0);
+        $this->SetFont('');
+        // Datos
+        $fill = false;
+        $row_count = 0;
+        foreach ($data as $row) {
+            $this->Cell($w[0], 6, $row[0], 'LR', 0, 'L', $fill);
+            $this->Cell($w[1], 6, $row[1], 'LR', 0, 'L', $fill);
+            $this->Ln();
+            $fill = !$fill;
+            $row_count++;
+            // Añadir un espacio distintivo cada 23 preguntas
+            if ($row_count % 23 == 0) {
+                $this->Cell(array_sum($w), 0, '', 'T');
+                $this->Ln(5); // Espacio de 5 unidades de altura
             }
-            echo "<hr>";
-            echo "hola -.-";
         }
-        echo "buenas criaturitas";
-        ?>
-    </div>
-</body>
-</html>
+        // Línea de cierre
+        $this->Cell(array_sum($w), 0, '', 'T');
+    }
+}
+
+// Crear una instancia de conexión
+$conexion = new CConexion();
+$conn = $conexion->conexionBD();
+
+$numcontrol = '';
+$id_grupo = 0;
+$acta_id = 0;
+$periodo = '';
+$anio = 0;
+
+if (isset($_GET['numcontrol'])) {
+    $numcontrol = htmlspecialchars($_GET['numcontrol']);
+}else {
+    $periodo = 'No esta definido "numcontrol"';
+}
+
+if (isset($_GET['id_grupo'])) {
+    $id_grupo = htmlspecialchars($_GET['id_grupo']);
+}else {
+    $periodo = 'No esta definido';
+}
+
+if (isset($_GET['acta_id'])) {
+    $acta_id = htmlspecialchars($_GET['acta_id']);
+}else {
+    $periodo = 'No esta definido "id_grupo"';
+}
+
+if (isset($_GET['periodo'])) {
+    $periodo = htmlspecialchars($_GET['periodo']);
+}else {
+    $periodo = 'No esta definido "periodo"';
+}
+
+if (isset($_GET['anio'])) {
+    $anio = htmlspecialchars($_GET['anio']);
+}else {
+    $periodo = 'No esta definido "anio"';
+}
+
+// Consulta SQL para obtener los datos
+$consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo AND acta_id = :acta_id");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$consulta->bindParam(':id_grupo', $id_grupo);
+$consulta->bindParam(':acta_id', $acta_id);
+$consulta->execute();
+
+// Obtiene los resultados
+$resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+// Organizar los datos obtenidos en un array
+$data = [];
+foreach ($resultado as $fila) {
+    for ($i = 1; $i <= 23; $i++) {
+        $data[] = ['Pregunta ' . $i, $fila['r' . $i]];
+    }
+}
+
+// Crear el PDF
+$pdf = new PDF();
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('Arial', '', 12);
+
+// Títulos de las columnas
+$header = ['Pregunta', 'Respuesta'];
+
+// Imprimir la tabla
+$pdf->FancyTable($header, $data);
+
+$pdf->Output();
+
+?>
