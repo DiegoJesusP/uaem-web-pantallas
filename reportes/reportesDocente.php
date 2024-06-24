@@ -17,7 +17,7 @@ class PDF extends FPDF
     // Title
     $this->SetFont('Arial', 'B', 13 );
     $this->SetTextColor(255, 255, 255); // White color
-    $this->Cell(0, 5, 'Reporte de evaluacion de asignaturas hibridas y virtuales', 0, 1, 'C');
+    $this->Cell(0, 5, utf8_decode("Reporte de evaluación de asignaturas híbridas y virtuales"), 0, 1, 'C');
     
     // Grey background for subtitle
     $this->SetFillColor(231, 230, 230); // Grey color in RGB
@@ -26,7 +26,7 @@ class PDF extends FPDF
     // Subtitle
     $this->SetFont('Arial', 'B', 10);
     $this->SetTextColor(0, 0, 0); // Black color
-    $this->Cell(0, 29, 'Opinion de Estudiantes', 0, 1, 'C');
+    $this->Cell(0, 29, utf8_decode("Opinión de Estudiantes"), 0, 1, 'C');
 
     // Obtener el valor del período desde el parámetro GET
     if (isset($_GET['periodo'])) {
@@ -44,7 +44,7 @@ class PDF extends FPDF
     $this->SetFont('Arial', '', 10);
     $this->Cell(0, -18, 'Periodo: ' . $periodo. " " .$anio, 0, 1, 'C');
     
-    $this->Ln(18);
+    $this->Ln(12);
     }
 
 
@@ -109,20 +109,20 @@ class PDF extends FPDF
     $this->SetTextColor(0);
     $this->SetFont('');
     // Datos estáticos combinados con datos de la base de datos
-    $this->Cell(63, 6, 'Unidad academica:', 'LR', 0, 'L', false);
-    $this->Cell(126, 6, $dataI['unidad'], 'LR', 0, 'L', false);
+    $this->Cell(63, 6, utf8_decode('Unidad academica:'), 'LR', 0, 'L', false);
+    $this->Cell(126, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'L', false);
     $this->Ln();
-    $this->Cell(63, 6, 'Datos Generales:', 'LR', 0, 'L', true);
-    $this->Cell(126, 6, 'Indice (Global)', 'LR', 0, 'L', true);
+    $this->Cell(63, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
+    $this->Cell(126, 6, utf8_decode('Indice (Global)'), 'LR', 0, 'L', true);
     $this->Ln();
-    $this->Cell(63, 6, 'Promedio:', 'LR', 0, 'L', false);
-    $this->Cell(126, 6, 'Valor estatico con variable', 'LR', 0, 'L', false);
+    $this->Cell(63, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
+    $this->Cell(126, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'L', false);
     $this->Ln();
-    $this->Cell(63, 6, 'Nombre:', 'LR', 0, 'L', true);
-    $this->Cell(126, 6, $dataI['nombre_docente'], 'LR', 0, 'L', true);
+    $this->Cell(63, 6, utf8_decode('Nombre:'), 'LR', 0, 'L', true);
+    $this->Cell(126, 6, utf8_decode($dataI['nombre_docente']), 'LR', 0, 'L', true);
     $this->Ln();
-    $this->Cell(63, 6, 'Materia:', 'LR', 0, 'L', false);
-    $this->Cell(126, 6, $dataI['materia'], 'LR', 0, 'L', false);
+    $this->Cell(63, 6, utf8_decode('Materia:'), 'LR', 0, 'L', false);
+    $this->Cell(126, 6, utf8_decode($dataI['materia']), 'LR', 0, 'L', false);
     $this->Ln();
 
     // Línea de cierre

@@ -182,7 +182,7 @@
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
                     echo "<h5 class='card-title'>Unidad académica: <br><b>" . $grupo['unidad'] . "</b> <br>Nivel educativo: <br><b>" . $grupo['nivel'] . "</b><br><p>" . $grupo['numcontrol'] . "</p></h5>";
-                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' data-id_grupo='" . $grupo['id_grupo'] . "' data-acta_id='" . $grupo['acta_id'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
@@ -312,7 +312,7 @@
             var acta_id = button.getAttribute('data-acta_id');
             var periodo = '<?php echo $periodo; ?>';
             var anio = '<?php echo $anio; ?>'; 
-            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&id_grupo=' + id_grupo + '&acta_id=' + acta_id + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
         });
     });
 });
