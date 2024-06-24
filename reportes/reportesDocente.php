@@ -3,6 +3,11 @@ require('./../fpdf/fpdf.php');
 include('./../php/conexion.php');
 
 // Clase PDF extendida con funciones personalizadas
+/*
+'L': Alinea el texto a la izquierda.
+'C': Centra el texto.
+'R': Alinea el texto a la derecha.
+*/
 class PDF extends FPDF
 {
     // Cabecera de página
@@ -60,8 +65,8 @@ class PDF extends FPDF
     function FancyTable($header, $data)
     {
         // Colores, ancho de línea y fuente en negrita
-        $this->SetFillColor(48, 83, 149); // Color azul en RGB
-        $this->SetTextColor(255);
+        $this->SetFillColor(255, 255, 255); // Color azul en RGB
+        $this->SetTextColor(000);
         $this->SetDrawColor(48, 83, 149); // Color azul en RGB
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
@@ -109,21 +114,37 @@ class PDF extends FPDF
     $this->SetTextColor(0);
     $this->SetFont('');
     // Datos estáticos combinados con datos de la base de datos
+    $this->SetFont('Arial', '', 10);
     $this->Cell(63, 6, utf8_decode('Unidad academica:'), 'LR', 0, 'L', false);
-    $this->Cell(126, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'L', false);
+    $this->SetFont('Arial', 'B', 10);
+    $this->Cell(126, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', false);
     $this->Ln();
+    $this->SetFont('Arial', '', 10);
     $this->Cell(63, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
-    $this->Cell(126, 6, utf8_decode('Indice (Global)'), 'LR', 0, 'L', true);
+    $this->SetFont('Arial', 'B', 10);
+    $this->Cell(126, 6, utf8_decode('Indice (Global)'), 'LR', 0, 'C', true);
     $this->Ln();
+    $this->SetFont('Arial', '', 10);
     $this->Cell(63, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
-    $this->Cell(126, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'L', false);
+    $this->SetFont('Arial', 'B', 10);
+    $this->Cell(126, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'C', false);
     $this->Ln();
+    $this->SetFont('Arial', '', 10);
     $this->Cell(63, 6, utf8_decode('Nombre:'), 'LR', 0, 'L', true);
-    $this->Cell(126, 6, utf8_decode($dataI['nombre_docente']), 'LR', 0, 'L', true);
+    $this->SetFont('Arial', 'B', 10);
+    $this->Cell(126, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
     $this->Ln();
+    $this->SetFont('Arial', '', 10);
     $this->Cell(63, 6, utf8_decode('Materia:'), 'LR', 0, 'L', false);
-    $this->Cell(126, 6, utf8_decode($dataI['materia']), 'LR', 0, 'L', false);
-    $this->Ln();
+    $this->Ln(); // Salto de línea para empezar en una nueva fila
+
+    // Si $dataI['materia'] es un arreglo
+    foreach ($dataI['materia'] as $materia) {
+        $this->Cell(63, 6, '', 'LR', 0, 'L', false);
+        $this->Cell(126, 6, utf8_decode($materia), 'LR', 0, 'L', false); // Utiliza el mismo ancho para ambas celdas
+        $this->Ln();
+    }
+
 
     // Línea de cierre
     $this->Cell(189, 0, '', 'T');
@@ -140,23 +161,12 @@ $id_grupo = 0;
 $acta_id = 0;
 $periodo = '';
 $anio = 0;
+$grupo=[];
 
 if (isset($_GET['numcontrol'])) {
     $numcontrol = htmlspecialchars($_GET['numcontrol']);
 }else {
     $periodo = 'No esta definido "numcontrol"';
-}
-
-if (isset($_GET['id_grupo'])) {
-    $id_grupo = htmlspecialchars($_GET['id_grupo']);
-}else {
-    $periodo = 'No esta definido';
-}
-
-if (isset($_GET['acta_id'])) {
-    $acta_id = htmlspecialchars($_GET['acta_id']);
-}else {
-    $periodo = 'No esta definido "id_grupo"';
 }
 
 if (isset($_GET['periodo'])) {
@@ -171,21 +181,35 @@ if (isset($_GET['anio'])) {
     $periodo = 'No esta definido "anio"';
 }
 //--
-$consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente, unidad, materia  FROM virtuales WHERE numcontrol = :numcontrol");
+$consulta = $conn->prepare("SELECT * FROM virtuales WHERE numcontrol = :numcontrol");
 // Vincula los parámetros
 $consulta->bindParam(':numcontrol', $numcontrol);
 // Ejecuta la consulta
 $consulta->execute();
 // Obtiene los resultados
 $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-
+//select distinct materia from virtuales where numcontrol = :numcontrol;
 $dataFromDb = [
     'nombre_docente' => $resultado['nombre_docente'] ?? 'No definido',
     'ap_paterno_docente' => $resultado['ap_paterno_docente'] ?? 'No definido',
     'ap_materno_docente' => $resultado['ap_materno_docente'] ?? 'No definido',
     'unidad' => $resultado['unidad'] ?? 'No definido',
-    'materia' => $resultado['materia'] ?? 'No definido'
+    'materia' => [] // Crear un espacio para almacenar las materias -> No hacer caso 'materia' => $resultado['materia'] ?? 'No definido',
 ];
+
+$consulta = $conn->prepare("SELECT DISTINCT materia FROM virtuales WHERE numcontrol = :numcontrol");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$consulta->execute();
+$resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+$materias = [];
+foreach ($resultados as $resultado) {
+    $materias[] = $resultado['materia'];
+}
+
+// Ahora agregamos las materias al arreglo $dataFromDb
+$dataFromDb['materia'] = $materias;
+
 //--
 // Consulta SQL para obtener los datos
 $consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo AND acta_id = :acta_id");
