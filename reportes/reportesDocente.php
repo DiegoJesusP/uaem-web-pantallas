@@ -141,7 +141,7 @@ class PDF extends FPDF
     // Si $dataI['materia'] es un arreglo
     foreach ($dataI['materia'] as $materia) {
         $this->Cell(63, 6, '', 'LR', 0, 'L', false);
-        $this->Cell(126, 6, utf8_decode($materia), 'LR', 0, 'L', false); // Utiliza el mismo ancho para ambas celdas
+        $this->Cell(126, 6, utf8_decode($materia), 'LR', 0, 'L', false);
         $this->Ln();
     }
 
@@ -237,7 +237,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
 
 // Títulos de las columnas
-$header = ['Grupos:', 'B', 'Respuesta'];
+$header = ['Grupos:', 'B', 'Total'];
 //$headerI = ['Prueba', 'Prueba'];
 
 // Imprimir la tabla
