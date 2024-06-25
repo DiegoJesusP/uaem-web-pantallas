@@ -58,46 +58,44 @@ class PDF extends FPDF
     {
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Página ' . $this->PageNo() . ' / {nb}', 0, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . ' / {nb}', 0, 0, 'C');
     }
 
     // Función para crear la tabla de datos
-    function FancyTable($header, $data)
-    {
+    function FancyTable($header, $data, $anchoColumnas) {
         // Colores, ancho de línea y fuente en negrita
-        $this->SetFillColor(255, 255, 255); // Color azul en RGB
-        $this->SetTextColor(000);
-        $this->SetDrawColor(48, 83, 149); // Color azul en RGB
+        $this->SetFillColor(255, 255, 255); // Blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // Azul
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
+    
         // Cabecera
-        $w = array(63, 63, 63); // Ajustamos el ancho de las columnas para dos columnas -- 63, 63, 63
         for ($i = 0; $i < count($header); $i++) {
-            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
+            $this->Cell($anchoColumnas[$i], 7, $header[$i], 1, 0, 'C', true);
         }
         $this->Ln();
+    
         // Restauración de colores y fuentes
-        $this->SetFillColor(224, 235, 255);
+        $this->SetFillColor(224, 235, 255); // Azul claro
         $this->SetTextColor(0);
         $this->SetFont('');
-        // Datos
         $fill = false;
-        $row_count = 0;
+    
+        // Datos
         foreach ($data as $row) {
-            $this->Cell($w[0], 6, $row[0], 'LR', 0, 'L', $fill);
-            $this->Cell($w[1], 6, $row[1], 'LR', 0, 'L', $fill);
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($row[0]), 'LR', 0, 'L', $fill); // 
+            for ($i = 1; $i <= $numGrupos; $i++) {
+                $this->Cell($anchoColumnas[$i], 6, utf8_decode($row[$i]), 'LR', 0, 'L', $fill); // 
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, utf8_decode($row[$numGrupos + 1]), 'LR', 0, 'L', $fill); // 
             $this->Ln();
             $fill = !$fill;
-            $row_count++;
-            // Añadir un espacio distintivo cada 23 preguntas
-            if ($row_count % 22 == 0) {
-                $this->Cell(array_sum($w), 0, '', 'T');
-                $this->Ln(5); // Espacio de 5 unidades de altura
-            }
         }
         // Línea de cierre
-        $this->Cell(array_sum($w), 0, '', 'T');
+        $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
     }
+    
 
     //
     function TablaInicio($dataI)
@@ -115,33 +113,33 @@ class PDF extends FPDF
     $this->SetFont('');
     // Datos estáticos combinados con datos de la base de datos
     $this->SetFont('Arial', '', 10);
-    $this->Cell(63, 6, utf8_decode('Unidad academica:'), 'LR', 0, 'L', false);
+    $this->Cell(45, 6, utf8_decode('Unidad academica:'), 'LR', 0, 'L', false);
     $this->SetFont('Arial', 'B', 10);
-    $this->Cell(126, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', false);
+    $this->Cell(144, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', false);
     $this->Ln();
     $this->SetFont('Arial', '', 10);
-    $this->Cell(63, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
+    $this->Cell(45, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
     $this->SetFont('Arial', 'B', 10);
-    $this->Cell(126, 6, utf8_decode('Indice (Global)'), 'LR', 0, 'C', true);
+    $this->Cell(144, 6, utf8_decode('Indice (Global)'), 'LR', 0, 'C', true);
     $this->Ln();
     $this->SetFont('Arial', '', 10);
-    $this->Cell(63, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
+    $this->Cell(45, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
     $this->SetFont('Arial', 'B', 10);
-    $this->Cell(126, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'C', false);
+    $this->Cell(144, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'C', false);
     $this->Ln();
     $this->SetFont('Arial', '', 10);
-    $this->Cell(63, 6, utf8_decode('Nombre:'), 'LR', 0, 'L', true);
+    $this->Cell(45, 6, utf8_decode('Nombre:'), 'LR', 0, 'L', true);
     $this->SetFont('Arial', 'B', 10);
-    $this->Cell(126, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
+    $this->Cell(144, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
     $this->Ln();
     $this->SetFont('Arial', '', 10);
-    $this->Cell(63, 6, utf8_decode('Materia:'), 'LR', 0, 'L', false);
+    $this->Cell(45, 6, utf8_decode('Materia:'), 'LR', 0, 'L', false);
     $this->Ln(); // Salto de línea para empezar en una nueva fila
 
     // Si $dataI['materia'] es un arreglo
     foreach ($dataI['materia'] as $materia) {
-        $this->Cell(63, 6, '', 'LR', 0, 'L', false);
-        $this->Cell(126, 6, utf8_decode($materia), 'LR', 0, 'L', false);
+        $this->Cell(45, 6, '', 'LR', 0, 'L', false);
+        $this->Cell(144, 6, utf8_decode($materia), 'LR', 0, 'L', false);
         $this->Ln();
     }
 
@@ -230,19 +228,45 @@ foreach ($resultado as $fila) {
     }
 }
 
+$consulta = $conn->prepare("SELECT DISTINCT grupo, semestre FROM virtuales WHERE numcontrol = :numcontrol");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$consulta->execute();
+$resultadosGrupos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+// Convertir los resultados en un array simple
+$grupos = [];
+foreach ($resultadosGrupos as $resultadoGrupo) {
+    $grupos[] = $resultadoGrupo['grupo'] . " " . $resultadoGrupo['semestre'];
+}
+
+//header 
+$header = ['Grupos:'];
+$numGrupos = count($grupos);
+foreach ($grupos as $grupo) {
+    $header[] = $grupo;
+}
+$header[] = 'Total';
+
+// Calcular el ancho de las columnas
+$anchoColumnas = [];
+$anchoFijo = 45; // Ancho fijo para la primera columna (Grupos:) Se puede cambiar sin problema
+$anchoVariable = 189 - $anchoFijo; // Ancho total disponible menos el ancho de la columna fija
+$anchoGrupos = $anchoVariable / ($numGrupos + 1); // Distribuir el ancho entre las columnas de grupos y la columna Total
+$anchoColumnas[] = $anchoFijo;
+for ($i = 0; $i < $numGrupos; $i++) {
+    $anchoColumnas[] = $anchoGrupos;
+}
+$anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
+
 // Crear el PDF
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
 
-// Títulos de las columnas
-$header = ['Grupos:', 'B', 'Total'];
-//$headerI = ['Prueba', 'Prueba'];
-
 // Imprimir la tabla
 $pdf->TablaInicio($dataFromDb);
-$pdf->FancyTable($header, $data);
+$pdf->FancyTable($header, $dataS, $anchoColumnas);
 
 $pdf->Output();
 
