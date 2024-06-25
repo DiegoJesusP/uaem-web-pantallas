@@ -159,7 +159,39 @@ class PDF extends FPDF
             'Estudiantes participantes:',
             'Satisfacción de desempeño:',
             'Expectativas cubiertas del curso:',
-            'Asesor en Línea (índice Global):',
+        ];
+        
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $this->SetFillColor(225, 238, 218); // Verde
+        $titulosTablas = [
+            'Asesor en Línea (índice Global):'
+        ];
+        
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $this->SetFillColor(255, 241, 204); // amarillo
+        $titulosTablas = [
             'Diseño del Curso (índice Global):'
         ];
         
@@ -174,7 +206,7 @@ class PDF extends FPDF
         }
         $this->Cell(189, 0, '', 'T');
         $this->Ln(2);
-        //
+
     }
 
     function TablaRespuestas($anchoColumnas, $numGrupos){
@@ -212,11 +244,31 @@ class PDF extends FPDF
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        //
+        $titulosTablas = [
+            'Dominio y Desempeño del Asesor:'
+        ];
+        $cont = 0;
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
         $this->SetFillColor(224, 235, 255); // azul
         $this->SetTextColor(0, 0, 0); // Negro
         $this->SetDrawColor(48, 83, 149); // azul
         $titulosTablas = [
-            'Estudiantes participantes:',
+            'Dormmo en el manejo de las aplicaciones y herramentas de la plataforma:',
             'Satisfacción de desempeño:',
             'Expectativas cubiertas del curso:',
             'Asesor en Línea (índice Global):',
@@ -224,7 +276,7 @@ class PDF extends FPDF
             'nuevo'
         ];
         $cont = 0;
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', '', 10);
         foreach ($titulosTablas as $j => $titulo) {
             $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
             for ($k = 1; $k <= $numGrupos; $k++) {
