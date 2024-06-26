@@ -212,7 +212,7 @@ class PDF extends FPDF
     function TablaRespuestas($anchoColumnas, $numGrupos){
         $this->SetFillColor(225, 238, 218); // Verde
         $this->SetTextColor(0, 0, 0); // Negro
-        $this->SetDrawColor(0); // verde
+        $this->SetDrawColor(0); // 
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
         
@@ -234,13 +234,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         //
@@ -254,13 +257,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         
@@ -275,13 +281,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', '', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         //
@@ -295,13 +304,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         
@@ -316,13 +328,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', '', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         //
@@ -336,13 +351,16 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
         
@@ -357,20 +375,278 @@ class PDF extends FPDF
 
         $this->SetFont('Arial', '', 10);
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
             }
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
             $this->Ln();
         }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln(2);
+        //
+        //Aqui empieza la segunda parte la de color amarillo
+        //
+        $this->SetFillColor(255, 241, 204); //amarillo
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(189, 6, utf8_decode('Diseño del curso'), 'LR', 0, 'C', true);
+        $this->Ln();
+        //
+        $this->SetFillColor(217, 217, 217); // gris
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        //
+        $titulosTablas = [
+            'Diseño Calidad del Curso:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
+        //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        
+        $titulosTablas = [
+            'Diseño del Curso en claridad de contenidos:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+        $titulosTablas = [
+            'Calidad de contenidos temáticos incluidos en el curso:',
+            'Carga horaria declarada para este curso:',
+            'Pertinencia en el diseño delas actividades de aprendizaje en el curso:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        
+        $titulosTablas = [
+            'Variedad de contenidos:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+        $titulosTablas = [
+            'Variedad de contenidos temáticos incluidos en el curso:',
+            'Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        
+        $titulosTablas = [
+            'Nivel de autonomía:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+
+        $titulosTablas = [
+            'Los materiales incluidos en el curso te permitieron aprender por si mismo(a) estimulando el interés por investigar y profundizar en conocimientos nuevos:',
+            'Comprensión integral de los contenidos curriculares de la materia:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+
+        
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0, 0, 0); // azul
+        
+        $titulosTablas = [
+            'Evaluacion de contenidos:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+
+        $titulosTablas = [
+            'Utilidad Moodle:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+
+        $titulosTablas = [
+            'Diseño gráfico del curso:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+        $titulosTablas = [
+            'Colores:',
+            'Ilustraciones (Imágenes, logotipos):',
+            'Navegabilidad:',
+            'Tamaño y tipo de letra:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6); // Ajusta la posición después de MultiCell
+
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+
     }
-    
-    // Resto de tu código...
-    
-    
+    // 
 }
 
 // Crear una instancia de conexión
@@ -480,7 +756,8 @@ $pdf->TablaInicio($dataFromDb);
 $pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos);
 $pdf->TablaRespuestas($anchoColumnas, $numGrupos);
 
-
+//$nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
+//$nombreArchivo, "D"
 $pdf->Output();
 
 ?>
