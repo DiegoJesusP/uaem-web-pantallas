@@ -231,7 +231,7 @@ class PDF extends FPDF
         $titulosTablas = [
             'Funciones del Asesor en Línea:'
         ];
-        $cont = 0;
+
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
             $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
@@ -247,11 +247,11 @@ class PDF extends FPDF
         $this->SetFillColor(255); // blanco
         $this->SetTextColor(0, 0, 0); // Negro
         $this->SetDrawColor(0); // negro
-        //
+        
         $titulosTablas = [
             'Dominio y Desempeño del Asesor:'
         ];
-        $cont = 0;
+
         $this->SetFont('Arial', 'B', 10);
         foreach ($titulosTablas as $j => $titulo) {
             $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
@@ -263,19 +263,16 @@ class PDF extends FPDF
         }
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
-        //
+        
         $this->SetFillColor(224, 235, 255); // azul
         $this->SetTextColor(0, 0, 0); // Negro
         $this->SetDrawColor(48, 83, 149); // azul
         $titulosTablas = [
-            'Dormmo en el manejo de las aplicaciones y herramentas de la plataforma:',
-            'Satisfacción de desempeño:',
-            'Expectativas cubiertas del curso:',
-            'Asesor en Línea (índice Global):',
-            'Diseño del Curso (índice Global):',
-            'nuevo'
+            'Dominio en el manejo de las aplicaciones y herramentas de la plataforma Moodle:',
+            'Dominio disciplinar por parte del profesor en la asignatura:',
+            'Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:'
         ];
-        $cont = 0;
+
         $this->SetFont('Arial', '', 10);
         foreach ($titulosTablas as $j => $titulo) {
             $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
@@ -286,7 +283,89 @@ class PDF extends FPDF
             $this->Ln();
         }
         $this->Cell(189, 0, '', 'T');
-        $this->Ln(2);
+        $this->Ln();
+        //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        
+        $titulosTablas = [
+            'Oportunidad en la retroalimentación y respuestas:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+        $titulosTablas = [
+            'Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:',
+            'Prontitud de tu asesor en respuesta o aportación en los foros:',
+            'Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $this->SetFillColor(255); // blanco
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(0); // negro
+        
+        $titulosTablas = [
+            'Calidad de retroalimentación y respuesta:'
+        ];
+
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        
+        $this->SetFillColor(224, 235, 255); // azul
+        $this->SetTextColor(0, 0, 0); // Negro
+        $this->SetDrawColor(48, 83, 149); // azul
+        $titulosTablas = [
+            'Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:',
+            'Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:',
+            'Promoción por pañe del asesor en argumentar las patticipaciones en base a los comentario:'
+        ];
+
+        $this->SetFont('Arial', '', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
     }
     
     // Resto de tu código...
