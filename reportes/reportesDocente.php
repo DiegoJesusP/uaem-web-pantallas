@@ -69,33 +69,33 @@ class PDF extends FPDF
         
         // Datos estáticos combinados con datos de la base de datos
         $this->SetFont('Arial', '', 10);
-        $this->Cell(60, 6, utf8_decode('Unidad académica:'), 'LR', 0, 'L', true);
+        $this->Cell(70, 6, utf8_decode('Unidad académica:'), 'LR', 0, 'L', true);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(129, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', true);
+        $this->Cell(119, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', true);
         $this->Ln();
 
         $this->SetFont('Arial', '', 10);
-        $this->Cell(60, 6, utf8_decode('Modalidad:'), 'LR', 0, 'L', false);
+        $this->Cell(70, 6, utf8_decode('Modalidad:'), 'LR', 0, 'L', false);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(129, 6, utf8_decode('modalidad que se obtiene de la base de datos'), 'LR', 0, 'C', false);
+        $this->Cell(119, 6, utf8_decode('modalidad que se obtiene de la base de datos'), 'LR', 0, 'C', false);
         $this->Ln();
         
         $this->SetFont('Arial', '', 10);
-        $this->Cell(60, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
+        $this->Cell(70, 6, utf8_decode('Datos Generales:'), 'LR', 0, 'L', true);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(129, 6, utf8_decode('Índice (Global)'), 'LR', 0, 'C', true);
+        $this->Cell(119, 6, utf8_decode('Índice (Global)'), 'LR', 0, 'C', true);
         $this->Ln();
         
         $this->SetFont('Arial', '', 10);
-        $this->Cell(60, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
+        $this->Cell(70, 6, utf8_decode('Promedio:'), 'LR', 0, 'L', false);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(129, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'C', false);
+        $this->Cell(119, 6, utf8_decode('Valor estático con variable'), 'LR', 0, 'C', false);
         $this->Ln();
         
         $this->SetFont('Arial', '', 10);
-        $this->Cell(60, 6, utf8_decode('Asesor(a):'), 'LR', 0, 'L', true);
+        $this->Cell(70, 6, utf8_decode('Asesor(a):'), 'LR', 0, 'L', true);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(129, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
+        $this->Cell(119, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
         $this->Ln();
         
         
@@ -105,12 +105,12 @@ class PDF extends FPDF
         foreach ($dataI['materia'] as $materia) {
             $this->SetFont('Arial', '', 10);
             if ($aux != 0){
-                $this->Cell(60, 6, '', 'LR', 0, 'L', false);
+                $this->Cell(70, 6, '', 'LR', 0, 'L', false);
             }else {
-                $this->Cell(60, 6, utf8_decode('Curso(s):'), 'LR', 0, 'L', false);
+                $this->Cell(70, 6, utf8_decode('Curso(s):'), 'LR', 0, 'L', false);
             }
             $this->SetFont('Arial', 'B', 10);
-            $this->Cell(129, 6, utf8_decode($materia), 'LR', 0, 'C', false);
+            $this->Cell(119, 6, utf8_decode($materia), 'LR', 0, 'C', false);
             $this->Ln(); // Salto de línea después de cada materia
             $aux ++;
         }
@@ -252,7 +252,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Dominio y Desempeño del Asesor:'
+            '-Dominio y Desempeño del Asesor:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -274,7 +274,7 @@ class PDF extends FPDF
         $this->SetTextColor(0, 0, 0); // Negro
         $this->SetDrawColor(48, 83, 149); // azul
         $titulosTablas = [
-            'Dominio en el manejo de las aplicaciones y herramentas de la plataforma Moodle:',
+            'Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:',
             'Dominio disciplinar por parte del profesor en la asignatura:',
             'Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:'
         ];
@@ -299,7 +299,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Oportunidad en la retroalimentación y respuestas:'
+            '-Oportunidad en la retroalimentación y respuestas:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -346,7 +346,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Calidad de retroalimentación y respuesta:'
+            '-Calidad de retroalimentación y respuesta:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -370,7 +370,7 @@ class PDF extends FPDF
         $titulosTablas = [
             'Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:',
             'Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:',
-            'Promoción por pañe del asesor en argumentar las patticipaciones en base a los comentario:'
+            'Promoción por parte del asesor en argumentar las patticipaciones en base a los comentario:'
         ];
 
         $this->SetFont('Arial', '', 10);
@@ -423,7 +423,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Diseño del Curso en claridad de contenidos:'
+            '-Diseño del Curso en claridad de contenidos:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -470,7 +470,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Variedad de contenidos:'
+            '-Variedad de contenidos:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -516,7 +516,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0); // negro
         
         $titulosTablas = [
-            'Nivel de autonomía:'
+            '-Nivel de autonomía:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -564,7 +564,7 @@ class PDF extends FPDF
         $this->SetDrawColor(0, 0, 0); // azul
         
         $titulosTablas = [
-            'Evaluacion de contenidos:'
+            '-Evaluacion de contenidos:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -583,7 +583,7 @@ class PDF extends FPDF
         $this->Ln();
 
         $titulosTablas = [
-            'Utilidad Moodle:'
+            '-Utilidad Moodle:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -602,7 +602,7 @@ class PDF extends FPDF
         $this->Ln();
 
         $titulosTablas = [
-            'Diseño gráfico del curso:'
+            '-Diseño gráfico del curso:'
         ];
 
         $this->SetFont('Arial', 'B', 10);
@@ -737,7 +737,7 @@ foreach ($grupos as $grupo) {
 $header[] = 'Total';
 
 $anchoColumnas = [];
-$anchoFijo = 60; // Ancho fijo para la primera columna (Grupos)
+$anchoFijo = 70; // Ancho fijo para la primera columna (Grupos)
 $anchoVariable = 189 - $anchoFijo; // Ancho total disponible menos el ancho de la columna fija
 $anchoGrupos = $anchoVariable / ($numGrupos + 1); // Distribuir el ancho entre las columnas de grupos y la columna Total
 $anchoColumnas[] = $anchoFijo;
@@ -745,6 +745,9 @@ for ($i = 0; $i < $numGrupos; $i++) {
     $anchoColumnas[] = $anchoGrupos;
 }
 $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
+//
+//
+
 
 // Crear el PDF
 $pdf = new PDF();
