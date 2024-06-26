@@ -746,9 +746,16 @@ for ($i = 0; $i < $numGrupos; $i++) {
 }
 $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
 //
-//
-
-
+//select id_grupo, COUNT(*) AS total_grupo from preguntav where numcontrol = :numcontrol group by id_grupo;
+$consulta = $conn->prepare("SELECT id_grupo, COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+$totalPorGrupo = [];
+foreach ($res as $resultado) {
+    $id_grupo = $resultado['id_grupo'];
+    $total_grupo = $resultado['total_grupo'];
+    $totalPorGrupo[$id_grupo] = $total_grupo;
+}
 // Crear el PDF
 $pdf = new PDF();
 $pdf->AliasNbPages();
