@@ -2,9 +2,16 @@
 require('./../fpdf/fpdf.php');
 include('./../php/conexion.php');
 
+function convertirTexto($texto) {
+    // Convertir el texto a minúsculas con soporte para UTF-8
+    $texto = mb_strtolower($texto, 'UTF-8');
+    // Convertir la primera letra de cada palabra a mayúscula con soporte para UTF-8
+    $texto = mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
+    return $texto;
+}
+
 // Clase PDF
-class PDF extends FPDF
-{
+class PDF extends FPDF{
     // Cabecera del pdf
     function Header(){
         // Background color
@@ -54,7 +61,15 @@ class PDF extends FPDF
         $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . ' / {nb}', 0, 0, 'C');
     }
     
-    function TablaInicio($dataI){
+    //
+    function Separador(){
+        $this->SetFillColor(48, 83, 149);
+        $this->Cell(189, 2, '', 'LR', 0, 'C', true);
+        $this->Ln();
+    }
+
+    //
+    function TablaInicio($dataI) {
         // Colores, ancho de línea y fuente en negrita
         $this->SetFillColor(48, 83, 149); // Azul
         $this->SetTextColor(255);
@@ -69,11 +84,12 @@ class PDF extends FPDF
         
         // Datos estáticos combinados con datos de la base de datos
         $this->SetFont('Arial', '', 10);
-        $this->Cell(70, 6, utf8_decode('Unidad académica:'), 'LR', 0, 'L', true);
+        $this->Cell(70, 6, utf8_decode('Unidad Académica:'), 'LR', 0, 'L', true);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(119, 6, utf8_decode($dataI['unidad']), 'LR', 0, 'C', true);
+        $unidadAcademica = convertirTexto($dataI['unidad']);
+        $this->Cell(119, 6, utf8_decode($unidadAcademica), 'LR', 0, 'C', true);
         $this->Ln();
-
+    
         $this->SetFont('Arial', '', 10);
         $this->Cell(70, 6, utf8_decode('Modalidad:'), 'LR', 0, 'L', false);
         $this->SetFont('Arial', 'B', 10);
@@ -95,10 +111,9 @@ class PDF extends FPDF
         $this->SetFont('Arial', '', 10);
         $this->Cell(70, 6, utf8_decode('Asesor(a):'), 'LR', 0, 'L', true);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(119, 6, utf8_decode($dataI['nombre_docente']. " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']), 'LR', 0, 'C', true);
+        $nombreDocente = convertirTexto($dataI['nombre_docente'] . " " . $dataI['ap_paterno_docente'] . " " . $dataI['ap_materno_docente']);
+        $this->Cell(119, 6, utf8_decode($nombreDocente), 'LR', 0, 'C', true);
         $this->Ln();
-        
-        
         
         // Si $dataI['materia'] es un arreglo
         $aux = 0;
@@ -106,22 +121,22 @@ class PDF extends FPDF
             $this->SetFont('Arial', '', 10);
             if ($aux != 0){
                 $this->Cell(70, 6, '', 'LR', 0, 'L', false);
-            }else {
+            } else {
                 $this->Cell(70, 6, utf8_decode('Curso(s):'), 'LR', 0, 'L', false);
             }
             $this->SetFont('Arial', 'B', 10);
             $this->Cell(119, 6, utf8_decode($materia), 'LR', 0, 'C', false);
             $this->Ln(); // Salto de línea después de cada materia
-            $aux ++;
+            $aux++;
         }
-
+    
         // Línea de cierre
         $this->Cell(189, 0, '', 'T');
-        $this->Ln(2);
+        $this->Ln();
     }
 
-    //Crear la tabla de datos principal y las tablas adicionales
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos) {
+    //
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo) {
         // Colores, ancho de Linea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -157,7 +172,48 @@ class PDF extends FPDF
         // Tablas adicionales alineadas con las columnas dinámicas
         $titulosTablas = [
             'Estudiantes participantes:',
+        ];
+        
+        $totalEstudiante = [45, 5]; //este es un ejemplo, se debe obtener de la base de datos, segun obtengo mis datos de la base de datos en $totalPorGrupo
+        
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+        
+            // Mostrar los valores de $totalEstudiante para cada grupo
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                // Si existe un valor para este grupo, mostrarlo; de lo contrario, mostrar una celda vacía
+                $valor = isset($totalEstudiante[$k - 1]) ? $totalEstudiante[$k - 1] : '';
+                $this->Cell($anchoColumnas[$k], 6, $valor, 'LR', 0, 'L', $j % 2 == 0);
+            }
+        
+            // Celda vacía para el total (ajustar según sea necesario)
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 == 0);
+        
+            // Salto de línea al final de cada fila
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $titulosTablas = [
             'Satisfacción de desempeño:',
+        ];
+        
+        $this->SetFont('Arial', 'B', 10);
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 != 0);
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $this->Cell($anchoColumnas[$k], 6, '', 'LR', 0, 'L', $j % 2 != 0); // Celdas vacías grupos
+            }
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, '', 'LR', 0, 'L', $j % 2 != 0); // Celda vacía total
+            $this->Ln();
+        }
+        $this->Cell(189, 0, '', 'T');
+        $this->Ln();
+        //
+        $titulosTablas = [
             'Expectativas cubiertas del curso:',
         ];
         
@@ -172,7 +228,7 @@ class PDF extends FPDF
         }
         $this->Cell(189, 0, '', 'T');
         $this->Ln();
-        //
+        //--------------------------------------------------------------------------------
         $this->SetFillColor(225, 238, 218); // Verde
         $titulosTablas = [
             'Asesor en Línea (índice Global):'
@@ -205,7 +261,7 @@ class PDF extends FPDF
             $this->Ln();
         }
         $this->Cell(189, 0, '', 'T');
-        $this->Ln(2);
+        $this->Ln();
 
     }
 
@@ -386,7 +442,7 @@ class PDF extends FPDF
         }
 
         $this->Cell(189, 0, '', 'T');
-        $this->Ln(2);
+        $this->Ln();
         //
         //Aqui empieza la segunda parte la de color amarillo
         //
@@ -649,7 +705,6 @@ class PDF extends FPDF
     // 
 }
 
-// Crear una instancia de conexión
 $conexion = new CConexion();
 $conn = $conexion->conexionBD();
 
@@ -719,14 +774,29 @@ foreach ($resultado as $fila) {
     }
 }
 
-$consulta = $conn->prepare("SELECT DISTINCT grupo, semestre FROM virtuales WHERE numcontrol = :numcontrol");
+//select id_grupo, COUNT(*) AS total_grupo from preguntav where numcontrol = :numcontrol group by id_grupo;
+$consulta = $conn->prepare("SELECT COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$consulta->execute();
+$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+$totalPorGrupo = [];
+foreach ($res as $fila) {
+    $totalPorGrupo[] = [$fila['total_grupo']];
+}
+
+
+
+$consulta = $conn->prepare("SELECT DISTINCT grupo, semestre, id_grupo FROM virtuales WHERE numcontrol = :numcontrol");
 $consulta->bindParam(':numcontrol', $numcontrol);
 $consulta->execute();
 $resultadosGrupos = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 $grupos = [];
+$idgrupos = [];
 foreach ($resultadosGrupos as $resultadoGrupo) {
     $grupos[] = $resultadoGrupo['grupo'] . " " . $resultadoGrupo['semestre'];
+    $idgrupos[] = $resultadoGrupo['id_grupo'];
 }
 
 $header = ['Grupo(s):'];
@@ -736,6 +806,8 @@ foreach ($grupos as $grupo) {
 }
 $header[] = 'Total';
 
+//
+//
 $anchoColumnas = [];
 $anchoFijo = 70; // Ancho fijo para la primera columna (Grupos)
 $anchoVariable = 189 - $anchoFijo; // Ancho total disponible menos el ancho de la columna fija
@@ -745,26 +817,19 @@ for ($i = 0; $i < $numGrupos; $i++) {
     $anchoColumnas[] = $anchoGrupos;
 }
 $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
-//
-//select id_grupo, COUNT(*) AS total_grupo from preguntav where numcontrol = :numcontrol group by id_grupo;
-$consulta = $conn->prepare("SELECT id_grupo, COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
-$consulta->bindParam(':numcontrol', $numcontrol);
-$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
-$totalPorGrupo = [];
-foreach ($res as $resultado) {
-    $id_grupo = $resultado['id_grupo'];
-    $total_grupo = $resultado['total_grupo'];
-    $totalPorGrupo[$id_grupo] = $total_grupo;
-}
 // Crear el PDF
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
 
+$pdf->Separador();
 $pdf->TablaInicio($dataFromDb);
-$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos);
+$pdf->Separador();
+$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo);
+$pdf->Separador();
 $pdf->TablaRespuestas($anchoColumnas, $numGrupos);
+$pdf->Separador();
 
 //$nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
 //$nombreArchivo, "D"

@@ -31,26 +31,25 @@ class PDF extends FPDF
         $this->SetDrawColor(128, 0, 0);
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
+        
         // Cabecera
-        $w = array(95, 95); // Ajustamos el ancho de las columnas para dos columnas
-        for ($i = 0; $i < count($header); $i++) {
-            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
+        foreach ($header as $col) {
+            $this->Cell(60, 7, $col, 1, 0, 'C', true);
         }
         $this->Ln();
+        
         // Restauración de colores y fuentes
         $this->SetFillColor(224, 235, 255);
         $this->SetTextColor(0);
         $this->SetFont('');
+        
         // Datos
-        $fill = false;
         foreach ($data as $row) {
-            $this->Cell($w[0], 6, $row[0], 'LR', 0, 'L', $fill);
-            $this->Cell($w[1], 6, $row[1], 'LR', 0, 'L', $fill);
+            foreach ($row as $col) {
+                $this->Cell(60, 6, $col, 1, 0, 'L');
+            }
             $this->Ln();
-            $fill = !$fill;
         }
-        // Línea de cierre
-        $this->Cell(array_sum($w), 0, '', 'T');
     }
 }
 
@@ -58,26 +57,19 @@ class PDF extends FPDF
 $conexion = new CConexion();
 $conn = $conexion->conexionBD();
 
-$numcontrol = 'ABARROSO';  // Cambia este valor
+$numcontrol = 'CESARMP';  // Cambia este valor
 $id_grupo = 443725;      // Cambia este valor
 $acta_id = 882296;        // Cambia este valor
 
 // Consulta SQL para obtener los datos
-$consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo AND acta_id = :acta_id");
+$consulta = $conn->prepare("SELECT COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
 $consulta->bindParam(':numcontrol', $numcontrol);
-$consulta->bindParam(':id_grupo', $id_grupo);
-$consulta->bindParam(':acta_id', $acta_id);
 $consulta->execute();
+$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtiene los resultados
-$resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-// Organizar los datos obtenidos en un array
 $data = [];
-foreach ($resultado as $fila) {
-    for ($i = 1; $i <= 23; $i++) {
-        $data[] = ['Pregunta ' . $i, $fila['r' . $i]];
-    }
+foreach ($res as $fila) {
+    $data[] = [$fila['total_grupo']];
 }
 
 // Crear el PDF
@@ -87,7 +79,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
 
 // Títulos de las columnas
-$header = ['Pregunta', 'Respuesta'];
+$header = ['TotalGrupos'];
 
 // Imprimir la tabla
 $pdf->FancyTable($header, $data);
