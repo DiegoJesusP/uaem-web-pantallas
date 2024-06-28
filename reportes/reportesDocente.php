@@ -38,6 +38,14 @@ if (isset($_GET['anio'])) {
             padding: 1%;
             color: #FFFFFF;
         }
+        .separador-asesor {
+            background-color: #e1eeda;
+            color: #000000;
+        }
+        .separador-disenio {
+            background-color: #fff1cc;
+            color: #000000;
+        }
         .header-logo {
             width: 100%;
             max-width: 130px;
@@ -64,12 +72,13 @@ if (isset($_GET['anio'])) {
             </div>
         </div>
     </header>
+
     <div style="background-color: #e6e6e6;">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="text-center">Opinión de estudiantes</h3>
-                    <?php echo "<h4 class='text-center'>Periodo: $periodo $anio</h4>"; ?>
+                    <h4 class="text-center">Opinión de estudiantes</h4>
+                    <?php echo "<h5 class='text-center'>Periodo: $periodo $anio</h5>"; ?>
                 </div>
             </div>
         </div>
@@ -129,7 +138,7 @@ if (isset($_GET['anio'])) {
                     echo "<tr><td style='width: 20%;'>Curso(s):</td>";
                     echo "<td style='width: 80%;'>";
                     foreach ($materias as $materia) {
-                        echo "<b>* $materia</b><br> ";
+                        echo "<b>$materia</b><br> ";
                     }
                     echo "</td></tr>";
                 } else {
@@ -184,9 +193,240 @@ if (isset($_GET['anio'])) {
                 } else {
                     echo "<tr><td colspan='2'>No se encontraron resultados</td></tr>";
                 }
+
+                $consulta = $conn->prepare("SELECT COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
+                $consulta->bindParam(':numcontrol', $numcontrol);
+                $consulta->execute();
+                $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+                $total = 0;
+                $totalPorGrupo = [];
+                foreach ($res as $fila) {
+                    $totalPorGrupo[] = $fila['total_grupo'];
+                    $total += $fila['total_grupo'];
+                }
+
+                $totalPorSatisfaccion = [1, 0, 1]; // Ejemplo de datos
+                $totalPorExpectativa = [2, 0, 2]; // Ejemplo de datos
+
+                $totalSatisfaccion = array_sum($totalPorSatisfaccion);
+                $totalExpectativa = array_sum($totalPorExpectativa);
+
+                $data = [
+                    ["Estudiantes participantes:", $totalPorGrupo, $total],
+                    ["Satisfacción de desempeño:", $totalPorSatisfaccion, $totalSatisfaccion],
+                    ["Expectativas cubiertas del curso:", $totalPorExpectativa, $totalExpectativa],
+                ];
+            
+                // Generar las filas de la tabla
+                foreach ($data as $row) {
+                    echo "<tr>";
+                    for ($i = 0; $i < count($header); $i++) {
+                        echo "<td style='width: {$anchoColumnas[$i]}px;'>";
+                        if ($i == 0) {
+                            echo $row[0];
+                        } elseif ($i <= count($row[1])) {
+                            echo $row[1][$i - 1];
+                        } else {
+                            echo $row[2];
+                        }
+                        echo "</td>";
+                    }
+                    echo "</tr>";
+                }
+                //
+                $totalPorAsesor = [1, 1, 1]; // Ejemplo de datos
+                $totalPorDisenio = [2, 2, 2]; // Ejemplo de datos
+
+                $totalAsesor = array_sum($totalPorAsesor);
+                $totalDisenio = array_sum($totalPorDisenio);
+
+                $data = [
+                    ["Asesor en Línea (índice Global):", $totalPorAsesor, $totalAsesor],
+                    ["Diseño del Curso (índice Global):", $totalPorDisenio, $totalDisenio],
+                ];
+            
+                // Generar las filas de la tabla
+                foreach ($data as $row) {
+                    echo "<tr>";
+                    for ($i = 0; $i < count($header); $i++) {
+                        echo "<td style='width: {$anchoColumnas[$i]}px;'>";
+                        if ($i == 0) {
+                            echo $row[0];
+                        } elseif ($i <= count($row[1])) {
+                            echo $row[1][$i - 1];
+                        } else {
+                            echo $row[2];
+                        }
+                        echo "</td>";
+                    }
+                    echo "</tr>";
+                }
                 ?>
             </tbody>
         </table>
+        <div class="separador"></div>
+        <div class="separador-asesor">
+            <h5 class="text-center">Asesor en Línea</h5>
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+                <?php
+                $totalPorFunciones = [1, 1, 1]; // Ejemplo de datos
+                $totalFunciones = array_sum($totalPorFunciones);
+
+                $totalPorDominio = [1, 6, 1]; // Ejemplo de datos
+                $totalDomino = array_sum($totalPorDominio);
+
+                $totalPorR1 = [1, 1, 7]; // Ejemplo de datos
+                $totalR1 = array_sum($totalPorR1);
+
+                $totalPorR2 = [9, 1, 1]; // Ejemplo de datos
+                $totalR2 = array_sum($totalPorR2);
+
+                $totalPorR3 = [1, 1, 1]; // Ejemplo de datos
+                $totalR3 = array_sum($totalPorR3);
+
+                $totalPorR4 = [2, 2, 2]; // Ejemplo de datos
+                $totalR4 = array_sum($totalPorR4);
+
+                $totalPorR5 = [3, 3, 3]; // Ejemplo de datos
+                $totalR5 = array_sum($totalPorR5);
+
+                $totalPorR6 = [4, 4, 4]; // Ejemplo de datos
+                $totalR6 = array_sum($totalPorR6);
+
+                $totalPorR7 = [5, 5, 5]; // Ejemplo de datos
+                $totalR7 = array_sum($totalPorR7);
+
+                $totalPorR8 = [6, 6, 6]; // Ejemplo de datos
+                $totalR8 = array_sum($totalPorR8);
+
+                $totalPorR9 = [7, 7, 7]; // Ejemplo de datos
+                $totalR9 = array_sum($totalPorR9);
+
+                $totalPorOportunidad = [1, 1, 1]; // Ejemplo de datos
+                $totalOportunidad = array_sum($totalPorOportunidad);
+
+                $totalPorCalidad = [1, 1, 1]; // Ejemplo de datos
+                $totalCalidad = array_sum($totalPorCalidad);
+
+                $data = [
+                    ["Funciones del Asesor en Línea:", $totalPorFunciones, $totalFunciones],
+                    ["-Dominio y desempeño del asesor:", $totalPorDominio, $totalDomino],
+                    ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:", $totalPorR1, $totalR1],
+                    ["Dominio disciplinar por parte del profesor en la asignatura:", $totalPorR2, $totalR2],
+                    ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:", $totalPorR3, $totalR3],
+                    ["-Oportunidad en la retroalimentación y respuestas:", $totalPorOportunidad, $totalOportunidad],
+                    ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:", $totalPorR4, $totalR4],
+                    ["Prontitud de tu asesor en respuesta o aportación en los foros:", $totalPorR5, $totalR5],
+                    ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:", $totalPorR6, $totalR6],
+                    ["-Calidad de retroalimentación y respuesta:", $totalPorCalidad, $totalCalidad],
+                    ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:", $totalPorR7, $totalR7],
+                    ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:", $totalPorR8, $totalR8],
+                    ["Promoción por parte del asesor en argumentar las patticipaciones en base a los comentarios", $totalPorR9, $totalR9]
+                ];
+            
+                // Generar las filas de la tabla
+                foreach ($data as $row) {
+                    echo "<tr>";
+                    for ($i = 0; $i < count($header); $i++) {
+                        echo "<td style='width: {$anchoColumnas[$i]}px;'>";
+                        if ($i == 0) {
+                            echo $row[0];
+                        } elseif ($i <= count($row[1])) {
+                            echo $row[1][$i - 1];
+                        } else {
+                            echo $row[2];
+                        }
+                        echo "</td>";
+                    }
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        <div class="separador-disenio">
+            <h5 class="text-center">Diseño del Curso</h5>
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+                <?php
+                $totalPorFunciones = [1, 1, 1]; // Ejemplo de datos
+                $totalFunciones = array_sum($totalPorFunciones);
+
+                $totalPorDominio = [1, 6, 1]; // Ejemplo de datos
+                $totalDomino = array_sum($totalPorDominio);
+
+                $totalPorR1 = [1, 1, 7]; // Ejemplo de datos
+                $totalR1 = array_sum($totalPorR1);
+
+                $totalPorR2 = [9, 1, 1]; // Ejemplo de datos
+                $totalR2 = array_sum($totalPorR2);
+
+                $totalPorR3 = [1, 1, 1]; // Ejemplo de datos
+                $totalR3 = array_sum($totalPorR3);
+
+                $totalPorR4 = [2, 2, 2]; // Ejemplo de datos
+                $totalR4 = array_sum($totalPorR4);
+
+                $totalPorR5 = [3, 3, 3]; // Ejemplo de datos
+                $totalR5 = array_sum($totalPorR5);
+
+                $totalPorR6 = [4, 4, 4]; // Ejemplo de datos
+                $totalR6 = array_sum($totalPorR6);
+
+                $totalPorR7 = [5, 5, 5]; // Ejemplo de datos
+                $totalR7 = array_sum($totalPorR7);
+
+                $totalPorR8 = [6, 6, 6]; // Ejemplo de datos
+                $totalR8 = array_sum($totalPorR8);
+
+                $totalPorR9 = [7, 7, 7]; // Ejemplo de datos
+                $totalR9 = array_sum($totalPorR9);
+
+                $totalPorOportunidad = [1, 1, 1]; // Ejemplo de datos
+                $totalOportunidad = array_sum($totalPorOportunidad);
+
+                $totalPorCalidad = [1, 1, 1]; // Ejemplo de datos
+                $totalCalidad = array_sum($totalPorCalidad);
+
+                $data = [
+                    ["Funciones del Asesor en Línea:", $totalPorFunciones, $totalFunciones],
+                    ["-Dominio y desempeño del asesor:", $totalPorDominio, $totalDomino],
+                    ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:", $totalPorR1, $totalR1],
+                    ["Dominio disciplinar por parte del profesor en la asignatura:", $totalPorR2, $totalR2],
+                    ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:", $totalPorR3, $totalR3],
+                    ["-Oportunidad en la retroalimentación y respuestas:", $totalPorOportunidad, $totalOportunidad],
+                    ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:", $totalPorR4, $totalR4],
+                    ["Prontitud de tu asesor en respuesta o aportación en los foros:", $totalPorR5, $totalR5],
+                    ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:", $totalPorR6, $totalR6],
+                    ["-Calidad de retroalimentación y respuesta:", $totalPorCalidad, $totalCalidad],
+                    ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:", $totalPorR7, $totalR7],
+                    ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:", $totalPorR8, $totalR8],
+                    ["Promoción por parte del asesor en argumentar las patticipaciones en base a los comentarios", $totalPorR9, $totalR9]
+                ];
+            
+                // Generar las filas de la tabla
+                foreach ($data as $row) {
+                    echo "<tr>";
+                    for ($i = 0; $i < count($header); $i++) {
+                        echo "<td style='width: {$anchoColumnas[$i]}px;'>";
+                        if ($i == 0) {
+                            echo $row[0];
+                        } elseif ($i <= count($row[1])) {
+                            echo $row[1][$i - 1];
+                        } else {
+                            echo $row[2];
+                        }
+                        echo "</td>";
+                    }
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        <div class="separador"></div>
     </div>
 
     <script src="./../js/bootstrap.bundle.min.js"></script>
@@ -198,39 +438,6 @@ if (isset($_GET['anio'])) {
         $texto = mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
         return $texto;
     }
-    /*
-    foreach($idgrupos as $idgrupo){
-                    $consulta = $conn->prepare("SELECT COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo GROUP BY id_grupo");
-                    $consulta->bindParam(':numcontrol', $numcontrol);
-                    $consulta->bindParam(':id_grupo', $idgrupo);
-                    $consulta->execute();
-                    $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-                    $data = [];
-                    foreach ($res as $fila) {
-                        $data[] = [$fila['total_grupo']];
-                    }
-
-                    $total = 0;
-                    foreach ($data as $row) {
-                        $total += $row[0];
-                    }
-
-                    $data[] = [$total];
-
-                    echo "<tr>";
-                    for ($i = 0; $i < count($header); $i++) {
-                        echo "<td style='width: {$anchoColumnas[$i]}px;'>";
-                        if ($i == 0) {
-                            echo $header[$i];
-                        } else {
-                            echo $data[$i - 1][0];
-                        }
-                        echo "</td>";
-                    }
-                    echo "</tr>";
-                }
-    */
     ?>
 </body>
 </html>
