@@ -146,7 +146,7 @@ class PDF extends FPDF{
     }
 
     //
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1) {
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22) {
         // Configuración inicial de colores, ancho de línea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -193,20 +193,20 @@ class PDF extends FPDF{
         $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $r1,['aaa'], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $r2,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $r3,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta o aportación en los foros:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:"], $r4,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta o aportación en los foros:"], $r5,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:"], $r6,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Calidad de retroalimentación y respuesta:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:"], $r7,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:"], $r8,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios:"], $r9,[0], $numGrupos, true);
         //
         $this->Separador();
         $this->SeparadorT($texto = 'Diseño del Curso', [255, 241, 204]);
@@ -215,27 +215,27 @@ class PDF extends FPDF{
         $this->addTable($anchoColumnas, ["-Diseño del Curso en claridad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ["-Diseño del curso en calidad de contenidos"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Calidad de contenidos temáticos incluidos en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Carga horaria declarada para este curso:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades de aprendizaje en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Calidad de contenidos temáticos incluidos en el curso:"], $r10,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Carga horaria declarada para este curso:"], $r11,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades de aprendizaje en el curso:"], $r12,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Variedad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Variedad de contenidos temáticos incluidos en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Variedad de contenidos temáticos incluidos en el curso:"], $r13,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:"], $r14,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Nivel de autonomía:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Los materiales incluídos en el curso te permitieron aprender por si mismo(a) estímulando el interés por investigar y profundizar en conocimientos nuevos:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos curriculares de la materia:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Los materiales incluídos en el curso te permitieron aprender por si mismo(a) estímulando el interés por investigar y profundizar en conocimientos nuevos:"], $r15,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos curriculares de la materia:"], $r16,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Evaluación de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ["-Utilidad de las herramientas de la plataforma Moodle:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ["-Diseño Gráfico del curso:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Colores:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Ilustraciones(imágenes, Logotipos):"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Tamaño y tipo de letra:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Colores:"], $r17,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Ilustraciones(imágenes, Logotipos):"], $r18,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Tamaño y tipo de letra:"], $r19,[0], $numGrupos, true);
     }
     
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -256,12 +256,12 @@ class PDF extends FPDF{
         }
 
         foreach($total as $j => $titulo) {
-            // Celda vacía para el total (ajustar según sea necesario)
+            // Celda vacía para $total
             $this->Cell($anchoColumnas[$numGrupos + 1], 6, $titulo, 'LR', 0, 'L', $j % 2 == 0);
             $this->Ln();
         }
     
-        // Línea de cierre de la tabla adicional
+        // Línea de cierre
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
     }
@@ -367,48 +367,43 @@ for ($i = 0; $i < $numGrupos; $i++) {
 $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
 //
 // 
-$r1 = [];
-foreach ($idgrupos as $id_grupo) {
-    // Preparar y ejecutar la consulta
-    $consulta = $conn->prepare("SELECT r1 FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo");
-    $consulta->bindParam(':numcontrol', $numcontrol);
-    $consulta->bindParam(':id_grupo', $id_grupo);
-    $consulta->execute();
 
-    // Inicializar la suma para este grupo
-    $sum = 0;
 
-    // Obtener los resultados y sumar r1
-    $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($res as $row) {
-        $sum += $row['r1'];
-    }
-
-    // Almacenar la suma en el array $r1
-    $r1[] = $sum;
-}
-$consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol ORDER BY id_grupo DESC");
+$consulta = $conn->prepare("SELECT SUM(r1) AS totalr1, SUM(r2) AS totalr2, SUM(r3) AS totalr3, SUM(r4) AS totalr4, SUM(r5) AS totalr5, SUM(r6) AS totalr6, SUM(r7) AS totalr7, SUM(r8) AS totalr8, SUM(r9) AS totalr9, SUM(r10) AS totalr10, SUM(r11) AS totalr11, SUM(r12) AS totalr12, SUM(r13) AS totalr13, SUM(r14) AS totalr14, SUM(r15) AS totalr15, SUM(r16) AS totalr16, SUM(r17) AS totalr17, SUM(r18) AS totalr18, SUM(r19) AS totalr19, SUM(r20) AS totalr20, SUM(r22) AS totalr22
+FROM preguntav
+WHERE numcontrol = :numcontrol
+GROUP BY id_grupo
+ORDER BY id_grupo DESC");
 $consulta->bindParam(':numcontrol', $numcontrol);
 $consulta->execute();
-$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+$resSum = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-// Inicializar un array para almacenar las sumas por grupo
-$sumaR1 = [];
-
-// Procesar los resultados
-foreach ($res as $row) {
-    $id_grupo = $row['id_grupo'];
-    $r1 = $row['r1'];
-
-    if (!isset($sumaR1[$id_grupo])) {
-        $sumaR1[$id_grupo] = 0;
-    }
-
-    $sumaR1[$id_grupo] += $r1;
+foreach ($resSum as $sum){
+    $r1[] = $sum['totalr1'] ?? 0;
+    $r2[] = $sum['totalr2'] ?? 0;
+    $r3[] = $sum['totalr3'] ?? 0;
+    $r4[] = $sum['totalr4'] ?? 0;
+    $r5[] = $sum['totalr5'] ?? 0;
+    $r6[] = $sum['totalr6'] ?? 0;
+    $r7[] = $sum['totalr7'] ?? 0;
+    $r8[] = $sum['totalr8'] ?? 0;
+    $r9[] = $sum['totalr9'] ?? 0;
+    $r10[] = $sum['totalr10'] ?? 0;
+    $r11[] = $sum['totalr11'] ?? 0;
+    $r12[] = $sum['totalr12'] ?? 0;
+    $r13[] = $sum['totalr13'] ?? 0;
+    $r14[] = $sum['totalr14'] ?? 0;
+    $r15[] = $sum['totalr15'] ?? 0;
+    $r16[] = $sum['totalr16'] ?? 0;
+    $r17[] = $sum['totalr17'] ?? 0;
+    $r18[] = $sum['totalr18'] ?? 0;
+    $r19[] = $sum['totalr19'] ?? 0;
+    $r20[] = $sum['totalr20'] ?? 0;
+    $r22[] = $sum['totalr22'] ?? 0;
 }
 
 // Crear el PDF
-$pdf = new PDF();
+$pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
@@ -416,7 +411,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Separador();
 $pdf->TablaInicio($dataFromDb);
 $pdf->Separador();
-$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1);
+$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22);
 $pdf->Separador();
 
 $nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
