@@ -182,9 +182,17 @@ class PDF extends FPDF{
         $tr1 = number_format((array_sum($r1) / $aux) , 1);
         $tr2 = number_format((array_sum($r2) / $aux) , 1);
         $tr3 = number_format((array_sum($r3) / $aux) , 1);
+        
+        $sumDom = array_merge($r1, $r2, $r3);
+        $dom = number_format(( array_sum($sumDom) / count($sumDom)) , 1); //Este tiene que ser el promedio correcto
+
         $tr4 = number_format((array_sum($r4) / $aux) , 1);
         $tr5 = number_format((array_sum($r5) / $aux) , 1);
         $tr6 = number_format((array_sum($r6) / $aux) , 1);
+        $sumDom1 = array_merge($r4, $r5, $r6);
+        $dom1 = number_format(( array_sum($sumDom1) / count($sumDom1)) , 1); //Este tiene que ser el promedio correcto
+
+
         $tr7 = number_format((array_sum($r7) / $aux) , 1);
         $tr8 = number_format((array_sum($r8) / $aux) , 1);
         $tr9 = number_format((array_sum($r9) / $aux) , 1);
@@ -201,12 +209,12 @@ class PDF extends FPDF{
         $tr20 = number_format((array_sum($r20) / $aux) , 1);
         $tr21 = number_format((array_sum($r21) / $aux) , 1);
         
-        $
+        
 
         $totalInstrumentos = array_sum($totalPorGrupo);
         // Función auxiliar para agregar tablas adicionales
         $this->addTable($anchoColumnas, ['Estudiantes participantes:'], $totalPorGrupo, [array_sum($totalPorGrupo)], $numGrupos);
-        $this->addTable($anchoColumnas, ['Satisfacción de desempeño:'], $totalPorGrupo,[0], $numGrupos, true , [255, 255, 255]);
+        $this->addTable($anchoColumnas, ['Satisfacción de desempeño:'], $totalPorGrupo,[$numGrupos], $numGrupos, true , [255, 255, 255]);
         $this->addTable($anchoColumnas, ['Expectativas cubiertas del curso:'], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ['Asesor en Línea (índice Global):'], [],[0], $numGrupos, true, [225, 238, 218]); // Verde
         $this->addTable($anchoColumnas, ['Diseño del Curso (índice Global):'], [],[0], $numGrupos, true, [255, 241, 204]); // Amarillo
@@ -215,13 +223,13 @@ class PDF extends FPDF{
         $this->SeparadorT($texto = 'Asesor en Línea', [225, 238, 218]);
         $this->addTable($anchoColumnas, ["Funciones del Asesor en Línea:"], $totalPorGrupo,[0], $numGrupos, true, [217, 217, 217]);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $dom,[$dom], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $r1,[$tr1], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $r2,[$tr2], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $r3,[$tr3], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], $dom1,[$dom1], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:"], $r4,[$tr4], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta o aportación en los foros:"], $r5,[$tr5], $numGrupos, true);
@@ -406,28 +414,29 @@ $resSum = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 $totalInstrumentos = array_sum($totalPorGrupo);
 $aux = 0;
+
 foreach ($resSum as $sum){
-    $r1[] = number_format(($sum['totalr1'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r2[] = number_format(($sum['totalr2'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r3[] = number_format(($sum['totalr3'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r4[] = number_format(($sum['totalr4'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r5[] = number_format(($sum['totalr5'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r6[] = number_format(($sum['totalr6'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r7[] = number_format(($sum['totalr7'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r8[] = number_format(($sum['totalr8'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r9[] = number_format(($sum['totalr9'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r10[] = number_format(($sum['totalr10'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r11[] = number_format(($sum['totalr11'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r12[] = number_format(($sum['totalr12'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r13[] = number_format(($sum['totalr13'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r14[] = number_format(($sum['totalr14'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r15[] = number_format(($sum['totalr15'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r16[] = number_format(($sum['totalr16'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r17[] = number_format(($sum['totalr17'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r18[] = number_format(($sum['totalr18'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r19[] = number_format(($sum['totalr19'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r20[] = number_format(($sum['totalr20'] / $totalInstrumentos),2) * 10 ?? 0;
-    $r21[] = number_format(($sum['totalr22'] / $totalInstrumentos),2) * 10 ?? 0;
+    $r1[] = number_format(($sum['totalr1'] / $totalInstrumentos),2) * 10;
+    $r2[] = number_format(($sum['totalr2'] / $totalInstrumentos),2) * 10;
+    $r3[] = number_format(($sum['totalr3'] / $totalInstrumentos),2) * 10;
+    $r4[] = number_format(($sum['totalr4'] / $totalInstrumentos),2) * 10;
+    $r5[] = number_format(($sum['totalr5'] / $totalInstrumentos),2) * 10;
+    $r6[] = number_format(($sum['totalr6'] / $totalInstrumentos),2) * 10;
+    $r7[] = number_format(($sum['totalr7'] / $totalInstrumentos),2) * 10;
+    $r8[] = number_format(($sum['totalr8'] / $totalInstrumentos),2) * 10;
+    $r9[] = number_format(($sum['totalr9'] / $totalInstrumentos),2) * 10;
+    $r10[] = number_format(($sum['totalr10'] / $totalInstrumentos),2) * 10;
+    $r11[] = number_format(($sum['totalr11'] / $totalInstrumentos),2) * 10;
+    $r12[] = number_format(($sum['totalr12'] / $totalInstrumentos),2) * 10;
+    $r13[] = number_format(($sum['totalr13'] / $totalInstrumentos),2) * 10;
+    $r14[] = number_format(($sum['totalr14'] / $totalInstrumentos),2) * 10;
+    $r15[] = number_format(($sum['totalr15'] / $totalInstrumentos),2) * 10;
+    $r16[] = number_format(($sum['totalr16'] / $totalInstrumentos),2) * 10;
+    $r17[] = number_format(($sum['totalr17'] / $totalInstrumentos),2) * 10;
+    $r18[] = number_format(($sum['totalr18'] / $totalInstrumentos),2) * 10;
+    $r19[] = number_format(($sum['totalr19'] / $totalInstrumentos),2) * 10;
+    $r20[] = number_format(($sum['totalr20'] / $totalInstrumentos),2) * 10;
+    $r21[] = number_format(($sum['totalr22'] / $totalInstrumentos),2) * 10;
     $aux++;
 }
 
