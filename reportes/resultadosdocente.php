@@ -15,7 +15,7 @@
     }
     </style>
 </head>
-<body>
+<body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
     <div class="container textB">
         <h1 style="text-align: center;" class="mt-3 mb-3"><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/encuesta_f.png" alt="ubicacion" class="img-fluid icon alin" style="width: 64px; height: 64px;">Resultados del Docente</h1>
@@ -289,18 +289,6 @@
         </div>
     -->
     <script>
-        
-
-        fetch('./../templates/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('headerContainer').innerHTML = data;
-            });
-        fetch('./templates/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footerContainer').innerHTML = data;
-            });
             //
             document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.querySelectorAll('.consultar-reporte');
@@ -319,6 +307,7 @@
 //
 
     </script>
-    <script src="./../js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
 </body>
 </html>

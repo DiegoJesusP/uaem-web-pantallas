@@ -1,4 +1,4 @@
-fetch('http://localhost/ejemplo/uaem-web-pantallas/templates/nav.html')
+fetch('./templates/nav.php')
 .then(response => response.text())
 .then(data => {
     document.getElementById('navContainer').innerHTML = data;
