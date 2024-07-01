@@ -146,7 +146,7 @@ class PDF extends FPDF{
     }
 
     //
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo) {
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1) {
         // Configuración inicial de colores, ancho de línea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -192,7 +192,7 @@ class PDF extends FPDF{
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $r1,['aaa'], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
@@ -322,7 +322,11 @@ foreach ($resultado as $fila) {
 }
 
 // Consulta SQL para obtener el total por grupo
-$consulta = $conn->prepare("SELECT COUNT(*) AS total_grupo FROM preguntav WHERE numcontrol = :numcontrol GROUP BY id_grupo");
+$consulta = $conn->prepare("SELECT id_grupo, COUNT(*) AS total_grupo 
+FROM preguntav 
+WHERE numcontrol = :numcontrol 
+GROUP BY id_grupo 
+ORDER BY id_grupo DESC");
 $consulta->bindParam(':numcontrol', $numcontrol);
 $consulta->execute();
 $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -331,7 +335,10 @@ $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
 $totalPorGrupo = array_column($res, 'total_grupo');
 
 // Consulta SQL para obtener grupos distintos
-$consulta = $conn->prepare("SELECT DISTINCT grupo, semestre, id_grupo FROM virtuales WHERE numcontrol = :numcontrol");
+$consulta = $conn->prepare("SELECT DISTINCT grupo, semestre, id_grupo 
+FROM virtuales 
+WHERE numcontrol = :numcontrol 
+ORDER BY id_grupo DESC");
 $consulta->bindParam(':numcontrol', $numcontrol);
 $consulta->execute();
 $resultadosGrupos = $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -358,6 +365,47 @@ for ($i = 0; $i < $numGrupos; $i++) {
     $anchoColumnas[] = $anchoGrupos;
 }
 $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
+//
+// 
+$r1 = [];
+foreach ($idgrupos as $id_grupo) {
+    // Preparar y ejecutar la consulta
+    $consulta = $conn->prepare("SELECT r1 FROM preguntav WHERE numcontrol = :numcontrol AND id_grupo = :id_grupo");
+    $consulta->bindParam(':numcontrol', $numcontrol);
+    $consulta->bindParam(':id_grupo', $id_grupo);
+    $consulta->execute();
+
+    // Inicializar la suma para este grupo
+    $sum = 0;
+
+    // Obtener los resultados y sumar r1
+    $res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($res as $row) {
+        $sum += $row['r1'];
+    }
+
+    // Almacenar la suma en el array $r1
+    $r1[] = $sum;
+}
+$consulta = $conn->prepare("SELECT * FROM preguntav WHERE numcontrol = :numcontrol ORDER BY id_grupo DESC");
+$consulta->bindParam(':numcontrol', $numcontrol);
+$consulta->execute();
+$res = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+// Inicializar un array para almacenar las sumas por grupo
+$sumaR1 = [];
+
+// Procesar los resultados
+foreach ($res as $row) {
+    $id_grupo = $row['id_grupo'];
+    $r1 = $row['r1'];
+
+    if (!isset($sumaR1[$id_grupo])) {
+        $sumaR1[$id_grupo] = 0;
+    }
+
+    $sumaR1[$id_grupo] += $r1;
+}
 
 // Crear el PDF
 $pdf = new PDF();
@@ -368,12 +416,12 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Separador();
 $pdf->TablaInicio($dataFromDb);
 $pdf->Separador();
-$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo);
+$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $r1);
 $pdf->Separador();
 
-//$nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
+$nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
 //$nombreArchivo, "D"
-$pdf->Output();
+$pdf->Output($nombreArchivo, "I");
 
 ?>
 
