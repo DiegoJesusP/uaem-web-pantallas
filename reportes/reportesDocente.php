@@ -206,10 +206,36 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:"], $totalPorGrupo,[0], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios:"], $totalPorGrupo,[0], $numGrupos, true);
         //
         $this->Separador();
         $this->SeparadorT($texto = 'Diseño del Curso', [255, 241, 204]);
+        $this->addTable($anchoColumnas, ["Diseño y Calidad del Curso:"], $totalPorGrupo,[0], $numGrupos, true, [217, 217, 217]);
+        $this->SetFont('Arial', 'B', 10);
+        $this->addTable($anchoColumnas, ["-Diseño del Curso en claridad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Diseño del curso en calidad de contenidos"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', '', 10);
+        $this->addTable($anchoColumnas, ["Calidad de contenidos temáticos incluidos en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Carga horaria declarada para este curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades de aprendizaje en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', 'B', 10);
+        $this->addTable($anchoColumnas, ["-Variedad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', '', 10);
+        $this->addTable($anchoColumnas, ["Variedad de contenidos temáticos incluidos en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', 'B', 10);
+        $this->addTable($anchoColumnas, ["-Nivel de autonomía:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', '', 10);
+        $this->addTable($anchoColumnas, ["Los materiales incluídos en el curso te permitieron aprender por si mismo(a) estímulando el interés por investigar y profundizar en conocimientos nuevos:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos curriculares de la materia:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', 'B', 10);
+        $this->addTable($anchoColumnas, ["-Evaluación de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Utilidad de las herramientas de la plataforma Moodle:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Diseño Gráfico del curso:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->SetFont('Arial', '', 10);
+        $this->addTable($anchoColumnas, ["Colores:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Ilustraciones(imágenes, Logotipos):"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Tamaño y tipo de letra:"], $totalPorGrupo,[0], $numGrupos, true);
     }
     
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
