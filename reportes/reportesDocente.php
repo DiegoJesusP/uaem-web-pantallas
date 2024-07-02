@@ -146,7 +146,7 @@ class PDF extends FPDF{
     }
 
     //
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r21) {
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r1P, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22) {
         // Configuración inicial de colores, ancho de línea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -178,64 +178,91 @@ class PDF extends FPDF{
         // Línea de cierre de la tabla principal
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
-        
-        $tr1 = number_format((array_sum($r1) / $aux) , 1);
-        $tr2 = number_format((array_sum($r2) / $aux) , 1);
-        $tr3 = number_format((array_sum($r3) / $aux) , 1);
-        
-        $sumDom = array_merge($r1, $r2, $r3);
+
+
+        $tr1 = number_format((array_sum($r1) / $aux) , 1); // Satisfacción de desempeño promedio por pregunta
+        $tr22 = number_format((array_sum($r22) / $aux) , 1);
+
+        $asesor = array_merge($r7, $r8, $r10, $r2, $r4, $r9, $r3, $r5, $r6);
+        $asesorL = number_format(( array_sum($asesor) / count($asesor)) , 1);
+
+        $tr7 = number_format((array_sum($r7) / $aux) , 1); // es la p1
+        $tr8 = number_format((array_sum($r8) / $aux) , 1); // es la p2
+        $tr10 = number_format((array_sum($r10) / $aux) , 1); // es la p3
+        $sumDom = array_merge($r7, $r8, $r10);
         $dom = number_format(( array_sum($sumDom) / count($sumDom)) , 1); //Este tiene que ser el promedio correcto
 
-        $tr4 = number_format((array_sum($r4) / $aux) , 1);
-        $tr5 = number_format((array_sum($r5) / $aux) , 1);
-        $tr6 = number_format((array_sum($r6) / $aux) , 1);
-        $sumDom1 = array_merge($r4, $r5, $r6);
+        $tr2 = number_format((array_sum($r2) / $aux) , 1); // es la p4
+        $tr4 = number_format((array_sum($r4) / $aux) , 1); // es la p5
+        $tr9 = number_format((array_sum($r9) / $aux) , 1); // es la p6
+        $sumDom1 = array_merge($r2, $r4, $r9);
         $dom1 = number_format(( array_sum($sumDom1) / count($sumDom1)) , 1); //Este tiene que ser el promedio correcto
 
+        $tr3 = number_format((array_sum($r3) / $aux) , 1); // es la p7
+        $tr5 = number_format((array_sum($r5) / $aux) , 1); // es la p8
+        $tr6 = number_format((array_sum($r6) / $aux) , 1); // es la p9
+        $sumDom2 = array_merge($r3, $r5, $r6);
+        $dom2 = number_format(( array_sum($sumDom2) / count($sumDom2)) , 1); //Este tiene que ser el promedio correcto
 
-        $tr7 = number_format((array_sum($r7) / $aux) , 1);
-        $tr8 = number_format((array_sum($r8) / $aux) , 1);
-        $tr9 = number_format((array_sum($r9) / $aux) , 1);
-        $tr10 = number_format((array_sum($r10) / $aux) , 1);
+        //-------
+
+        $diseno = array_merge($r12, $r18, $r15, $r13, $r17, $r16, $r20);
+        $disenoC = number_format(( array_sum($diseno) / count($diseno)) , 1);
+
+        $tr12 = number_format((array_sum($r12) / $aux) , 1); // es la p10 --Diseño del curso
+        $tr18 = number_format((array_sum($r18) / $aux) , 1); // es la p11 --Diseño del curso
+        $tr15 = number_format((array_sum($r15) / $aux) , 1); // es la p12 --Diseño del curso
+        $sumDom3 = array_merge($r12, $r18, $r15);
+        $dom3 = number_format(( array_sum($sumDom3) / count($sumDom3)) , 1); //Este tiene que ser el promedio correcto
+
+        $tr13 = number_format((array_sum($r13) / $aux) , 1); // es la p13 --Diseño del curso
+        $tr17 = number_format((array_sum($r17) / $aux) , 1); // es la p14 --Diseño del curso
+        $sumDom4 = array_merge($r13, $r17);
+        $dom4 = number_format(( array_sum($sumDom4) / count($sumDom4)) , 1); //Este tiene que ser el promedio correcto
+
+        $tr16 = number_format((array_sum($r16) / $aux) , 1); // es la p15 --Diseño del curso
+        $tr20 = number_format((array_sum($r20) / $aux) , 1); // es la p16 --Diseño del curso
+        $sumDom5 = array_merge($r16, $r20);
+        $dom5 = number_format(( array_sum($sumDom5) / count($sumDom5)) , 1); //Este tiene que ser el promedio correcto
+
+
         $tr11 = number_format((array_sum($r11) / $aux) , 1);
-        $tr12 = number_format((array_sum($r12) / $aux) , 1);
-        $tr13 = number_format((array_sum($r13) / $aux) , 1);
-        $tr14 = number_format((array_sum($r14) / $aux) , 1);
-        $tr15 = number_format((array_sum($r15) / $aux) , 1);
-        $tr16 = number_format((array_sum($r16) / $aux) , 1);
-        $tr17 = number_format((array_sum($r17) / $aux) , 1);
-        $tr18 = number_format((array_sum($r18) / $aux) , 1);
+        $tr14 = number_format((array_sum($r14) / $aux) , 1); //utilidad de herramientas Moddle
         $tr19 = number_format((array_sum($r19) / $aux) , 1);
-        $tr20 = number_format((array_sum($r20) / $aux) , 1);
-        $tr21 = number_format((array_sum($r21) / $aux) , 1);
-        
+
+        //die;o grafico -colores, ilustracion - tama;o de letra //FALTA
+        // 22 expectativas cubiertas del curso
+
+        $Promedio = array_merge($asesor, $diseno);
+        $PromedioT = number_format(( array_sum($Promedio) / count($Promedio)) , 1);
+
         
 
         $totalInstrumentos = array_sum($totalPorGrupo);
         // Función auxiliar para agregar tablas adicionales
-        $this->addTable($anchoColumnas, ['Estudiantes participantes:'], $totalPorGrupo, [array_sum($totalPorGrupo)], $numGrupos);
-        $this->addTable($anchoColumnas, ['Satisfacción de desempeño:'], $totalPorGrupo,[$numGrupos], $numGrupos, true , [255, 255, 255]);
-        $this->addTable($anchoColumnas, ['Expectativas cubiertas del curso:'], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ['Asesor en Línea (índice Global):'], [],[0], $numGrupos, true, [225, 238, 218]); // Verde
-        $this->addTable($anchoColumnas, ['Diseño del Curso (índice Global):'], [],[0], $numGrupos, true, [255, 241, 204]); // Amarillo
-        //
+        $this->addTable($anchoColumnas, ['Estudiantes participantes:'], $totalPorGrupo, [array_sum($totalPorGrupo)], $numGrupos, true);
+        $this->addTable($anchoColumnas, ['Satisfacción de desempeño:'], $r1,[$tr1], $numGrupos, true , [255, 255, 255]);
+        $this->addTable($anchoColumnas, ['Expectativas cubiertas del curso:'], $r22,[$tr22], $numGrupos, true);
+        $this->addTable($anchoColumnas, ['Asesor en Línea (índice Global):'], [],[$asesorL], $numGrupos, true, [225, 238, 218]); // Verde
+        $this->addTable($anchoColumnas, ['Diseño del Curso (índice Global):'], [],[$disenoC], $numGrupos, true, [255, 241, 204]); // Amarillo
+        //$r7, $r8, $r10, $r2, $r4, $r9, $r3, $r5, $r6
         $this->Separador();
         $this->SeparadorT($texto = 'Asesor en Línea', [225, 238, 218]);
-        $this->addTable($anchoColumnas, ["Funciones del Asesor en Línea:"], $totalPorGrupo,[0], $numGrupos, true, [217, 217, 217]);
+        $this->addTable($anchoColumnas, ["Funciones del Asesor en Línea:"], $totalPorGrupo,[$asesorL], $numGrupos, true, [217, 217, 217]);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $dom,[$dom], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $sumDom,[$dom], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $r1,[$tr1], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $r2,[$tr2], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $r3,[$tr3], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], $dom1,[$dom1], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], [$dom1],[$dom1], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:"], $r4,[$tr4], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta o aportación en los foros:"], $r5,[$tr5], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:"], $r6,[$tr6], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Calidad de retroalimentación y respuesta:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Calidad de retroalimentación y respuesta:"], $totalPorGrupo,[$dom2], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:"], $r7,[$tr7], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:"], $r8,[$tr8], $numGrupos, true);
@@ -244,21 +271,20 @@ class PDF extends FPDF{
 
         $this->Separador();
         $this->SeparadorT($texto = 'Diseño del Curso', [255, 241, 204]);
-        $this->addTable($anchoColumnas, ["Diseño y Calidad del Curso:"], $totalPorGrupo,[0], $numGrupos, true, [217, 217, 217]);
+        $this->addTable($anchoColumnas, ["Diseño y Calidad del Curso:"], $totalPorGrupo,[$disenoC], $numGrupos, true, [217, 217, 217]);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Diseño del Curso en claridad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["-Diseño del curso en calidad de contenidos"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Diseño del Curso en claridad de contenidos:"], $totalPorGrupo,[$dom3], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Calidad de contenidos temáticos incluidos en el curso:"], $r10,[$tr10], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Carga horaria declarada para este curso:"], $r11,[$tr11], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades de aprendizaje en el curso:"], $r12,[$tr12], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Variedad de contenidos:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Variedad de contenidos:"], $totalPorGrupo,[$dom4], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Variedad de contenidos temáticos incluidos en el curso:"], $r13,[$tr13], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:"], $r14,[$tr14], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
-        $this->addTable($anchoColumnas, ["-Nivel de autonomía:"], $totalPorGrupo,[0], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["-Nivel de autonomía:"], $totalPorGrupo,[$dom5], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Los materiales incluídos en el curso te permitieron aprender por si mismo(a) estímulando el interés por investigar y profundizar en conocimientos nuevos:"], $r15,[$tr15], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos curriculares de la materia:"], $r16,[$tr16], $numGrupos, true);
@@ -417,6 +443,7 @@ $aux = 0;
 
 foreach ($resSum as $sum){
     $r1[] = number_format(($sum['totalr1'] / $totalInstrumentos),2) * 10;
+    $r1P[] = $sum['totalr1'];
     $r2[] = number_format(($sum['totalr2'] / $totalInstrumentos),2) * 10;
     $r3[] = number_format(($sum['totalr3'] / $totalInstrumentos),2) * 10;
     $r4[] = number_format(($sum['totalr4'] / $totalInstrumentos),2) * 10;
@@ -436,7 +463,7 @@ foreach ($resSum as $sum){
     $r18[] = number_format(($sum['totalr18'] / $totalInstrumentos),2) * 10;
     $r19[] = number_format(($sum['totalr19'] / $totalInstrumentos),2) * 10;
     $r20[] = number_format(($sum['totalr20'] / $totalInstrumentos),2) * 10;
-    $r21[] = number_format(($sum['totalr22'] / $totalInstrumentos),2) * 10;
+    $r22[] = number_format(($sum['totalr22'] / $totalInstrumentos),2) * 10;
     $aux++;
 }
 
@@ -449,7 +476,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Separador();
 $pdf->TablaInicio($dataFromDb);
 $pdf->Separador();
-$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r21);
+$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r1P, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22);
 $pdf->Separador();
 
 $nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
