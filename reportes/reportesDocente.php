@@ -146,7 +146,7 @@ class PDF extends FPDF{
     }
 
     //
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r1P, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22) {
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $r11, $tr11, $r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r19, $tr19, $r20, $tr20, $r22, $tr22, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $asesor, $asesorL, $diseno, $disenoC) {
         // Configuración inicial de colores, ancho de línea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -178,65 +178,6 @@ class PDF extends FPDF{
         // Línea de cierre de la tabla principal
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
-
-
-        $tr1 = number_format((array_sum($r1) / $aux) , 1); // Satisfacción de desempeño promedio por pregunta
-        $tr22 = number_format((array_sum($r22) / $aux) , 1);
-
-        $asesor = array_merge($r7, $r8, $r10, $r2, $r4, $r9, $r3, $r5, $r6);
-        $asesorL = number_format(( array_sum($asesor) / count($asesor)) , 1);
-
-        $tr7 = number_format((array_sum($r7) / $aux) , 1); // es la p1
-        $tr8 = number_format((array_sum($r8) / $aux) , 1); // es la p2
-        $tr10 = number_format((array_sum($r10) / $aux) , 1); // es la p3
-        $sumDom = array_merge($r7, $r8, $r10);
-        $dom = number_format(( array_sum($sumDom) / count($sumDom)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr2 = number_format((array_sum($r2) / $aux) , 1); // es la p4
-        $tr4 = number_format((array_sum($r4) / $aux) , 1); // es la p5
-        $tr9 = number_format((array_sum($r9) / $aux) , 1); // es la p6
-        $sumDom1 = array_merge($r2, $r4, $r9);
-        $dom1 = number_format(( array_sum($sumDom1) / count($sumDom1)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr3 = number_format((array_sum($r3) / $aux) , 1); // es la p7
-        $tr5 = number_format((array_sum($r5) / $aux) , 1); // es la p8
-        $tr6 = number_format((array_sum($r6) / $aux) , 1); // es la p9
-        $sumDom2 = array_merge($r3, $r5, $r6);
-        $dom2 = number_format(( array_sum($sumDom2) / count($sumDom2)) , 1); //Este tiene que ser el promedio correcto
-
-        //-------
-
-        $diseno = array_merge($r12, $r18, $r15, $r13, $r17, $r16, $r20);
-        $disenoC = number_format(( array_sum($diseno) / count($diseno)) , 1);
-
-        $tr12 = number_format((array_sum($r12) / $aux) , 1); // es la p10 --Diseño del curso
-        $tr18 = number_format((array_sum($r18) / $aux) , 1); // es la p11 --Diseño del curso
-        $tr15 = number_format((array_sum($r15) / $aux) , 1); // es la p12 --Diseño del curso
-        $sumDom3 = array_merge($r12, $r18, $r15);
-        $dom3 = number_format(( array_sum($sumDom3) / count($sumDom3)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr13 = number_format((array_sum($r13) / $aux) , 1); // es la p13 --Diseño del curso
-        $tr17 = number_format((array_sum($r17) / $aux) , 1); // es la p14 --Diseño del curso
-        $sumDom4 = array_merge($r13, $r17);
-        $dom4 = number_format(( array_sum($sumDom4) / count($sumDom4)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr16 = number_format((array_sum($r16) / $aux) , 1); // es la p15 --Diseño del curso
-        $tr20 = number_format((array_sum($r20) / $aux) , 1); // es la p16 --Diseño del curso
-        $sumDom5 = array_merge($r16, $r20);
-        $dom5 = number_format(( array_sum($sumDom5) / count($sumDom5)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr14 = number_format((array_sum($r14) / $aux) , 1); //utilidad de herramientas Moddle
-        $sumDom6 = array_merge($r11);
-        $dom6 = number_format(( array_sum($sumDom6) / count($sumDom6)) , 1); //Este tiene que ser el promedio correcto
-
-        $tr11 = number_format((array_sum($r11) / $aux) , 1);
-        $tr19 = number_format((array_sum($r19) / $aux) , 1);
-
-        //die;o grafico -colores, ilustracion - tama;o de letra //FALTA
-        // 22 expectativas cubiertas del curso
-
-        $Promedio = array_merge($asesor, $diseno);
-        $PromedioT = number_format(( array_sum($Promedio) / count($Promedio)) , 1);
 
 
         $totalInstrumentos = array_sum($totalPorGrupo);
@@ -445,31 +386,32 @@ $resSum = $consulta->fetchAll(PDO::FETCH_ASSOC);
 $totalInstrumentos = array_sum($totalPorGrupo);
 $aux = 0;
 
-foreach ($resSum as $sum){
-    $r1[] = number_format(($sum['totalr1'] / $totalInstrumentos),2) * 10;
-    $r1P[] = $sum['totalr1'];
-    $r2[] = number_format(($sum['totalr2'] / $totalInstrumentos),2) * 10;
-    $r3[] = number_format(($sum['totalr3'] / $totalInstrumentos),2) * 10;
-    $r4[] = number_format(($sum['totalr4'] / $totalInstrumentos),2) * 10;
-    $r5[] = number_format(($sum['totalr5'] / $totalInstrumentos),2) * 10;
-    $r6[] = number_format(($sum['totalr6'] / $totalInstrumentos),2) * 10;
-    $r7[] = number_format(($sum['totalr7'] / $totalInstrumentos),2) * 10;
-    $r8[] = number_format(($sum['totalr8'] / $totalInstrumentos),2) * 10;
-    $r9[] = number_format(($sum['totalr9'] / $totalInstrumentos),2) * 10;
-    $r10[] = number_format(($sum['totalr10'] / $totalInstrumentos),2) * 10;
-    $r11[] = number_format(($sum['totalr11'] / $totalInstrumentos),2) * 10;
-    $r12[] = number_format(($sum['totalr12'] / $totalInstrumentos),2) * 10;
-    $r13[] = number_format(($sum['totalr13'] / $totalInstrumentos),2) * 10;
-    $r14[] = number_format(($sum['totalr14'] / $totalInstrumentos),2) * 10;
-    $r15[] = number_format(($sum['totalr15'] / $totalInstrumentos),2) * 10;
-    $r16[] = number_format(($sum['totalr16'] / $totalInstrumentos),2) * 10;
-    $r17[] = number_format(($sum['totalr17'] / $totalInstrumentos),2) * 10;
-    $r18[] = number_format(($sum['totalr18'] / $totalInstrumentos),2) * 10;
-    $r19[] = number_format(($sum['totalr19'] / $totalInstrumentos),2) * 10;
-    $r20[] = number_format(($sum['totalr20'] / $totalInstrumentos),2) * 10;
-    $r22[] = number_format(($sum['totalr22'] / $totalInstrumentos),2) * 10;
+foreach ($resSum as $index => $sum){
+    $valor = $totalPorGrupo[$index];
+    $r1[] = number_format(($sum['totalr1'] / $valor),2) * 10;
+    $r2[] = number_format(($sum['totalr2'] / $valor),2) * 10;
+    $r3[] = number_format(($sum['totalr3'] / $valor),2) * 10;
+    $r4[] = number_format(($sum['totalr4'] / $valor),2) * 10;
+    $r5[] = number_format(($sum['totalr5'] / $valor),2) * 10;
+    $r6[] = number_format(($sum['totalr6'] / $valor),2) * 10;
+    $r7[] = number_format(($sum['totalr7'] / $valor),2) * 10;
+    $r8[] = number_format(($sum['totalr8'] / $valor),2) * 10;
+    $r9[] = number_format(($sum['totalr9'] / $valor),2) * 10;
+    $r10[] = number_format(($sum['totalr10'] / $valor),2) * 10;
+    $r11[] = number_format(($sum['totalr11'] / $valor),2) * 10;
+    $r12[] = number_format(($sum['totalr12'] / $valor),2) * 10;
+    $r13[] = number_format(($sum['totalr13'] / $valor),2) * 10;
+    $r14[] = number_format(($sum['totalr14'] / $valor),2) * 10;
+    $r15[] = number_format(($sum['totalr15'] / $valor),2) * 10;
+    $r16[] = number_format(($sum['totalr16'] / $valor),2) * 10;
+    $r17[] = number_format(($sum['totalr17'] / $valor),2) * 10;
+    $r18[] = number_format(($sum['totalr18'] / $valor),2) * 10;
+    $r19[] = number_format(($sum['totalr19'] / $valor),2) * 10;
+    $r20[] = number_format(($sum['totalr20'] / $valor),2) * 10;
+    $r22[] = number_format(($sum['totalr22'] / $valor),2) * 10;
     $aux++;
 }
+
 
 $tr1 = number_format((array_sum($r1) / $aux) , 1); // Satisfacción de desempeño promedio por pregunta
         $tr22 = number_format((array_sum($r22) / $aux) , 1);
@@ -538,7 +480,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->Separador();
 $pdf->TablaInicio($dataFromDb, $PromedioT);
 $pdf->Separador();
-$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $r1P, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12, $r13, $r14, $r15, $r16, $r17, $r18, $r19, $r20, $r22);
+$pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $r11, $tr11, $r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r19, $tr19, $r20, $tr20, $r22, $tr22, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $asesor, $asesorL, $diseno, $disenoC);
 $pdf->Separador();
 
 $nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
