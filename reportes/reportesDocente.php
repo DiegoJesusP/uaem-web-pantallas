@@ -413,110 +413,158 @@ foreach ($resSum as $index => $sum){
     $aux++;
 }
 
-
+    //Promedio por fila
     $tr1 = number_format((array_sum($r1) / $aux) , 1); // Satisfacción de desempeño promedio por pregunta
     $tr22 = number_format((array_sum($r22) / $aux) , 1);
 
-    
-    
-
+    //----------------
+    //Promedio por fila
     $tr7 = number_format((array_sum($r7) / $aux) , 1); // es la p1
     $tr8 = number_format((array_sum($r8) / $aux) , 1); // es la p2
     $tr10 = number_format((array_sum($r10) / $aux) , 1); // es la p3
-    
-    if (count($totalPorGrupo) == 1){
-        $sumDom[] = number_format(($tr7 + $tr8 + $tr10)/3, 1);
-        $dom = number_format(array_sum($sumDom), 1);
-    }else{
-        $sumDom = array_merge($r7, $r8, $r10);
-        $dom = number_format(( array_sum($sumDom) / count($sumDom)) , 1); 
+    //Promedio por columna
+    $sumDoma = [];
+    $sumDom = [];
+    $dom = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma = (($r7[$i] + $r8[$i] + $r10[$i])/3);
+        $sumDom[] = number_format($sumDoma, 1);
     }
 
+    $dom = number_format((array_sum($sumDom) / count($sumDom)), 1);
+
+    //----------------
+    //Promedio por fila
     $tr2 = number_format((array_sum($r2) / $aux) , 1); // es la p4
     $tr4 = number_format((array_sum($r4) / $aux) , 1); // es la p5
     $tr9 = number_format((array_sum($r9) / $aux) , 1); // es la p6
-    if (count($totalPorGrupo) == 1){
-        $sumDom1[] = number_format(($tr2 + $tr4 + $tr9) /3, 1);
-        $dom1 = number_format((array_sum($sumDom1)) , 1);
-    }else{
-        $sumDom1 = array_merge($r2, $r4, $r9);
-        $dom1 = number_format(( array_sum($sumDom1) / count($sumDom1)) , 1);
+    //Promedio por columna
+    $sumDoma1 = [];
+    $sumDom1 = [];
+    $dom1 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma1 = (($r2[$i] + $r4[$i] + $r9[$i])/3);
+        $sumDom1[] = number_format($sumDoma1, 1);
     }
 
+    $dom1 = number_format((array_sum($sumDom1) / count($sumDom1)), 1);
+
+    //----------------
+    //Promedio por fila
     $tr3 = number_format((array_sum($r3) / $aux) , 1); // es la p7
     $tr5 = number_format((array_sum($r5) / $aux) , 1); // es la p8
     $tr6 = number_format((array_sum($r6) / $aux) , 1); // es la p9
-    if (count($totalPorGrupo) == 1){
-        $sumDom2[] = number_format(($tr3 + $tr5 + $tr6) /3, 1);
-        $dom2 = number_format((array_sum($sumDom2)) , 1);
-    }else{
-        $sumDom2 = array_merge($r3, $r5, $r6);
-        $dom2 = number_format(( array_sum($sumDom2) / count($sumDom2)) , 1);
+    //Promedio por columna
+    $sumDoma2 = [];
+    $sumDom2 = [];
+    $dom2 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma2 = (($r3[$i] + $r5[$i] + $r6[$i])/3);
+        $sumDom2[] = number_format($sumDoma2, 1);
     }
 
-        //-------
+    $dom2 = number_format((array_sum($sumDom2) / count($sumDom2)), 1);
 
+    //----------------
+    //Promedio por fila
     $tr12 = number_format((array_sum($r12) / $aux) , 1); // es la p10 --Diseño del curso
     $tr18 = number_format((array_sum($r18) / $aux) , 1); // es la p11 --Diseño del curso
     $tr15 = number_format((array_sum($r15) / $aux) , 1); // es la p12 --Diseño del curso
-    if (count($totalPorGrupo) == 1){
-        $sumDom3[] = number_format(($tr12 + $tr18 + $tr15) /3, 1);
-        $dom3 = number_format((array_sum($sumDom3)) , 1);
-    }else{
-        $sumDom3 = array_merge($r12, $r18, $r15);
-        $dom3 = number_format(( array_sum($sumDom3) / count($sumDom3)) , 1); 
+
+    $sumDoma3 = [];
+    $sumDom3 = [];
+    $dom3 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma3 = (($r12[$i] + $r18[$i] + $r15[$i])/3);
+        $sumDom3[] = number_format($sumDoma3, 1);
     }
 
+    $dom3 = number_format((array_sum($sumDom3) / count($sumDom3)), 1);
+
+    //----------------
+    //Promedio por fila
     $tr13 = number_format((array_sum($r13) / $aux) , 1); // es la p13 --Diseño del curso
     $tr17 = number_format((array_sum($r17) / $aux) , 1); // es la p14 --Diseño del curso
-    if (count($totalPorGrupo) == 1){
-        $sumDom4[] = number_format(($tr13 + $tr17) /2, 1);
-        $dom4 = number_format((array_sum($sumDom4)) , 1);
-    }else{
-        $sumDom4 = array_merge($r13, $r17);
-        $dom4 = number_format(( array_sum($sumDom4) / count($sumDom4)) , 1);
+    
+    $sumDoma4 = [];
+    $sumDom4 = [];
+    $dom4 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma4 = (($r13[$i] + $r17[$i])/2);
+        $sumDom4[] = number_format($sumDoma4, 1);
     }
 
+    $dom4 = number_format((array_sum($sumDom4) / count($sumDom4)), 1);
+
+    //----------------
+    //Promedio por fila
     $tr16 = number_format((array_sum($r16) / $aux) , 1); // es la p15 --Diseño del curso
     $tr20 = number_format((array_sum($r20) / $aux) , 1); // es la p16 --Diseño del curso 
-    if (count($totalPorGrupo) == 1){
-        $sumDom5[] = number_format(($tr16 + $tr20) /2, 1);
-        $dom5 = number_format((array_sum($sumDom5)) , 1);
-    }else{
-        $sumDom5 = array_merge($r16, $r20);
-        $dom5 = number_format(( array_sum($sumDom5) / count($sumDom5)) , 1);
+
+    $sumDoma5 = [];
+    $sumDom5 = [];
+    $dom5 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma5 = (($r16[$i] + $r20[$i])/2);
+        $sumDom5[] = number_format($sumDoma5, 1);
     }
 
+    $dom5 = number_format((array_sum($sumDom5) / count($sumDom5)), 1);
+
+    //----------------
+    //Promedio por fila
     $tr14 = number_format((array_sum($r14) / $aux) , 1); //utilidad de herramientas Moddle
-    if (count($totalPorGrupo) == 1){
-        $sumDom6[] = number_format(($tr14), 1);
-        $dom6 = number_format((array_sum($sumDom6)) , 1);
-    }else{
-        $sumDom6 = array_merge($r11);
-        $dom6 = number_format(( array_sum($sumDom6) / count($sumDom6)) , 1);
+    
+    $sumDoma6 = [];
+    $sumDom6 = [];
+    $dom6 = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $sumDoma6 = ($r14[$i]);
+        $sumDom6[] = number_format($sumDoma6, 1);
     }
+
+    $dom6 = number_format((array_sum($sumDom6) / count($sumDom6)), 1);
+
+    //----------------
 
     $tr11 = number_format((array_sum($r11) / $aux) , 1);
     $tr19 = number_format((array_sum($r19) / $aux) , 1);
 
         //die;o grafico -colores, ilustracion - tama;o de letra //FALTA
         // 22 expectativas cubiertas del curso
-
-    if (count($totalPorGrupo) == 1){
-        $diseno[] = number_format(($tr12 + $tr18 + $tr15 + $tr13 + $tr17 + $tr16 + $tr20)/7, 1);
-        $disenoC = number_format(array_sum($diseno), 1);
-    }else{
-        $diseno = array_merge($r12, $r18, $r15, $r13, $r17, $r16, $r20);
-        $disenoC = number_format(( array_sum($diseno) / count($diseno)) , 1);
+    
+    //Diseño del curso
+    $disenoa = [];
+    $diseno = [];
+    $disenoC = 0;
+    
+    for ($i= 0; $i < $aux; $i++){
+        $disenoa = (($r12[$i] + $r18[$i] + $r15[$i] + $r13[$i] + $r17[$i] + $r16[$i] + $r20[$i])/7);
+        $diseno[] = number_format($disenoa, 1);
     }
 
-    if (count($totalPorGrupo) == 1){
-        $asesor[] = number_format(($tr7 + $tr8 + $tr10 + $tr2 + $tr4 + $tr9 + $tr3 + $tr5 + $tr6)/9, 1);
-        $asesorL = number_format(array_sum($asesor), 1);
-    }else{
-        $asesor = array_merge($r7, $r8, $r10, $r2, $r4, $r9, $r3, $r5, $r6);
-        $asesorL = number_format(( array_sum($asesor) / count($asesor)) , 1);
+    $disenoC = number_format((array_sum($diseno) / count($diseno)), 1);
+    //************************
+    //Asesor en linea
+
+    $asesora = [];
+    $asesor = [];
+    $asesorL = 0;
+
+    for ($i = 0; $i < $aux; $i++){
+        $asesora = (($r7[$i] + $r8[$i] + $r10[$i] + $r2[$i] + $r4[$i] + $r9[$i] + $r3[$i] + $r5[$i] + $r6[$i])/9);
+        $asesor[] = number_format($asesora, 1);
     }
+
+    $asesorL = number_format((array_sum($asesor) / count($asesor)), 1);
+
         
     $Promedio = array_merge($asesor, $diseno);
     $PromedioT = number_format(( array_sum($Promedio) / count($Promedio)) , 1);
@@ -533,7 +581,7 @@ $pdf->Separador();
 $pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $r11, $tr11, $r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r19, $tr19, $r20, $tr20, $r22, $tr22, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $asesor, $asesorL, $diseno, $disenoC);
 $pdf->Separador();
 
-$nombreArchivo = 'reporte_' . $numcontrol . '.pdf';
+$nombreArchivo = 'ReporteIndividual' . $numcontrol . '.pdf';
 //$nombreArchivo, "D"
 $pdf->Output($nombreArchivo, "I");
 
