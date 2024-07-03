@@ -710,6 +710,7 @@ if (!$error) {
     $pdf->Separador();
     $pdf->Multicell(0, 10, utf8_decode($tipoError), 0, 1, 'C');
     $grupId21 = [];
+    $r21diseno = 0;
     $valores = [];
     $valor1 = [];
     $valor2 = [];
@@ -722,6 +723,7 @@ if (!$error) {
     for ($i = 0; $i < count($texR21); $i++) {
         $valores = explode(',', $texR21[$i]);
         $valor1 = (int)$valores[0];
+        $r21diseno += $valor1;
         $valor2 = (int)$valores[1];
         $valor3 = (int)$valores[2];
         $valor4 = (int)$valores[3];
@@ -738,6 +740,7 @@ $valor4 = (int)$valores[3];
     */
     $pdf->Separador();
     $pdf->Cell(0, 10, utf8_decode($valor1 . ' - ' . $valor2 . ' - ' . $valor3 . ' - ' . $valor4), 0, 1, 'C');
+    $pdf->Cell(0, 10, utf8_decode($r21diseno), 0, 1, 'C');
         //$pdf->Cell(0, 10, utf8_decode($valor1[$i] . ' - ' . $valor2[$i] . $valor3[$i] . ' - ' . $valor4[$i]), 0, 1, 'C');
     
 } else {
