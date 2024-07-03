@@ -16,23 +16,26 @@ class PDF extends FPDF{
     function Header(){
         // Background color
         $this->SetFillColor(48, 83, 149); // Azul
-        $this->Rect(0, 0, $this->w, 30, 'F'); // Rectángulo lleno
+        $this->SetDrawColor(48, 83, 149); // Azul
+        $this->Rect(10, 10, $this->w - 21, 20, 'DF'); // Rectángulo lleno
+        //$this->Ln(0);
         
         // Logo
-        $this->Image('./../assets/img/LogoUAEMBlanco.png', 10, 3, 29);
+        $this->Image('./../assets/img/LogoUAEMBlanco.png', 13, 12, 25);
         
         // Título
         $this->SetFont('Arial', 'B', 13);
         $this->SetTextColor(255, 255, 255); // Blanco
-        $this->Cell(0, 5, utf8_decode("Reporte de evaluación de asignaturas híbridas y virtuales"), 0, 1, 'C');
+        $this->Cell(0, 20, utf8_decode("Reporte de evaluación de asignaturas híbridas y virtuales"), 0, 1, 'C');
         
         // Fondo gris para el subtítulo
         $this->SetFillColor(231, 230, 230); // Gris
-        $this->Rect(0, $this->GetY()+10, $this->w, 13, 'F'); // Rectángulo lleno para subtítulo
+        $this->Rect(10, $this->GetY(), $this->w -21, 13, 'DF'); // Rectángulo lleno para subtítulo
         
         // Subtítulo
         $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0, 0, 0); // Negro
+        $this->setY(20);
         $this->Cell(0, 29, utf8_decode("Opinión de Estudiantes"), 0, 1, 'C');
         
         // Obtener el valor del período desde el parámetro GET
@@ -67,7 +70,7 @@ class PDF extends FPDF{
     }
     //
     function SeparadorT($title, $fillColor = [255, 255, 255]){
-        $this->SetFillColor(225, 238, 218);
+        $this->SetFillColor(48, 83, 149);
         if ($fillColor) {
             $this->SetFillColor(...$fillColor);
         }
