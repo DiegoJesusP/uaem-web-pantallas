@@ -253,12 +253,12 @@ class PDF extends FPDF{
     
         foreach ($titulosTablas as $j => $titulo) {
             // Mostrar el título de la tabla
-            $this->Cell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
-    
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6);
             // Mostrar los valores de $data para cada grupo
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $valor = isset($data[$k - 1]) ? $data[$k - 1] : '';
-                $this->Cell($anchoColumnas[$k], 6, $valor, 'LR', 0, 'L', $j % 2 == 0);
+                $this->Cell($anchoColumnas[$k], 6, $valor, 'LR', 0, 'C', $j % 2 == 0);
             }
         }
 
