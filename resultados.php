@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Docente</title>
-    <link rel="Shortcut Icon" href="http://localhost/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/cards-evadocente-styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/footer-styles.css">
+    <link rel="Shortcut Icon" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/cards-evadocente-styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/footer-styles.css">
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
@@ -21,17 +21,17 @@
             <!-- Vertical Navigation -->
             <div class="col-lg-2 bg-light">
                 <ul class="list-unstyled vertical-nav">
-                    <li><a href="http://localhost/ejemplo/uaem-web-pantallas/evaluaciondocente.html" class="btn btn-block my-1 custom-btn-lateral">Instrumento de evaluación docente</a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/evaluaciondocente.php" class="btn btn-block my-1 custom-btn-lateral">Instrumento de evaluación docente</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/cronograma.html" class="btn btn-block my-1 custom-btn-lateral">Cronograma</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/fechas.php" class="btn btn-block my-1 custom-btn-lateral">Fechas de aplicación</a></li>
-                    <li><a href="http://localhost/ejemplo/uaem-web-pantallas/resultados.html" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/resultados.html" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/monitoreo.html" class="btn btn-block my-1 custom-btn-lateral">Monitoreo</a></li>
                 </ul>
             </div>            
             <!-- Main Content -->
             <div class="col-lg-10 d-flex flex-column">
                 <section id="reporte">
-                    <h1 class="mt-3"><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/resultados.png" alt="ubicacion" class="img-fluid icon">Reporte de Resultados</h1>
+                    <h1 class="mt-3"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/resultados.png" alt="ubicacion" class="img-fluid icon">Reporte de Resultados</h1>
                     <hr>
                     <div class="content-section">
                         <p>Los reportes se elaboran en tres niveles:</p>
@@ -49,9 +49,9 @@
                                 <div class="card mb-4 custom-card">
                                     <h5 class="card-title">INSTITUCIÓN</h5>
                                     <div class="card-body">
-                                        <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/resultado_escuela.png" class="card-img-top" alt="Descripción de la imagen 2">
+                                        <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/resultado_escuela.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados de la institución.</p>
-                                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/institucion.php" class="btn btn-primary" onclick="redirectToInstitucion()">Entrar</a>
+                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/reportes/institucion.php" class="btn btn-primary" onclick="redirectToInstitucion()">Entrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -59,9 +59,9 @@
                                 <div class="card mb-4 custom-card">
                                     <h5 class="card-title">DOCENTE</h5>
                                     <div class="card-body">
-                                        <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/resultado_docente.png" class="card-img-top" alt="Descripción de la imagen 2">
+                                        <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/resultado_docente.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados del docente.</p>
-                                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php" class="btn btn-primary">Entrar</a>
+                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/reportes/docente.php" class="btn btn-primary">Entrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -74,13 +74,13 @@
     
     <div id="footerContainer"></div>
     <!-- Scripts -->
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadFooter.js"></script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadNav.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadFooter.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadNav.js"></script>
     <script>
             function redirectToInstitucion() {
-        window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/institucion.php';
+        window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/reportes/institucion.php';
     }
     </script>
 </body>

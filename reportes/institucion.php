@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Institucional</title>
-    <link rel="Shortcut Icon" href="http://localhost/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/cards-sel-styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/select-styles.css">
+    <link rel="Shortcut Icon" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/cards-sel-styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/select-styles.css">
     <style>
     .textB {
         font-family: 'Ubuntu';font-size: 22px;
@@ -20,7 +20,7 @@
     <div id="headerContainer"></div>
     
     <div class="container mt-4 textB">
-        <h1 style="text-align: center;"><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
+        <h1 style="text-align: center;"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
         <!-- Tipo informe (Cards Seleccion)-->
         <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
@@ -63,18 +63,44 @@
             </div>
         </div>
         </div>
+        <!-- DB -->
+         <?php
+         include('./../php/conexion.php');
+         $conexion = new CConexion();
+         $conn = $conexion->conexionBD();
+         //
+         $consulta = $conn->prepare("SELECT
+            EXTRACT(YEAR FROM fecha) AS anio
+            FROM preguntav
+            GROUP BY EXTRACT(YEAR FROM fecha)
+            ORDER BY anio");
+        // Ejecuta la consulta
+        $consulta->execute();
+
+        // Obtiene los resultados
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        
+         ?>
         <!-- Periodo (Barra busqueda)-->
         <p><b>Seleccione el periodo...</b></p>
         <div class="container-input">
             <select id="periodo-select" class="select-input">
                 <option value="0">Seleccione el periodo</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
+                <?php
+                if ($resultado){
+                    foreach($resultado as $resultado){
+                        if ($resultado['anio'] != 0){
+                            echo "<option value='".$resultado['anio']."'>".$resultado['anio']."</option>";
+                        }
+                    }
+                }
+                ?>
             </select>
             <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                 <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
             </svg>
         </div>
+        <!-- -->
         <hr>
         <!-- Confirmacion de seleccion en cards-->
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
@@ -85,7 +111,7 @@
                 <p>Seleccione un informe...</p>
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/resultados.html';">
+                <button class="button" onclick="location.href='http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/resultados.php';">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                     </svg>
@@ -137,7 +163,7 @@
             }
         });
     </script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="http://localhost/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
 </body>
 </html>

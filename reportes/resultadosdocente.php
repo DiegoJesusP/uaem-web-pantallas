@@ -22,7 +22,7 @@
         
         <hr>
         <div class="col-12 d-flex justify-content-end">
-            <a href="./../docs/pruebapdf.pdf" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
+            <a href="./../docs/pruebapdf.pdf" target="_blank" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
         </div>
         <?php
         $numcontrol = '';
