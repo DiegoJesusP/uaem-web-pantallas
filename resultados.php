@@ -19,12 +19,12 @@
         <div class="row">
     
             <!-- Vertical Navigation -->
-            <div class="col-lg-2 bg-light">
+            <div class="col-lg-2">
                 <ul class="list-unstyled vertical-nav">
                     <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/evaluaciondocente.php" class="btn btn-block my-1 custom-btn-lateral">Instrumento de evaluación docente</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/cronograma.html" class="btn btn-block my-1 custom-btn-lateral">Cronograma</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/fechas.php" class="btn btn-block my-1 custom-btn-lateral">Fechas de aplicación</a></li>
-                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/resultados.html" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/resultados.php" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/monitoreo.html" class="btn btn-block my-1 custom-btn-lateral">Monitoreo</a></li>
                 </ul>
             </div>            
