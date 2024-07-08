@@ -1,6 +1,10 @@
 <?php
-function obtenerParametroGET($nombre, $default = 'No definido') {
-    return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $selected_card = isset($_POST['selected_card']) ? $_POST['selected_card'] : 'No seleccionado';
+    $selected_periodo = isset($_POST['periodo']) ? $_POST['periodo'] : 'No seleccionado';
+} else {
+    $selected_card = 'No seleccionado';
+    $selected_periodo = 'No seleccionado';
 }
 ?>
 <!DOCTYPE html>
@@ -31,62 +35,89 @@ function obtenerParametroGET($nombre, $default = 'No definido') {
         <h1 style="text-align: center;"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
         <!-- Tipo informe (Cards Seleccion)-->
-         <?php
-         $informe = ['INSTITUCIONAL', 'DES', 'NIVEL MEDIO', 'NIVEL SUPERIOR Y POSTGRADO', 'HISTORICO'];
-
-         ?>
-        <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
-        <div class="container">
-        <div class="row justify-content-center">
-            <?php
-            foreach ($informe as $i) {
-                echo "<div class='col-lg-2 mb-4'>";
-                echo "<div class='card custom-card-sel' onclick='selectCard(this)'>";
-                echo "<div class='card-body'>";
-                echo "<h6 class='card-title position-absolute top-50 start-50 translate-middle'>$i</h6>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-            }
-            ?>
-        </div>
-        </div>
-        <!-- DB -->
-         <?php
-         include('./../php/conexion.php');
-         $conexion = new CConexion();
-         $conn = $conexion->conexionBD();
-        
-           
-                $consulta = $conn->prepare("SELECT
-            EXTRACT(YEAR FROM fecha) AS anio
-            FROM preguntav
-            GROUP BY EXTRACT(YEAR FROM fecha)
-            ORDER BY anio");
-            // Ejecuta la consulta
-            $consulta->execute();
-
-            // Obtiene los resultados
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-                
-        
-         ?>
-        <!-- Periodo (Barra busqueda)-->
-        <p class="hidden" id="periodo-label"><b>Seleccione el periodo...</b></p>
-        <div class="container-input hidden" id="periodo-container">
-            <select id="periodo-select" class="select-input">
-                <option value="0">Seleccione el periodo</option>
+         <form method="post">
+            <div class="form-group">
                 <?php
-                    foreach ($resultado as $row) {
-                        echo '<option value="' . $row['anio'] . '">' . $row['anio'] . '</option>';
-                    }
+                $informe = ['INSTITUCIONAL', 'DES', 'NIVEL MEDIO', 'NIVEL SUPERIOR Y POSTGRADO', 'HISTORICO'];
+
                 ?>
-            </select>
-            <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-                <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
-            </svg>
+                <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <?php
+                        foreach ($informe as $i) {
+                            echo "<div class='col-lg-2 mb-4'>";
+                            echo "<div class='card custom-card-sel' onclick='selectCard(this);selectPHP(\"$i\")'>";
+                            echo "<div class='card-body'>";
+                            echo "<h6 class='card-title position-absolute top-50 start-50 translate-middle'>$i</h6>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <!-- DB -->
+                 
+                <?php
+                include('./../php/conexion.php');
+                $conexion = new CConexion();
+                $conn = $conexion->conexionBD();
+
+                $consulta = $conn->prepare("SELECT
+                EXTRACT(YEAR FROM fecha) AS anio
+                FROM preguntav
+                GROUP BY EXTRACT(YEAR FROM fecha)
+                ORDER BY anio");
+                // Ejecuta la consulta
+                $consulta->execute();
+
+                // Obtiene los resultados
+                $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+                        
+                
+                ?>
+                <!-- Periodo (Barra busqueda)-->
+                <p class="hidden" id="periodo-label"><b>Seleccione el periodo...</b></p>
+            <div class="row align-items-center">
+                <div class="form-container">
+                    <div class="container-input hidden col-12 col-md-8" id="periodo-container">
+                        <select id="periodo-select" class="select-input" name="periodo" required>
+                            <option value="0">Seleccione el periodo</option>
+                            <?php
+                                if ($resultado){
+                                    foreach($resultado as $resultado){
+                                        if ($resultado['anio'] != 0){
+                                            echo "<option value='".$resultado['anio']."'>".$resultado['anio']."</option>";
+                                        }
+                                    }
+                                }
+                            ?>
+                        </select>
+                        <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
+                    <input type="hidden" name="selected_card" id="selected_card" value="">
+                    <button type="submit" class="btn btn-primary hidden col-4 col-md-3" id="consultar-btn">Consultar</button>
+                    </div>
+                </div>
+            </div>
         </div>
+    </form>
+        <?php
+        
+        ?>
         <!-- -->
+        <hr>
+        <div class="bg-blue" style="border-radius: 20px;">
+            <div class="header-text d-flex justify-content-center">
+                <?php
+                echo $selected_card. " - " .$selected_periodo;
+                ?>
+            </div>
+        </div>
         <hr>
         <!-- Confirmacion de seleccion en cards-->
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
@@ -106,9 +137,20 @@ function obtenerParametroGET($nombre, $default = 'No definido') {
             </div>
         </div>
         <div id="selection-info" class="mt-4"></div>
+        <div class="mt-4">
+            <?php
+            //obtener 
+            ?>
+        </div>
     </div>
 
     <script>
+         function selectPHP(cardName) {
+            document.getElementById('selected_card').value = cardName;
+            document.getElementById('periodo-label').classList.remove('hidden');
+            document.getElementById('periodo-container').classList.remove('hidden');
+            document.getElementById('consultar-btn').classList.remove('hidden');
+        }
         function selectCard(card) {
             // Deseleccionar todas las tarjetas
             var cards = document.querySelectorAll('.custom-card-sel');

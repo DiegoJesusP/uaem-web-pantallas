@@ -148,7 +148,7 @@ class PDF extends FPDF{
         $this->Ln();
     }
     //
-    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $r11, $tr11, $r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r19, $tr19, $r20, $tr20, $r22, $tr22, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $asesor, $asesorL, $diseno, $disenoC, $r21Colores, $r21Ilustraciones, $r21Tamanio, $tr21Colores, $tr21Ilustraciones, $tr21Tamanio, $sumDom7, $dom7) {
+    function FancyTable($header, $data, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r22, $tr22, $asesor, $asesorL, $diseno, $disenoC) {
         // Configuración inicial de colores, ancho de línea y fuente en negrita
         $this->SetFillColor(255, 255, 255); // Blanco
         $this->SetTextColor(0, 0, 0); // Negro
@@ -180,15 +180,17 @@ class PDF extends FPDF{
         // Línea de cierre de la tabla principal
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
-
-
-        $totalInstrumentos = array_sum($totalPorGrupo);
+        $this->SetFont('Arial', '', 10);
         // Función auxiliar para agregar tablas adicionales
-        $this->addTable($anchoColumnas, ['Estudiantes participantes:'], $totalPorGrupo, [array_sum($totalPorGrupo)], $numGrupos, true);
-        $this->addTable($anchoColumnas, ['Satisfacción de desempeño:'], $r1,[$tr1], $numGrupos, true , [255, 255, 255]);
-        $this->addTable($anchoColumnas, ['Expectativas cubiertas del curso:'], $r22,[$tr22], $numGrupos, true);
-        $this->addTable($anchoColumnas, ['Asesor en Línea (índice Global):'], $asesor,[$asesorL], $numGrupos, true, [225, 238, 218]); // Verde
-        $this->addTable($anchoColumnas, ['Diseño del Curso (índice Global):'], $diseno,[$disenoC], $numGrupos, true, [255, 241, 204]); // Amarillo
+        $this->addTable($anchoColumnas, ["Estudiantes participantes:"], $totalPorGrupo, [array_sum($totalPorGrupo)], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Satisfacción de desempeño:"], $r1,[$tr1], $numGrupos, true , [255, 255, 255]);
+        $this->addTable($anchoColumnas, ["Expectativas cubiertas del curso:"], $r22,[$tr22], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Asesor en Línea (índice Global):"], $asesor,[$asesorL], $numGrupos, true, [225, 238, 218]); // Verde
+        $this->addTable($anchoColumnas, ["Diseño del Curso (índice Global):"], $diseno,[$disenoC], $numGrupos, true, [255, 241, 204]); // Amarillo
+        
+    }
+    //
+    function TablaAsesor($anchoColumnas, $numGrupos, $aux, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $asesor, $asesorL) {
         //$r7, $r8, $r10, $r2, $r4, $r9, $r3, $r5, $r6
         $this->Separador();
         $this->SeparadorT($texto = 'Asesor en Línea', [225, 238, 218]);
@@ -213,7 +215,10 @@ class PDF extends FPDF{
         $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios:"], $r6,[$tr6], $numGrupos, true);
         
         //$r12, $r18, $r15, $r13, $r17, $r16, $r20, $r14, $r21Colores, $r21Ilustraciones, $r21Tamanio
+    }
+    function TablaDiseno($anchoColumnas, $numGrupos, $aux,$r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r20, $tr20, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $diseno, $disenoC, $r21Colores, $r21Ilustraciones, $r21Tamanio, $tr21Colores, $tr21Ilustraciones, $tr21Tamanio, $sumDom7, $dom7) {
 
+        //$r12, $r18, $r15, $r13, $r17, $r16, $r20, $r14, $r21Colores, $r21Ilustraciones, $r21Tamanio
         $this->Separador();
         $this->SeparadorT($texto = 'Diseño del Curso', [255, 241, 204]);
         $this->addTable($anchoColumnas, ["Diseño y Calidad del Curso:"], $diseno,[$disenoC], $numGrupos, true, [217, 217, 217]);
@@ -241,7 +246,7 @@ class PDF extends FPDF{
         $this->addTable($anchoColumnas, ["-Diseño Gráfico del curso:"], $sumDom7,[$dom7], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Colores:"], $r21Colores,[$tr21Colores], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Ilustraciones(imágenes, Logotipos):"], $r21Ilustraciones,[$tr21Ilustraciones], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Ilustraciones(imágenes, logotipos):"], $r21Ilustraciones,[$tr21Ilustraciones], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Tamaño y tipo de letra:"], $r21Tamanio,[$tr21Tamanio], $numGrupos, true);
     }
     //
@@ -769,7 +774,10 @@ if ($error != 'Faltan datos por proporcionar.' && $tipoError != 'Por favor, prop
     $pdf->Separador();
     $pdf->TablaInicio($dataFromDb, $PromedioT);
     $pdf->Separador();
-    $pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $r11, $tr11, $r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r19, $tr19, $r20, $tr20, $r22, $tr22, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $asesor, $asesorL, $diseno, $disenoC, $r21Colores, $r21Ilustraciones, $r21Tamanio, $tr21Colores, $tr21Ilustraciones, $tr21Tamanio, $sumDom7, $dom7);
+    $pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r22, $tr22, $asesor, $asesorL, $diseno, $disenoC);
+    $pdf->TablaAsesor($anchoColumnas, $numGrupos, $aux, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $asesor, $asesorL);
+    $pdf->TablaDiseno($anchoColumnas, $numGrupos, $aux,$r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r20, $tr20, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $diseno, $disenoC, $r21Colores, $r21Ilustraciones, $r21Tamanio, $tr21Colores, $tr21Ilustraciones, $tr21Tamanio, $sumDom7, $dom7);
+
     $pdf->Separador();
 } else {
     $pdf->Cell(0, 10, utf8_decode($error), 0, 1, 'C');
