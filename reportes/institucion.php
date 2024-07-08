@@ -1,3 +1,8 @@
+<?php
+function obtenerParametroGET($nombre, $default = 'No definido') {
+    return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +18,11 @@
     <style>
     .textB {
         font-family: 'Ubuntu';font-size: 22px;
-        }
-        </style>
+    }
+    .hidden {
+        display: none;
+    }
+    </style>
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
@@ -23,44 +31,24 @@
         <h1 style="text-align: center;"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/calendario.png" alt="ubicacion" class="img-fluid icon alin">Resultado de la Institución</h1>
         <hr>
         <!-- Tipo informe (Cards Seleccion)-->
+         <?php
+         $informe = ['INSTITUCIONAL', 'DES', 'NIVEL MEDIO', 'NIVEL SUPERIOR Y POSTGRADO', 'HISTORICO'];
+
+         ?>
         <p><b>Seleccione el tipo de informe que desee consultar.</b></p>
         <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">INSTITUCIONAL</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">DES</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">NIVEL MEDIO</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">NIVEL SUPERIOR Y POSTGRADO</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 mb-4">
-                <div class="card custom-card-sel" onclick="selectCard(this)">
-                    <div class="card-body">
-                        <h6 class="card-title position-absolute top-50 start-50 translate-middle">HISTORICO</h6>
-                    </div>
-                </div>
-            </div>
+            <?php
+            foreach ($informe as $i) {
+                echo "<div class='col-lg-2 mb-4'>";
+                echo "<div class='card custom-card-sel' onclick='selectCard(this)'>";
+                echo "<div class='card-body'>";
+                echo "<h6 class='card-title position-absolute top-50 start-50 translate-middle'>$i</h6>";
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
+            }
+            ?>
         </div>
         </div>
         <!-- DB -->
@@ -68,32 +56,30 @@
          include('./../php/conexion.php');
          $conexion = new CConexion();
          $conn = $conexion->conexionBD();
-         //
-         $consulta = $conn->prepare("SELECT
+        
+           
+                $consulta = $conn->prepare("SELECT
             EXTRACT(YEAR FROM fecha) AS anio
             FROM preguntav
             GROUP BY EXTRACT(YEAR FROM fecha)
             ORDER BY anio");
-        // Ejecuta la consulta
-        $consulta->execute();
+            // Ejecuta la consulta
+            $consulta->execute();
 
-        // Obtiene los resultados
-        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            // Obtiene los resultados
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+                
         
          ?>
         <!-- Periodo (Barra busqueda)-->
-        <p><b>Seleccione el periodo...</b></p>
-        <div class="container-input">
+        <p class="hidden" id="periodo-label"><b>Seleccione el periodo...</b></p>
+        <div class="container-input hidden" id="periodo-container">
             <select id="periodo-select" class="select-input">
                 <option value="0">Seleccione el periodo</option>
                 <?php
-                if ($resultado){
-                    foreach($resultado as $resultado){
-                        if ($resultado['anio'] != 0){
-                            echo "<option value='".$resultado['anio']."'>".$resultado['anio']."</option>";
-                        }
+                    foreach ($resultado as $row) {
+                        echo '<option value="' . $row['anio'] . '">' . $row['anio'] . '</option>';
                     }
-                }
                 ?>
             </select>
             <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
@@ -132,6 +118,10 @@
 
             // Seleccionar la tarjeta clicada
             card.classList.add('selected');
+
+            // Mostrar el campo de periodo
+            document.getElementById('periodo-label').classList.remove('hidden');
+            document.getElementById('periodo-container').classList.remove('hidden');
 
             // Obtener el texto de la tarjeta seleccionada
             var selectedText = card.querySelector('.card-title').innerText;
