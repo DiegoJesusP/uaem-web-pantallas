@@ -132,10 +132,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div id="selection-info" class="mt-4"></div>
         <div class="mt-4">
-            <?php
-            //cards
-            
-            ?>
+        <?php
+        switch ($selected_card){
+            case 'INSTITUCIONAL':
+                $consulta = $conn->prepare("SELECT
+                numcontrol,
+                EXTRACT(YEAR FROM fecha) AS anio,
+                CASE
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                    ELSE 'Otro'
+                END AS periodo,
+                COUNT(*) AS total_respuestas
+            FROM
+                preguntav
+            GROUP BY
+                numcontrol,
+                EXTRACT(YEAR FROM fecha),
+                CASE
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                    WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                    ELSE 'Otro'
+                END
+            ORDER BY
+                anio, periodo");
+            // Ejecuta la consulta
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+            if ($resultado) {
+                echo "<div class='row d-flex'>";
+                foreach ($resultado as $fila) {
+                    echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                    echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                    echo "<div class='card-body text-center'>";
+                    echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
+                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+                echo "</div>";
+            } else {
+                echo "<div class='d-flex justify-content-center'>";
+                echo "<p>No se encontró al usuario</p>";
+                echo "</div>";
+            }
+                break;
+            case 'DES':
+                    
+                break;
+            case 'NIVEL MEDIO':
+                        
+                break;
+            case 'NIVEL SUPERIOR Y POSTGRADO':
+                            
+                break;
+            case 'HISTORICO':
+                                
+                break;
+            default:
+                echo "<div class='d-flex justify-content-center'>";
+                echo "<p>Cada Cuando se muestra esto?</p>";
+                echo "</div>";
+                break;
+        }
+        ?>
         </div>
     </div>
 
