@@ -78,10 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 ?>
                 <!-- Periodo (Barra busqueda)-->
-                <p class="hidden" id="periodo-label"><b>Seleccione el periodo...</b></p>
-            <div class="row align-items-center">
-                <div class="form-container">
-                    <div class="container-input hidden col-12 col-md-8" id="periodo-container">
+                <p id="periodo-label"><b>Seleccione el periodo...</b></p>
+                <div class="row align-items-center">
+                    <div class="container-input col-12 col-md-8 mb-3" id="periodo-container">
                         <select id="periodo-select" class="select-input" name="periodo" required>
                             <option value="0">Seleccione el periodo</option>
                             <?php
@@ -98,30 +97,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-                    <input type="hidden" name="selected_card" id="selected_card" value="">
-                    <button type="submit" class="btn btn-primary hidden col-4 col-md-3" id="consultar-btn">Consultar</button>
-                    </div>
+                    <div class="col-12 col-md-4 d-flex justify-content-end">
+                        <input type="hidden" name="selected_card" id="selected_card" value="">
+                        <button type="submit" class="btn btn-primary col-4 col-md-3" id="consultar-btn">Consultar</button>
+                    </div>                
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
         <?php
         
         ?>
         <!-- -->
         <hr>
-        <div class="bg-blue" style="border-radius: 20px;">
-            <div class="header-text d-flex justify-content-center">
-                <?php
-                echo $selected_card. " - " .$selected_periodo;
-                ?>
-            </div>
-        </div>
-        <hr>
         <!-- Confirmacion de seleccion en cards-->
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
-            <div id="titulo" class="header-text d-flex justify-content-center"></div>
+            <div id="titulo" class="header-text d-flex justify-content-center">
+            <?php
+                echo "<h2>".$selected_card. " - " .$selected_periodo."</h2>";
+                ?>
+            </div>
         </div>
         <div style="margin-bottom: 20px; margin-top: 20px;" class="row align-items-center">
             <div class="col-12 col-md-8">
@@ -139,7 +133,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="selection-info" class="mt-4"></div>
         <div class="mt-4">
             <?php
-            //obtener 
+            //cards
+            
             ?>
         </div>
     </div>
@@ -147,9 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script>
          function selectPHP(cardName) {
             document.getElementById('selected_card').value = cardName;
-            document.getElementById('periodo-label').classList.remove('hidden');
-            document.getElementById('periodo-container').classList.remove('hidden');
-            document.getElementById('consultar-btn').classList.remove('hidden');
         }
         function selectCard(card) {
             // Deseleccionar todas las tarjetas
@@ -178,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Limpiar el contenido anterior y crear un nuevo div
             const selectedCardInfo = document.getElementById('titulo');
             selectedCardInfo.innerHTML = '';  // Limpiar el contenido anterior
-            selectedCardInfo.innerHTML = `<h2>INFORME <span>${selectedText}</span> - <span>${selectedPeriodo}</span></h2>`;  // Añadir el nuevo contenido
+            selectedCardInfo.innerHTML = `<h2><span>${selectedText}</span> - <span>${selectedPeriodo}</span></h2>`;  // Añadir el nuevo contenido
         }
 
         // Agregar evento change al select para actualizar el texto seleccionado cuando se cambie el periodo
