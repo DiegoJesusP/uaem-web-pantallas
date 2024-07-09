@@ -26,6 +26,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .hidden {
         display: none;
     }
+    .card a{
+    background-color: #204C87;
+    }
+    .card a:hover{
+        background-color: #001D7D;
+    }
+    .btnStyle button{
+        background-color: #204C87;
+        color: white;
+    }
+    .btnStyle button:hover{
+        background-color: #001D7D;
+        color: white;
+        cursor: pointer;
+    }
+    
     </style>
 </head>
 <body style="background-color: #F6F6F6;">
@@ -80,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Periodo (Barra busqueda)-->
                 <p id="periodo-label"><b>Seleccione el periodo...</b></p>
                 <div class="row align-items-center">
-                    <div class="container-input col-12 col-md-8 mb-3" id="periodo-container">
+                    <div class="container-input col-12 col-md-4 mb-3" id="periodo-container">
                         <select id="periodo-select" class="select-input" name="periodo" required>
                             <option value="0">Seleccione el periodo</option>
                             <?php
@@ -93,13 +109,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 }
                             ?>
                         </select>
-                        <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                        <svg fill="#000000" width="50px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                             <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <div class="col-12 col-md-4 d-flex justify-content-end">
-                        <input type="hidden" name="selected_card" id="selected_card" value="">
-                        <button type="submit" class="btn btn-primary col-4 col-md-3" id="consultar-btn">Consultar</button>
+                    <div class="col-12 col-md-8 col-sm-12 d-flex justify-content-end btnStyle">
+                        <input type="hidden" style="width: 10px;" name="selected_card" id="selected_card" value="">
+                        <button type="submit" class="btn col-4 col-md-3" id="consultar-btn">Consultar</button>
                     </div>                
                 </div>
             </div>
@@ -107,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         
         ?>
-        <!-- -->
+        <!-- HASTA ESTE PUNTO YA FUNCIONA POR LO MENOS ESTILOS Y OTRAS COSILLAS C: -->
         <hr>
         <!-- Confirmacion de seleccion en cards-->
         <div id="selected-card-info" class="bg-blue" style="border-radius: 20px;">
