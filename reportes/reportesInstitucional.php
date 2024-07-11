@@ -16,7 +16,7 @@ class PDF extends FPDF{
         $this->Ln(2);
         $this->Cell(0, 5, utf8_decode("Secretaria Académica"), 0, 1, 'C');
         $this->Ln(2);
-        $this->Cell(0, 5, utf8_decode("Dirección de Educación Superior"), 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode("Dirección General de Educación Superior"), 0, 1, 'C');
 
         
         $this->Ln(12);
@@ -137,7 +137,7 @@ class PDF extends FPDF{
         $num = 2;
         $this->SetFont('Arial', 'B', 12);
         $this->AddIndice($anchoColumnas, ["I. Resultado Institucional. Modalidad y dimensiones de evaluación."], $num, true); 
-        $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión"], $num, true, [220, 228, 241]); 
+        $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión."], $num, true, [220, 228, 241]); 
         $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $num, true); 
         $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n      * Modalidad Virtual"], $num, true, [220, 228, 241]); 
         
@@ -162,24 +162,42 @@ class PDF extends FPDF{
         $this->Ln();
     }
 
-    function Page3Content(){
+    function Page1Content(){
         // Contenido de la página 3 (texto y operación)
-        $this->SetTextColor(0, 0, 0);
+        $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('Texto para la página 3.'), 0, 'L');
+        $this->MultiCell(0, 10, utf8_decode('l. Resultado Institucional. Modalidad y dimensiones de evaluación.'), 0, 'L');
         
-        $resultado = 20 - 8; // Ejemplo de otra operación
-        $this->MultiCell(0, 10, utf8_decode('Resultado de otra operación: ' . $resultado), 0, 'L');
+        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
+        $this->Cell(0, 10, utf8_decode('Proximamente grafica 1'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
+        $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluaciól docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
+        $this->MultiCell(0, 6, utf8_decode('*Total de asesores participantes son contabilizados como registros únicos.'), 0, 'L');
+        $this->SetFont('Arial', '', 12);
+        $this->Cell(0, 10, utf8_decode('Proximamente grafica 2'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 2. Resultado Institucional por modalidad y dimensiones de evaluación.'), 0, 'R');
+        $this->SetFont('Arial', '', 12);
+        $this->Cell(0, 10, utf8_decode('Proximamente grafica 3'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 3. Nivel de participación de estudiantes.'), 0, 'R');
     }
 
-    function Page4Content(){
+    function Page2Content(){
         // Contenido de la página 3 (texto y operación)
-        $this->SetTextColor(0, 0, 0);
+        $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('aaaaaaaaaaaaaaaaaaaaaaaaaa'), 0, 'C');
+        $this->MultiCell(0, 10, utf8_decode('II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión.'), 0, 'L');
         
-        $resultado = 200 - 80; // Ejemplo de otra operación
-        $this->MultiCell(0, 10, utf8_decode('Resultado de otra operación: ' . $resultado), 0, 'L');
+        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
+        $this->Cell(0, 10, utf8_decode('Proximamente grafica 4'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 4. Resultado Institucional, Modalidad, dimensiones de evaluación y desglose de dimensión: Funciones del asesor en línea.'), 0, 'R');
+        $this->SetFont('Arial', '', 12);
+        $this->Cell(0, 10, utf8_decode('Proximamente grafica 5'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
     }
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
         if ($useFillColor) {
@@ -231,10 +249,10 @@ $pdf->AddPage();
 $pdf->Indice();
 
 $pdf->AddPage();
-$pdf->Page3Content();
+$pdf->Page1Content();
 
 $pdf->AddPage();
-$pdf->Page4Content();
+$pdf->Page2Content();
 
 $pdf->Output();
 
