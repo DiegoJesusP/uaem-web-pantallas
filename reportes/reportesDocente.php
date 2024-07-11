@@ -399,9 +399,9 @@ if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'No está definido 
             $anchoFijo = 70; // Ancho fijo para la primera columna (Grupos)
             $anchoVariable = 189 - $anchoFijo; // Ancho total disponible menos el ancho de la columna fija
             $anchoGrupos = $anchoVariable / ($numGrupos + 1); // Distribuir el ancho entre las columnas de grupos y la columna Total
-            $anchoColumnas[] = $anchoFijo;
+            $anchoColumnas[] = $anchoFijo; // grupo
             for ($i = 0; $i < $numGrupos; $i++) {
-                $anchoColumnas[] = $anchoGrupos;
+                $anchoColumnas[] = $anchoGrupos; // Ancho para cada grupo
             }
             $anchoColumnas[] = $anchoGrupos; // Ancho para la columna Total
             //

@@ -40,7 +40,7 @@ class PDF extends FPDF{
 
     function Portada(){
         $xIni = 90;
-        $xsegundo = 150;
+        $xSeg = 150;
         $xIniCuadro = 50;
         $YIniCuadro = 60;
         //Primera fila
@@ -91,46 +91,78 @@ class PDF extends FPDF{
         $this->Ln(19);
         $this->SetFillColor(232, 242, 244);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xsegundo, 10, utf8_decode(''), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode(''), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFillColor(48, 132, 156);
         $this->SetTextColor(255, 255, 255);
         $this->SetFont('Arial', 'B', 14);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xsegundo, 10, utf8_decode('Reporte Institucional de Evaluación del Desempeño Docente'), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode('Reporte Institucional de Evaluación del Desempeño Docente'), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFont('Arial', '', 14);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xsegundo, 10, utf8_decode('Modalidad híbrida y/o virtual'), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode('Modalidad híbrida y/o virtual'), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFillColor(235, 243, 246);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xsegundo, 10, utf8_decode(''), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode(''), 0, 0, 'R', true);
         $this->Ln(50);
         //
         $this->SetFillColor(74, 172, 197);
         $this->SetTextColor(0, 0, 0);
-        $this->Cell(($xIni + $xsegundo), 10, utf8_decode('Periodo de Evaluación'), 0, 0, 'R');
+        $this->Cell(($xIni + $xSeg), 10, utf8_decode('Periodo de Evaluación'), 0, 0, 'R');
         $this->Ln();
         //
         $this->SetTextColor(255, 255, 255);
         $this->SetDrawColor(28, 68, 79);
-        $this->Cell($xsegundo+25, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xIni-25, 10, utf8_decode($this->footerPeriodo), 1, 0, 'R', true);
+        $this->Cell($xSeg+30, 10, utf8_decode(''), 0, 0, 'R');
+        $this->Cell($xIni-30, 10, utf8_decode($this->footerPeriodo), 1, 0, 'R', true);
         $this->Ln();
     }
 
-    function Page2Content()
-    {
+    function Indice(){
+        $xIni = 250;
+        $xSeg = 20;
         // Contenido de la página 2 (operación)
-        $this->SetTextColor(0, 0, 0);
-        $this->SetFont('Arial', '', 12);
-        $resultado = 10 + 5; // Ejemplo de operación
-        $this->MultiCell(0, 10, utf8_decode('Resultado de la operación: ' . $resultado), 0, 'L');
+        $this->SetFillColor(220, 228, 241);
+        $this->SetTextColor(23, 55, 94);
+        $this->SetFont('Arial', 'B', 20);
+        $this->Cell(($xIni + $xSeg), 10, utf8_decode('Contenido'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 15);
+        $this->Cell(($xIni + $xSeg), 10, utf8_decode('Reporte de Evaluación Del Desempeño Docente, asignaturas híbridas y/o virtuales'), 1, 1, 'C', true);
+        
+        $anchoColumnas = [];
+        $anchoColumnas[] = $xIni; // texto
+        $anchoColumnas[] = $xSeg; // numero
+        $num = 2;
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddIndice($anchoColumnas, ["I. Resultado Institucional. Modalidad y dimensiones de evaluación."], $num, true); 
+        $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión"], $num, true, [220, 228, 241]); 
+        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $num, true); 
+        $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n      * Modalidad Virtual"], $num, true, [220, 228, 241]); 
+        
+
     }
 
-    function Page3Content()
-    {
+    function AddIndice($anchoColumnas, $titulosTablas, $data, $useFillColor = true, $fillColor = [255, 255, 255]) {
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        //
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($anchoColumnas[0], 10, utf8_decode($titulo), 1, 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 10);
+            $this->MultiCell($anchoColumnas[1], 10, $data, 1, 'C', $j % 2 == 0);
+            
+        }
+        // Línea de cierre
+        $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
+        $this->Ln();
+    }
+
+    function Page3Content(){
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(0, 0, 0);
         $this->SetFont('Arial', '', 12);
@@ -140,8 +172,7 @@ class PDF extends FPDF{
         $this->MultiCell(0, 10, utf8_decode('Resultado de otra operación: ' . $resultado), 0, 'L');
     }
 
-    function Page4Content()
-    {
+    function Page4Content(){
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(0, 0, 0);
         $this->SetFont('Arial', '', 12);
@@ -191,13 +222,13 @@ $anio = obtenerParametroGET('anio', 'No está definido "anio"');
 $pdf = new PDF('L','mm','A4');
 $pdf->AliasNbPages();
 //
-$pdf->setFooterText('Reporte Institucional de Evaluación del Desempeño Docente', ($periodo . ' ' . $anio));
+$pdf->setFooterText('Reporte Institucional modalidad híbrida y/o virtual', ($periodo . ' ' . $anio));
 // Agregar páginas con contenido diferente
 $pdf->AddPage();
 $pdf->Portada();
 
 $pdf->AddPage();
-$pdf->Page2Content();
+$pdf->Indice();
 
 $pdf->AddPage();
 $pdf->Page3Content();
