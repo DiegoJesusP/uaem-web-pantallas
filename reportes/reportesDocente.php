@@ -216,6 +216,7 @@ class PDF extends FPDF{
         
         //$r12, $r18, $r15, $r13, $r17, $r16, $r20, $r14, $r21Colores, $r21Ilustraciones, $r21Tamanio
     }
+    //
     function TablaDiseno($anchoColumnas, $numGrupos, $aux,$r12, $tr12, $r13, $tr13, $r14, $tr14, $r15, $tr15, $r16, $tr16, $r17, $tr17, $r18, $tr18, $r20, $tr20, $sumDom3, $dom3, $sumDom4, $dom4, $sumDom5, $dom5, $sumDom6, $dom6, $diseno, $disenoC, $r21Colores, $r21Ilustraciones, $r21Tamanio, $tr21Colores, $tr21Ilustraciones, $tr21Tamanio, $sumDom7, $dom7) {
 
         //$r12, $r18, $r15, $r13, $r17, $r16, $r20, $r14, $r21Colores, $r21Ilustraciones, $r21Tamanio
@@ -258,18 +259,19 @@ class PDF extends FPDF{
     
         foreach ($titulosTablas as $j => $titulo) {
             // Mostrar el título de la tabla
-            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 'LR', 0, 'L', $j % 2 == 0);
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 1, 'L', $j % 2 == 0);
             $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6);
             // Mostrar los valores de $data para cada grupo
             for ($k = 1; $k <= $numGrupos; $k++) {
                 $valor = isset($data[$k - 1]) ? $data[$k - 1] : '';
-                $this->Cell($anchoColumnas[$k], 6, $valor, 'LR', 0, 'C', $j % 2 == 0);
+                $this->Cell($anchoColumnas[$k], 6, $valor, 1, 0, 'C', $j % 2 == 0);
             }
         }
 
         foreach($total as $j => $titulo) {
             // Celda vacía para $total
-            $this->Cell($anchoColumnas[$numGrupos + 1], 6, $titulo, 'LR', 0, 'L', $j % 2 == 0);
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, $titulo, 1, 0, 'L', $j % 2 == 0);
             $this->Ln();
         }
     
