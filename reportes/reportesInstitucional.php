@@ -22,11 +22,20 @@ class PDF extends FPDF{
         $this->Ln(12);
     }
 
+    function setFooterText($text, $periodo) {
+        $this->footerText = $text;
+        $this->footerPeriodo = $periodo;
+    }
+
     function Footer(){
         $this->SetY(-15);
         $this->SetTextColor(0, 0, 0);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . ' / {nb}', 0, 0, 'C');
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, 10, utf8_decode($this->footerText), 0, 1, 'L');
+        $this->SetFont('Arial', 'B', 9);
+        $this->Cell(0, -10, utf8_decode($this->footerPeriodo), 0, 0, 'C');
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, -10, utf8_decode('Página | ') . $this->PageNo(), 0, 0, 'R');
     }
 
     function Portada(){
@@ -97,6 +106,17 @@ class PDF extends FPDF{
         $this->SetFillColor(235, 243, 246);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
         $this->Cell($xsegundo, 10, utf8_decode(''), 0, 0, 'R', true);
+        $this->Ln(50);
+        //
+        $this->SetFillColor(74, 172, 197);
+        $this->SetTextColor(0, 0, 0);
+        $this->Cell(($xIni + $xsegundo), 10, utf8_decode('Periodo de Evaluación'), 0, 0, 'R');
+        $this->Ln();
+        //
+        $this->SetTextColor(255, 255, 255);
+        $this->SetDrawColor(28, 68, 79);
+        $this->Cell($xsegundo+25, 10, utf8_decode(''), 0, 0, 'R');
+        $this->Cell($xIni-25, 10, utf8_decode($this->footerPeriodo), 1, 0, 'R', true);
         $this->Ln();
     }
 
@@ -130,12 +150,48 @@ class PDF extends FPDF{
         $resultado = 200 - 80; // Ejemplo de otra operación
         $this->MultiCell(0, 10, utf8_decode('Resultado de otra operación: ' . $resultado), 0, 'L');
     }
-}
+    function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        //$this->SetFont('Arial', 'B', 10);
+    
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($anchoColumnas[0], 6, utf8_decode($titulo), 1, 'L', $j % 2 == 0);
+            $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 6);
+            // Mostrar los valores de $data para cada grupo
+            for ($k = 1; $k <= $numGrupos; $k++) {
+                $valor = isset($data[$k - 1]) ? $data[$k - 1] : '';
+                $this->Cell($anchoColumnas[$k], 6, $valor, 1, 0, 'C', $j % 2 == 0);
+            }
+        }
 
+        foreach($total as $j => $titulo) {
+            // Celda vacía para $total
+            $this->Cell($anchoColumnas[$numGrupos + 1], 6, $titulo, 1, 0, 'L', $j % 2 == 0);
+            $this->Ln();
+        }
+    
+        // Línea de cierre
+        $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
+        $this->Ln();
+    }
+}
+//
+function obtenerParametroGET($nombre, $default = 'No definido') {
+    return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
+}
+// Obtener parámetros GET
+$periodo = obtenerParametroGET('periodo', 'No está definido "periodo"');
+$anio = obtenerParametroGET('anio', 'No está definido "anio"');
+//
 
 $pdf = new PDF('L','mm','A4');
 $pdf->AliasNbPages();
-
+//
+$pdf->setFooterText('Reporte Institucional de Evaluación del Desempeño Docente', ($periodo . ' ' . $anio));
 // Agregar páginas con contenido diferente
 $pdf->AddPage();
 $pdf->Portada();

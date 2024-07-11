@@ -183,8 +183,8 @@ ORDER BY
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
                     echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
-                    //echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
-                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php' data-selected_card='" . $selected_card . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $selected_periodo . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    //echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
@@ -273,6 +273,19 @@ ORDER BY
                 selectedCardInfo.innerHTML = `<h2>INFORME <span>Ninguno</span> - <span>${selectedPeriodo}</span></h2>`;
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.consultar-reporte');
+    
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var numcontrol = button.getAttribute('data-numcontrol');
+                var periodo = button.getAttribute('data-periodo');
+                var anio = button.getAttribute('data-anio');
+                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php?selected_card=' + selected_card + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+            });
+        });
+    });
     </script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
