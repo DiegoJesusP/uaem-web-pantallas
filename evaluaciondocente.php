@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Docente</title>
-    <link rel="Shortcut Icon" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
-    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/styles.css">
-    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/cards-evadocente-styles.css">
-    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/css/footer-styles.css">
+    <link rel="Shortcut Icon" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/cards-evadocente-styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/footer-styles.css">
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
@@ -21,17 +21,17 @@
             <!-- Vertical Navigation -->
             <div class="col-lg-2">
                 <ul class="list-unstyled vertical-nav">
-                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/evaluaciondocente.php" class="btn btn-block my-1 custom-btn-lateral">Instrumento de evaluación docente</a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/evaluaciondocente.php" class="btn btn-block my-1 custom-btn-lateral">Instrumento de evaluación docente</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/cronograma.html" class="btn btn-block my-1 custom-btn-lateral">Cronograma</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/fechas.php" class="btn btn-block my-1 custom-btn-lateral">Fechas de aplicación</a></li>
-                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/resultados.php" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/resultados.php" class="btn btn-block my-1 custom-btn-lateral">Reporte de Resultados</a></li>
                     <li><a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/monitoreo.html" class="btn btn-block my-1 custom-btn-lateral">Monitoreo</a></li>
                 </ul>
             </div>            
             <!-- Main Content -->
             <div class="col-lg-10 d-flex flex-column">
                 <section id="instrumento">
-                    <h1 class="mt-3"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/instrumento.png" alt="ubicacion" class="img-fluid icon"> Instrumento de evaluación docente</h1>
+                    <h1 class="mt-3"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/instrumento.png" alt="ubicacion" class="img-fluid icon"> Instrumento de evaluación docente</h1>
                     <hr>
                     <div class="content-section">
                         <p>En este proceso de Evaluación y Formación Docente, se considera una vertiente amplia que reconoce al personal académico como sujeto crítico, auto-reflexivo y participativo, mediador y facilitador de experiencias para estimular y facilitar el aprendizaje de los estudiantes, que a partir de su participación en los procesos de evaluación y formación, realiza un ejercicio que lo conduce a comprender, reflexionar y mejorar su actividad académica para la transformación de los procesos.</p>
@@ -45,7 +45,7 @@
                                         <div class="card custom-card">
                                             <div class="card-body">
                                                 <h5 class="card-title">Autoevaluación Docente</h5>
-                                                <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/docente.png" class="card-img-top mb-3" alt="Docente">
+                                                <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/docente.png" class="card-img-top mb-3" alt="Docente">
                                                 <p class="card-text">Si usted es docente, haga clic en el siguiente botón</p>
                                                 <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluaciond.php" class="btn" style="background-color: #41538F; color: #ffffff;">Entrar</a>
                                             </div>
@@ -58,7 +58,7 @@
                                         <div class="card custom-card">
                                             <div class="card-body">
                                                 <h5 class="card-title">Opinión de Estudiantes</h5>
-                                                <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/img/alumno.png" class="card-img-top mb-3" alt="Estudiante">
+                                                <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/alumno.png" class="card-img-top mb-3" alt="Estudiante">
                                                 <p class="card-text">Si eres estudiante, haz clic en el siguiente botón</p>
                                                 <a href="http://sistemas2.dti.uaem.mx/evadocente/formacion/evaluacion/evaluacione.php" class="btn" style="background-color: #f18117; color: #ffffff;">Entrar</a>
                                             </div>
@@ -75,13 +75,13 @@
     
     <div id="footerContainer"></div>
     <!-- Scripts -->
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadFooter.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadNav.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadFooter.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadNav.js"></script>
     <script>
             function redirectToInstitucion() {
-        window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/reportes/institucion.php';
+        window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/institucion.php';
     }
     </script>
 </body>

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados Docente</title>
-    <link rel="Shortcut Icon" href="http://localhost/ejemplo/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
-    <link rel="stylesheet" href="http://localhost/ejemplo/uaem-web-pantallas/assets/css/cards-styles.css">
+    <link rel="Shortcut Icon" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/uaem.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/btn-regresar-styles.css">
+    <link rel="stylesheet" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/css/cards-styles.css">
     <style>
     .textB {
         font-family: 'Ubuntu';font-size: 22px;
@@ -18,11 +18,11 @@
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
     <div class="container textB">
-        <h1 style="text-align: center;" class="mt-3 mb-3"><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/encuesta_f.png" alt="ubicacion" class="img-fluid icon alin" style="width: 64px; height: 64px;">Resultados del Docente</h1>
+        <h1 style="text-align: center;" class="mt-3 mb-3"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/encuesta_f.png" alt="ubicacion" class="img-fluid icon alin" style="width: 64px; height: 64px;">Resultados del Docente</h1>
         
         <hr>
         <div class="col-12 d-flex justify-content-end">
-            <a href="./../docs/pruebapdf.pdf" target="_blank" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
+            <a href="./../docs/pruebapdf.pdf" target="_blank" style="color: red; margin-bottom: 10px;">Instructivo<img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/libro.png" alt="ubicacion" class="img-fluid icon alin" style="width: 47px; height: 50px;"></a>
         </div>
         <?php
         $numcontrol = '';
@@ -85,7 +85,7 @@
                 <b>Seleccione un reporte individual...</b>
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-end d-none d-md-flex">
-                <button class="button" onclick="location.href='http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php';">
+                <button class="button" onclick="location.href='http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/docente.php';">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                     </svg>
@@ -182,7 +182,7 @@
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
                     echo "<h5 class='card-title'>Unidad académica: <br><b>" . $grupo['unidad'] . "</b> <br>Nivel educativo: <br><b>" . $grupo['nivel'] . "</b><br><p>" . $grupo['numcontrol'] . "</p></h5>";
-                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
@@ -221,73 +221,6 @@
     
     ?>
     </div>
-    
-    <!-- Botón regresar 
-    <div class="fixed-button-container">
-        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/docente.php" class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-            </svg>
-            <div class="text"><h5>Regresar</h5></div>
-        </a>
-    </div>
-    <div class="row d-flex">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div class="card" style="width: 18rem; cursor: pointer;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Modalidad: <br><b>${modalidad}</b></h5>
-                        <p class="card-text">Periodo de Evaluación: <br><b>${periodo}</b></p>
-                        <a href="http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php" class="btn btn-primary">Generar</a>
-                    </div>
-                </div>
-            </div> 
-        </div>
-    -->
     <script>
             //
             document.addEventListener('DOMContentLoaded', function() {
@@ -300,14 +233,14 @@
             var acta_id = button.getAttribute('data-acta_id');
             var periodo = '<?php echo $periodo; ?>';
             var anio = '<?php echo $anio; ?>'; 
-            window.location.href = 'http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+            window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
         });
     });
 });
 //
 
     </script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/js/bootstrap.bundle.min.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/ejemplo/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/js/bootstrap.bundle.min.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>
 </body>
 </html>

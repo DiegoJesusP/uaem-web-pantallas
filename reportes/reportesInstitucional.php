@@ -3,11 +3,11 @@
 require_once './../library/fpdf/fpdf.php';
 
 class PDF extends FPDF{
-
+    var $pageNumbers = array();
     function Header(){
         // Logos
-        $this->Image('./../assets/img/LogoUAEMcolor.png', 25, 10, 35);
-        $this->Image('./../assets/img/LogoUAEMcolor.png', 235, 10, 35);
+        $this->Image('./../assets/img/LogoUAEMcolor.png', 25, 5, 35);
+        //$this->Image('./../assets/img/LogoUAEMcolor.png', 235, 5, 35);
         
         // Título
         $this->SetFont('Arial', 'B', 13);
@@ -163,6 +163,7 @@ class PDF extends FPDF{
     }
 
     function Page1Content(){
+        $this->pageNumbers[] = $this->PageNo();
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
@@ -170,6 +171,9 @@ class PDF extends FPDF{
         
         $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
         $this->Cell(0, 10, utf8_decode('Proximamente grafica 1'), 1, 1, 'C');
+        //
+        
+        //
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
         $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluaciól docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
@@ -182,9 +186,42 @@ class PDF extends FPDF{
         $this->Cell(0, 10, utf8_decode('Proximamente grafica 3'), 1, 1, 'C');
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 3. Nivel de participación de estudiantes.'), 0, 'R');
+        //
+        $men = 13;
+        $women = 20;
+        $children = 18;
+        $other = 15;
+        $data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
+
+        $this->SetFont('Arial', 'BIU', 12);
+        $this->Cell(0, 5, '1 - Pie chart', 0, 1);
+        $this->Ln(8);
+
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        //$col1=array(100,100,255);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        //$arreglo = array($col1,$col2,$col3, $col4);
+        $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->SetXY($valX, $valY + 40);
+
+        //Bar diagram
+        $this->SetFont('Arial', 'BIU', 12);
+        $this->Cell(0, 5, '2 - Bar diagram', 0, 1);
+        $this->Ln(8);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+        $this->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
+        $this->SetXY($valX, $valY + 80);
     }
 
     function Page2Content(){
+        $this->pageNumbers[] = $this->PageNo();
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
@@ -199,6 +236,7 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
     }
+
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
         if ($useFillColor) {
             $this->SetFillColor(...$fillColor);
@@ -227,8 +265,8 @@ class PDF extends FPDF{
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
     }
-    function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90)
-    {
+
+    function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90){
         $d0 = $a - $b;
         if($cw){
             $d = $b;
@@ -320,8 +358,7 @@ class PDF extends FPDF{
         $this->_out($op);
     }
 
-    function _Arc($x1, $y1, $x2, $y2, $x3, $y3 )
-    {
+    function _Arc($x1, $y1, $x2, $y2, $x3, $y3 ){
         $h = $this->h;
         $this->_out(sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c',
             $x1*$this->k,
@@ -337,8 +374,7 @@ class PDF extends FPDF{
     var $sum;
     var $NbVal;
 
-    function PieChart($w, $h, $data, $format, $colors=null)
-    {
+    function PieChart($w, $h, $data, $format, $colors=null){
         $this->SetFont('Courier', '', 10);
         $this->SetLegends($data,$format);
 
@@ -374,7 +410,7 @@ class PDF extends FPDF{
         }
 
         //Legends
-        $this->SetFont('Courier', '', 10);
+        $this->SetFont('Arial', '', 10);
         $x1 = $XPage + 2 * $radius + 4 * $margin;
         $x2 = $x1 + $hLegend + $margin;
         $y1 = $YDiag - $radius + (2 * $radius - $this->NbVal*($hLegend + $margin)) / 2;
@@ -387,8 +423,7 @@ class PDF extends FPDF{
         }
     }
 
-    function BarDiagram($w, $h, $data, $format, $color=null, $maxVal=0, $nbDiv=4)
-    {
+    function BarDiagram($w, $h, $data, $format, $color=null, $maxVal=0, $nbDiv=4){
         $this->SetFont('Courier', '', 10);
         $this->SetLegends($data,$format);
 
@@ -416,7 +451,7 @@ class PDF extends FPDF{
         $this->SetLineWidth(0.2);
         $this->Rect($XDiag, $YDiag, $lDiag, $hDiag);
 
-        $this->SetFont('Courier', '', 10);
+        $this->SetFont('Arial', '', 10);
         $this->SetFillColor($color[0],$color[1],$color[2]);
         $i=0;
         foreach($data as $val) {
@@ -443,8 +478,7 @@ class PDF extends FPDF{
         }
     }
 
-    function SetLegends($data, $format)
-    {
+    function SetLegends($data, $format){
         $this->legends=array();
         $this->wLegend=0;
         $this->sum=array_sum($data);
@@ -457,6 +491,20 @@ class PDF extends FPDF{
             $this->wLegend=max($this->GetStringWidth($legend),$this->wLegend);
         }
     }
+
+    function ColoresAleatorios($tData) {
+        $addColores = [];
+        for ($i = 0; $i < $tData; $i++) {
+            $valor1 = rand(150, 240);
+            $valor2 = rand(150, 240);
+            $valor3 = rand(150, 240);
+            $addColores[] = array($valor1, $valor2, $valor3);
+        }
+    
+        // Retornar los valores como un array
+        return $addColores;
+    }
+    
 }
 //
 function obtenerParametroGET($nombre, $default = 'No definido') {
@@ -485,62 +533,9 @@ $pdf->AddPage();
 $pdf->Page2Content();
 
 $pdf->AddPage();
-$xc=105;
-$yc=60;
-$r=40;
-$pdf->SetFillColor(120,120,255);
-$pdf->Sector($xc,$yc,$r,20,120);
-$pdf->SetFillColor(120,255,120);
-$pdf->Sector($xc,$yc,$r,120,250);
-$pdf->SetFillColor(255,120,120);
-$pdf->Sector($xc,$yc,$r,250,20);
-//
-$pdf->AddPage();
-$men = 13;
-$women = 10;
-$children = 18;
-$other = 15;
-$data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
-
-//Pie chart
-$pdf->SetFont('Arial', 'BIU', 12);
-$pdf->Cell(0, 5, '1 - Pie chart', 0, 1);
-$pdf->Ln(8);
-
-$pdf->SetFont('Arial', '', 10);
-$valX = $pdf->GetX();
-$valY = $pdf->GetY();
-$pdf->Cell(30, 5, 'Number of men:');
-$pdf->Cell(15, 5, $data['Men'], 0, 0, 'R');
-$pdf->Ln();
-$pdf->Cell(30, 5, 'Number of women:');
-$pdf->Cell(15, 5, $data['Women'], 0, 0, 'R');
-$pdf->Ln();
-$pdf->Cell(30, 5, 'Number of children:');
-$pdf->Cell(15, 5, $data['Children'], 0, 0, 'R');
-$pdf->Ln();
-$pdf->Cell(30, 5, 'Number of Other:');
-$pdf->Cell(15, 5, $data['Other'], 0, 0, 'R');
-$pdf->Ln(15);
-$pdf->Cell(15, 5, '**'.array_sum($data), 0, 0, 'R');
-$pdf->Ln(8);
-
-$pdf->SetXY(90, $valY);
-$col1=array(100,100,255);
-$col2=array(255,100,100);
-$col3=array(255,255,100);
-$col4=array(47, 36, 65);
-$pdf->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3, $col4));
-$pdf->SetXY($valX, $valY + 40);
-
-//Bar diagram
-$pdf->SetFont('Arial', 'BIU', 12);
-$pdf->Cell(0, 5, '2 - Bar diagram', 0, 1);
-$pdf->Ln(8);
-$valX = $pdf->GetX();
-$valY = $pdf->GetY();
-$pdf->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
-$pdf->SetXY($valX, $valY + 80);
+foreach ($pdf->pageNumbers as $pageNumber) {
+    $pdf->Cell(0, 5, 'paginas: ' . $pageNumber, 0, 1);
+}
 
 $pdf->Output();
 
