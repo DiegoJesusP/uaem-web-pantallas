@@ -51,7 +51,7 @@
                                     <div class="card-body">
                                         <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/resultado_escuela.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados de la institución.</p>
-                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/institucion.php" class="btn btn-primary" onclick="redirectToInstitucion()">Entrar</a>
+                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/informe/institucion.php" class="btn btn-primary" onclick="redirectToInstitucion()">Entrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <div class="card-body">
                                         <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/resultado_docente.png" class="card-img-top" alt="Descripción de la imagen 2">
                                         <p class="card-text">Resultados del docente.</p>
-                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/docente.php" class="btn btn-primary">Entrar</a>
+                                        <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/informe/docente.php" class="btn btn-primary">Entrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadNav.js"></script>
     <script>
             function redirectToInstitucion() {
-        window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/institucion.php';
+        window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/informe/institucion.php';
     }
     </script>
 </body>

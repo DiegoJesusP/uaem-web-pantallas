@@ -97,11 +97,11 @@ class PDF extends FPDF{
         $this->SetTextColor(255, 255, 255);
         $this->SetFont('Arial', 'B', 14);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xSeg, 10, utf8_decode('Reporte Institucional de Evaluación del Desempeño Docente'), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode('Reporte Unidad Academica de Evaluación del Desempeño Docente'), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFont('Arial', '', 14);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xSeg, 10, utf8_decode('Modalidad híbrida y/o virtual'), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode('AAAAAAAAAAAAAAAAAH '), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFillColor(235, 243, 246);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');

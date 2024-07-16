@@ -152,49 +152,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         switch ($selected_card){
             case 'INSTITUCIONAL':
                 $consulta = $conn->prepare("SELECT DISTINCT
-    EXTRACT(YEAR FROM fecha) AS anio,
-    CASE
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
-        ELSE 'Otro'
-    END AS periodo
-FROM
-    preguntav
-WHERE
-    EXTRACT(YEAR FROM fecha) = :anio
-GROUP BY
-    EXTRACT(YEAR FROM fecha),
-    CASE
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
-        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
-        ELSE 'Otro'
-    END
-ORDER BY
-    anio, periodo");
-            // Ejecuta la consulta
-            $consulta->bindParam(':anio', $selected_periodo);
-            $consulta->execute();
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+                EXTRACT(YEAR FROM fecha) AS anio,
+                    CASE
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                        ELSE 'Otro'
+                    END AS periodo
+                FROM
+                    preguntav
+                WHERE
+                    EXTRACT(YEAR FROM fecha) = :anio
+                GROUP BY
+                    EXTRACT(YEAR FROM fecha),
+                    CASE
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                        ELSE 'Otro'
+                    END
+                ORDER BY
+                    anio, periodo");
+                // Ejecuta la consulta
+                $consulta->bindParam(':anio', $selected_periodo);
+                $consulta->execute();
+                $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
     
-            if ($resultado) {
-                echo "<div class='row d-flex'>";
-                foreach ($resultado as $fila) {
-                    echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
-                    echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
-                    echo "<div class='card-body text-center'>";
-                    echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
-                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php' data-selected_card='" . $selected_card . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $selected_periodo . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
-                    //echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/reportesInstitucional.php' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
-                    echo "</div>";
-                    echo "</div>";
-                    echo "</div>";
-                }
-                echo "</div>";
-            } else {
-                echo "<div class='d-flex justify-content-center'>";
-                echo "<p>No se encontró el periodo.</p>";
-                echo "</div>";
-            }
+                    if ($resultado) {
+                        echo "<div class='row d-flex'>";
+                        foreach ($resultado as $fila) {
+                            echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                            echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                            echo "<div class='card-body text-center'>";
+                            echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
+                            echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesInstitucional.php' data-selected_card='" . $selected_card . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $selected_periodo . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                            //echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesInstitucional.php' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                        echo "</div>";
+                    } else {
+                        echo "<div class='d-flex justify-content-center'>";
+                        echo "<p>No se encontró el periodo.</p>";
+                        echo "</div>";
+                    }
                 break;
             case 'DES':
                 echo "<div class='d-flex justify-content-center'>";
@@ -206,10 +206,51 @@ ORDER BY
                 echo "<p>Este sistema no esta validado para $selected_card</p>";
                 echo "</div>";
                 break;
-            case 'NIVEL SUPERIOR Y POSTGRADO':
-                echo "<div class='d-flex justify-content-center'>";
-                echo "<p>Este sistema no esta validado para $selected_card</p>";
-                echo "</div>";
+            case 'NIVEL SUPERIOR Y POSTGRADO'://este es el bueno
+                $consulta = $conn->prepare("SELECT DISTINCT
+                EXTRACT(YEAR FROM fecha) AS anio,
+                    CASE
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                        ELSE 'Otro'
+                    END AS periodo
+                FROM
+                    preguntav
+                WHERE
+                    EXTRACT(YEAR FROM fecha) = :anio
+                GROUP BY
+                    EXTRACT(YEAR FROM fecha),
+                    CASE
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6 THEN 'Enero a Junio'
+                        WHEN EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12 THEN 'Agosto a Diciembre'
+                        ELSE 'Otro'
+                    END
+                ORDER BY
+                    anio, periodo");
+                // Ejecuta la consulta
+                $consulta->bindParam(':anio', $selected_periodo);
+                $consulta->execute();
+                $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+                    if ($resultado) {
+                        echo "<div class='row d-flex'>";
+                        foreach ($resultado as $fila) {
+                            echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                            echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                            echo "<div class='card-body text-center'>";
+                            echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
+                            echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesUnidadAcademica.php' data-selected_card='" . $selected_card . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $selected_periodo . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                            //echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesInstitucional.php' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                        echo "</div>";
+                    } else {
+                        echo "<div class='d-flex justify-content-center'>";
+                        echo "<p>No se encontró el periodo.</p>";
+                        echo "</div>";
+                    }
                 break;
             case 'HISTORICO':
                 echo "<div class='d-flex justify-content-center'>";
@@ -282,7 +323,25 @@ ORDER BY
                 var numcontrol = button.getAttribute('data-numcontrol');
                 var periodo = button.getAttribute('data-periodo');
                 var anio = button.getAttribute('data-anio');
-                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesInstitucional.php?selected_card=' + selected_card + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/<?php 
+                    switch ($selected_card){ 
+                        case 'INSTITUCIONAL':
+                            echo 'reportesInstitucional.php';
+                            break;
+                        case 'DES':
+                            echo 'reportesDes.php';
+                            break;
+                        case 'NIVEL MEDIO':
+                            echo 'reportesNivelMedio.php';
+                            break;
+                        case 'NIVEL SUPERIOR Y POSTGRADO':
+                            echo 'reportesUnidadAcademica.php';
+                            break;
+                        case 'HISTORICO':
+                            echo 'reportesHistorico.php';
+                            break;
+                        } ?>
+                        ?selected_card=' + selected_card + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
             });
         });
     });

@@ -27,7 +27,7 @@
                     <div class="carousel-inner">
                         <!-- primer Slide con un intervalo de 1000ms - 1 segundo -->
                         <div class="carousel-item active">
-                            <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
+                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <a style="--clr: #dc3545" class="button" href="https://uiverse.io/Creatlydev/silly-cat-86">
                                     <span class="button__icon-wrapper">
@@ -44,7 +44,7 @@
                         </div>
                         <!-- segundo Slide con un intervalo de 1000ms - 1 segundo -->
                         <div class="carousel-item">
-                            <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
+                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <a style="--clr: #dc3545" class="button" href="https://uiverse.io/Creatlydev/silly-cat-86">
                                     <span class="button__icon-wrapper">
@@ -61,7 +61,7 @@
                         </div>
                         <!-- tercer Slide con un intervalo de 1000ms - 1 segundo -->
                         <div class="carousel-item">
-                            <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
+                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <a style="--clr: #dc3545" class="button" href="https://uiverse.io/Creatlydev/silly-cat-86">
                                     <span class="button__icon-wrapper">
@@ -78,7 +78,7 @@
                         </div>
                         <!-- cuarto Slide con un intervalo de 1000ms - 1 segundo -->
                         <div class="carousel-item">
-                            <img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
+                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <a style="--clr: #dc3545" class="button" href="https://uiverse.io/Creatlydev/silly-cat-86">
                                     <span class="button__icon-wrapper">
@@ -106,7 +106,7 @@
             </div>
             
                 <div class="col-lg-6">
-                    <h1><img src="http://localhost/ejemplo/uaem-web-pantallas/assets/img/introduccion.png" alt="introduccion" class="img-fluid" style="height: 48px;"> Presentación</h1>
+                    <h1><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/introduccion.png" alt="introduccion" class="img-fluid" style="height: 48px;"> Presentación</h1>
                     <hr>
                     <p>Las políticas institucionales de capacidad académica del Plan Institucional de Desarrollo, <b>2018-2023</b>, aluden a <b>consolidar la habilitación y capacitación del personal docente, así como el fortalecimiento de los cuerpos académicos.</b></p>
                     <br>

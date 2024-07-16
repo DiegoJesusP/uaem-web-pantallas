@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                     echo "<div class='card-body text-center'>";
                     echo "<h5 class='card-title'>Periodo de Evaluación: <br><b>" . $fila['periodo'] . "</b> <br><b>" . $fila['anio'] . "</b></h5>";
-                    echo "<a href='http://localhost/ejemplo/uaem-web-pantallas/reportes/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                    echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/informe/resultadosdocente.php' data-numcontrol='" . $fila['numcontrol'] . "' data-periodo='" . $fila['periodo'] . "' data-anio='" . $fila['anio'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 var numcontrol = button.getAttribute('data-numcontrol');
                 var periodo = button.getAttribute('data-periodo');
                 var anio = button.getAttribute('data-anio');
-                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/resultadosdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/informe/resultadosdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
             });
         });
     });
