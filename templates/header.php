@@ -11,7 +11,7 @@
     <header class="bg-blue py-2">
         <div class="container">
             <div class="row g-0 text-center d-flex justify-content-center align-items-center">
-                <div class="col-12 col-md-2 order-md-1 mb-2 mb-md-0">
+                <div class="col-12 col-md-2 order-md-1 mb-2 mb-md-0 mb-3">
                     <div class="header-image">
                         <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/index.php">
                             <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/LogoUAEMBlanco.png" alt="UAEM - Universidad - Morelos" class="img-fluid header-logo">

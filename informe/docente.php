@@ -27,10 +27,10 @@
             <h5 class="textB">Nombre de usuario SADCE</h5>
             <form method="post" action="">
                 <div class="row row-cols-auto justify-content-center">
-                    <div class="col">
+                    <div class="col mt-2">
                         <input type="text" placeholder="Nombre de usuario" name="usadce" class="shadow input" id="usernameInput" required oninput="convertirAMayusculas(this)">
                     </div>
-                    <div class="col">
+                    <div class="col mt-2">
                         <button class="boton-buscar shadow" id="usadceButton" name="usadceButton" onclick="buscarUsuario(event)" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -51,34 +51,37 @@
         <div style="margin-top: 20px;">
         <?php
         $usadce = '';
-include('./../php/conexion.php');
-$conexion = new CConexion();
-$conn = $conexion->conexionBD();
+        include('./../php/conexion.php');
+        try {
+            $conexion = new CConexion();
+            $conn = $conexion->conexionBD();
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $usadce = htmlspecialchars($_POST['usadce']);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usadce = htmlspecialchars($_POST['usadce']);
+                // Prepara la consulta SQL
+                $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
+                // Vincula los parámetros
+                $consulta->bindParam(':numcontrol', $usadce);
+                // Ejecuta la consulta
+                $consulta->execute();
 
-    // Prepara la consulta SQL
-    $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
-    // Vincula los parámetros
-    $consulta->bindParam(':numcontrol', $usadce);
-    // Ejecuta la consulta
-    $consulta->execute();
+                // Obtiene los resultados
+                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
-    // Obtiene los resultados
-    $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-
-    // Muestra los resultados
-    if ($resultado) {
-        echo "<div class='container'>";
-        echo "<p>Nombre del docente: <b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></p>";
-        echo "<p>Usuario SADCE: <b>" . $resultado['numcontrol'] . "</b></p>";
-        echo "</div>";
-    } else {
-        echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$usadce</b></p></div>";
-    }
-}
-?>
+                // Muestra los resultados
+                if ($resultado) {
+                    echo "<div class='container'>";
+                    echo "<p>Nombre del docente: <b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></p>";
+                    echo "<p>Usuario SADCE: <b>" . $resultado['numcontrol'] . "</b></p>";
+                    echo "</div>";
+                } else {
+                    echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$usadce</b></p></div>";
+                }
+            }
+        } catch (PDOException $e) {
+            echo "<p><h3>Ups, algo salió mal :(</h3>" . $e->getMessage(). "</p>";
+        }
+        ?>
         </div>
         <hr>
         <div style="margin-bottom: 20px;" class="row align-items-center">
@@ -95,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <?php
+        try{
         if ($usadce) {
             $consulta = $conn->prepare("SELECT
                 numcontrol,
@@ -149,6 +153,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<p>No se ha ingresado ningún usuario SADCE</p>";
             echo "</div>";
         }
+        } catch (PDOException $e) {
+            echo "<p><h3>Ups, algo salió mal :(</h3>" . $e->getMessage(). "</p>";
+        } finally {
+            $conexion->cerrarConexion($conn);
+        }
         ?>
     </div>
     </div>
@@ -188,6 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadFooterEva.js"></script> -->
+    <!-- <script src="http://<?//php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadFooterEva.js"></script> -->
 </body>
 </html>

@@ -58,24 +58,28 @@
         <div style="margin-top: 20px;">
             <?php
             include('./../php/conexion.php');
-            $conexion = new CConexion();
-            $conn = $conexion->conexionBD();
+            try{
+                $conexion = new CConexion();
+                $conn = $conexion->conexionBD();
 
-            $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
-            // Vincula los parámetros
-            $consulta->bindParam(':numcontrol', $numcontrol);
-            // Ejecuta la consulta
-            $consulta->execute();
-        
-            // Obtiene los resultados
-            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-        
-            // Muestra los resultados
-            if ($resultado) {
-            echo "<p>Nombre del docente: <b><span id='nombredocente'><b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></span></b></p>";
-            echo "<p>Núm. de reportes: <b><span id='numreportes'> </span></b></p>";
-            } else {
-                echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$numcontrol</b></p></div>";
+                $consulta = $conn->prepare("SELECT numcontrol, nombre_docente, ap_paterno_docente, ap_materno_docente FROM virtuales WHERE numcontrol = :numcontrol");
+                // Vincula los parámetros
+                $consulta->bindParam(':numcontrol', $numcontrol);
+                // Ejecuta la consulta
+                $consulta->execute();
+            
+                // Obtiene los resultados
+                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+            
+                // Muestra los resultados
+                if ($resultado) {
+                echo "<p>Nombre del docente: <b><span id='nombredocente'><b>" . $resultado['nombre_docente'] . " " . $resultado['ap_paterno_docente'] . " " . $resultado['ap_materno_docente'] .  "</b></span></b></p>";
+                echo "<p>Núm. de reportes: <b><span id='numreportes'> </span></b></p>";
+                } else {
+                    echo "<div class='container text-center'><p>No se encontraron resultados para el usuario SADCE: <b>$numcontrol</b></p></div>";
+                }
+            } catch (PDOException $exp) {
+                echo "<p><h3>Ups, algo salió mal :(</h3>" . $e->getMessage(). "</p>";
             }
             ?>
         </div>
@@ -104,111 +108,108 @@
     (:periodo = 'Agosto a Diciembre' AND EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12)
     );
     */
-    $consulta = $conn->prepare("SELECT matricula
-    FROM preguntav
-    WHERE numcontrol = :numcontrol 
-    AND (
-    (:periodo = 'Enero a Junio' AND EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6) OR
-    (:periodo = 'Agosto a Diciembre' AND EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12)
-    )");
-    $consulta->bindParam(':numcontrol', $numcontrol);
-    $consulta->bindParam(':periodo', $periodo);
-    $consulta->execute();
-    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    $matriculas = array();
-
-    if ($resultado) {
-        foreach ($resultado as $fila) {
-            $matriculas[] = $fila['matricula'];
-        }
-    }
-    
-    /*
-    SELECT DISTINCT unidad, nivel, numcontrol, id_grupo, acta_id
-    FROM virtuales
-    WHERE matricula = :matriculas;
-    */
-
-    if (!empty($matriculas) && !empty($numcontrol)) {
-        // Crear una cadena de placeholders para las matrículas en la consulta
-        $placeholders = str_repeat('?,', count($matriculas) - 1) . '?';
-    
-        // Consulta SQL para obtener unidad y nivel basado en las matrículas y numcontrol
-        $sql = "SELECT unidad, nivel, numcontrol, id_grupo, acta_id
-                FROM virtuales
-                WHERE numcontrol = ? AND matricula IN ($placeholders)";
-    
-        // Preparar la consulta
-        $consulta = $conn->prepare($sql);
-    
-        // Vincular el numcontrol y las matrículas como parámetros
-        $params = array_merge([$numcontrol], $matriculas);
-        $consulta->execute($params);
-    
-        // Obtener el resultado de la consulta
+    try{
+        $consulta = $conn->prepare("SELECT matricula
+        FROM preguntav
+        WHERE numcontrol = :numcontrol 
+        AND (
+        (:periodo = 'Enero a Junio' AND EXTRACT(MONTH FROM fecha) BETWEEN 1 AND 6) OR
+        (:periodo = 'Agosto a Diciembre' AND EXTRACT(MONTH FROM fecha) BETWEEN 8 AND 12)
+        )");
+        $consulta->bindParam(':numcontrol', $numcontrol);
+        $consulta->bindParam(':periodo', $periodo);
+        $consulta->execute();
         $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Agrupar los resultados por acta_id e id_grupo
-        $agrupados = [];
-        foreach ($resultado as $fila) {
-            $clave = $fila['acta_id'] . '-' . $fila['id_grupo'];
-            if (!isset($agrupados[$clave])) {
-                $agrupados[$clave] = [
-                    'unidad' => $fila['unidad'],
-                    'nivel' => $fila['nivel'],
-                    'numcontrol' => $fila['numcontrol'],
-                    'id_grupo' => $fila['id_grupo'],
-                    'acta_id' => $fila['acta_id'],
-                    'numcontrol_igual' => true
-                ];
-            } else {
-                // Verificar si numcontrol es igual
-                if ($agrupados[$clave]['numcontrol'] !== $fila['numcontrol']) {
-                    $agrupados[$clave]['numcontrol_igual'] = false;
-                }
+
+        $matriculas = array();
+
+        if ($resultado) {
+            foreach ($resultado as $fila) {
+                $matriculas[] = $fila['matricula'];
             }
         }
-    
-        // Contador de cards
-        $contador_cards = 0;
-    
-        // Generar las cards
-        if (!empty($agrupados)) {
-            echo "<div class='row d-flex'>";
-            foreach ($agrupados as $clave => $grupo) {
-                if ($grupo['numcontrol_igual']) { // Validación de numcontrol igual
-                    echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
-                    echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
-                    echo "<div class='card-body text-center'>";
-                    echo "<h5 class='card-title'>Unidad académica: <br><b>" . $grupo['unidad'] . "</b> <br>Nivel educativo: <br><b>" . $grupo['nivel'] . "</b><br><p>" . $grupo['numcontrol'] . "</p></h5>";
-                    echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
-                    echo "</div>";
-                    echo "</div>";
-                    echo "</div>";
-    
-                    // Incrementar contador de cards
-                    $contador_cards++;
-                }
-            }
-            echo "</div>";
-        } else {
-            echo "<div class='d-flex justify-content-center'>";
-            echo "<p>No se encontró al usuario</p>";
-            echo "</div>";
-        }
+        /*
+        SELECT DISTINCT unidad, nivel, numcontrol, id_grupo, acta_id
+        FROM virtuales
+        WHERE matricula = :matriculas;
+        */
+        if (!empty($matriculas) && !empty($numcontrol)) {
+            // Crear una cadena de placeholders para las matrículas en la consulta
+            $placeholders = str_repeat('?,', count($matriculas) - 1) . '?';
         
-        echo "
-        <script>
-            var contadorCards = $contador_cards;
-            document.getElementById('numreportes').innerHTML = contadorCards;
-        </script>";
+            // Consulta SQL para obtener unidad y nivel basado en las matrículas y numcontrol
+            $sql = "SELECT unidad, nivel, numcontrol, id_grupo, acta_id
+                    FROM virtuales
+                    WHERE numcontrol = ? AND matricula IN ($placeholders)";
+        
+            // Preparar la consulta
+            $consulta = $conn->prepare($sql);
+        
+            // Vincular el numcontrol y las matrículas como parámetros
+            $params = array_merge([$numcontrol], $matriculas);
+            $consulta->execute($params);
+        
+            // Obtener el resultado de la consulta
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        
+            // Agrupar los resultados por acta_id e id_grupo
+            $agrupados = [];
+            foreach ($resultado as $fila) {
+                $clave = $fila['acta_id'] . '-' . $fila['id_grupo'];
+                if (!isset($agrupados[$clave])) {
+                    $agrupados[$clave] = [
+                        'unidad' => $fila['unidad'],
+                        'nivel' => $fila['nivel'],
+                        'numcontrol' => $fila['numcontrol'],
+                        'id_grupo' => $fila['id_grupo'],
+                        'acta_id' => $fila['acta_id'],
+                        'numcontrol_igual' => true
+                    ];
+                } else {
+                    // Verificar si numcontrol es igual
+                    if ($agrupados[$clave]['numcontrol'] !== $fila['numcontrol']) {
+                        $agrupados[$clave]['numcontrol_igual'] = false;
+                    }
+                }
+            }
+        
+            // Contador de cards
+            $contador_cards = 0;
+        
+            // Generar las cards
+            if (!empty($agrupados)) {
+                echo "<div class='row d-flex'>";
+                foreach ($agrupados as $clave => $grupo) {
+                    if ($grupo['numcontrol_igual']) { // Validación de numcontrol igual
+                        echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
+                        echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
+                        echo "<div class='card-body text-center'>";
+                        echo "<h5 class='card-title'>Unidad académica: <br><b>" . $grupo['unidad'] . "</b> <br>Nivel educativo: <br><b>" . $grupo['nivel'] . "</b><br></h5>";
+                        echo "<a href='http://". $_SERVER['HTTP_HOST'] ."/uaem-web-pantallas/reportes/reportesdocente.php' data-numcontrol='" . $grupo['numcontrol'] . "' data-unidad='" . $grupo['unidad'] . "' data-nivel='" . $grupo['nivel'] . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+        
+                        // Incrementar contador de cards
+                        $contador_cards++;
+                    }
+                }
+                echo "</div>";
+            } else {
+                echo "<div class='d-flex justify-content-center'>";
+                echo "<p>No se encontró al usuario</p>";
+                echo "</div>";
+            }
+            
+            echo "
+            <script>
+                var contadorCards = $contador_cards;
+                document.getElementById('numreportes').innerHTML = contadorCards;
+            </script>";
+        }
+    } catch (PDOException $exp) {
+        echo "<p><h3>Ups, algo salió mal :(</h3>" . $e->getMessage(). "</p>";
     }
-    
-    
-    
-    
-    
     /*solo para comprobar las matriculas
     echo "<ul>";
     $cont = 1;
@@ -218,7 +219,6 @@
     }
     echo "</ul>";
     */
-    
     ?>
     </div>
     <script>
@@ -229,16 +229,17 @@
         button.addEventListener('click', function(event) {
             event.preventDefault();
             var numcontrol = button.getAttribute('data-numcontrol');
+            var unidad = button.getAttribute('data-unidad');
+            var nivel = button.getAttribute('data-nivel');
             var id_grupo = button.getAttribute('data-id_grupo');
             var acta_id = button.getAttribute('data-acta_id');
             var periodo = '<?php echo $periodo; ?>';
             var anio = '<?php echo $anio; ?>'; 
-            window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+            window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio + '&unidad =' + encodeURIComponent(unidad) + '$nivel=' + encodeURIComponent(nivel);
         });
     });
 });
 //
-
     </script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/js/bootstrap.bundle.min.js"></script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>

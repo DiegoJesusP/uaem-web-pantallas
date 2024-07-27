@@ -38,7 +38,7 @@
                         <br>
                         <p>De esta manera, se parte de considerar <b>el proceso de la evaluación docente, como un ejercicio reflexivo de su práctica, a través de medios valorativos que permitan detectar debilidades y reconocer fortalezas.</b> Sus principios descansan en términos de orientación formativa, participativa, humanista, multidimensional y multireferencial, hacia la búsqueda e inmersión de fuentes de apoyo para su propio perfeccionamiento.</p>
                         <div class="container-fluid">
-                            <div class="row text-center">
+                            <div class="row text-center mt-3">
                                 <div class="col-12 col-md-6  text-white p-1">
                                     <div style="background-color: #41538F; color: #ffffff; border-radius: 65px 0 0 0;"><h2>Si usted es Docente</h2></div>
                                     <div class="p-4" style="background-color: #7a91db;">

@@ -27,7 +27,7 @@
                     <div class="carousel-inner">
                         <!-- primer Slide con un intervalo de 1000ms - 1 segundo -->
                         <div class="carousel-item active">
-                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/3.jpg" class="d-block w-100" alt="...">
+                            <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/ResultadoInstitucional_agosto2023.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <a style="--clr: #dc3545" class="button" href="https://uiverse.io/Creatlydev/silly-cat-86">
                                     <span class="button__icon-wrapper">
@@ -38,7 +38,7 @@
                                             <path fill="currentColor" d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"></path>
                                         </svg>
                                     </span>
-                                    Ir a la página
+                                    Consulta aquí
                                 </a>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                             <path fill="currentColor" d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"></path>
                                         </svg>
                                     </span>
-                                    Ir a la página
+                                    Consulta aquí
                                 </a>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                             <path fill="currentColor" d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"></path>
                                         </svg>
                                     </span>
-                                    Ir a la página
+                                    Consulta aquí
                                 </a>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                             <path fill="currentColor" d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"></path>
                                         </svg>
                                     </span>
-                                    Ir a la página
+                                    Consulta aquí
                                 </a>
                             </div>
                         </div>
