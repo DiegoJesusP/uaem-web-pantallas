@@ -235,7 +235,7 @@
             var acta_id = button.getAttribute('data-acta_id');
             var periodo = '<?php echo $periodo; ?>';
             var anio = '<?php echo $anio; ?>'; 
-            window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio + '&unidad =' + encodeURIComponent(unidad) + '$nivel=' + encodeURIComponent(nivel);
+            window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/reportesdocente.php?numcontrol=' + numcontrol + '&periodo=' + encodeURIComponent(periodo) + '&anio=' + anio + '&unidad=' + encodeURIComponent(unidad) + '&nivel=' + encodeURIComponent(nivel);
         });
     });
 });

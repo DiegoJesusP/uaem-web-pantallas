@@ -42,12 +42,12 @@ class PDF extends FPDF{
         if (isset($_GET['periodo'])) {
             $periodo = htmlspecialchars($_GET['periodo']);
         } else {
-            $periodo = 'No está definido "periodo"';
+            $periodo = 'Sin definir "periodo"';
         }
         if (isset($_GET['anio'])) {
             $anio = htmlspecialchars($_GET['anio']);
         } else {
-            $anio = 'No está definido "anio"';
+            $anio = 'Sin definir "anio"';
         }
         
         // Mostrar el valor del período de manera dinámica
@@ -81,7 +81,7 @@ class PDF extends FPDF{
         $this->Ln();
     }
     //
-    function TablaInicio($dataI, $promedioI) {
+    function TablaInicio($dataI, $promedioI, $modalidad) {
         // Colores, ancho de línea y fuente en negrita
         $this->SetFillColor(48, 83, 149); // Azul
         $this->SetTextColor(255);
@@ -101,11 +101,14 @@ class PDF extends FPDF{
         $unidadAcademica = convertirTexto($dataI['unidad']);
         $this->Cell(119, 6, utf8_decode($unidadAcademica), 'LR', 0, 'C', true);
         $this->Ln();
-    
+        //
+        $modalidadUp = mb_strtolower($modalidad, 'UTF-8');
+        $modalidadText = ($modalidadUp === 'v') ? 'Virtual' : (($modalidadUp === 'h') ? 'Híbrida' : (($modalidadUp === 'p') ? 'Presencial' : 'Desconocida'));
+        //
         $this->SetFont('Arial', '', 10);
         $this->Cell(70, 6, utf8_decode('Modalidad:'), 'LR', 0, 'L', false);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(119, 6, utf8_decode('modalidad que se obtiene de la base de datos'), 'LR', 0, 'C', false);
+        $this->Cell(119, 6, utf8_decode($modalidadText), 'LR', 0, 'C', false);
         $this->Ln();
         
         $this->SetFont('Arial', '', 10);
@@ -198,21 +201,21 @@ class PDF extends FPDF{
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Dominio y desempeño del asesor:"], $sumDom,[$dom], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Dominio en el manejo de las aplicaciones y herramientas de la plataforma Moodle:"], $r7,[$tr7], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Dominio en el manejo de la plataforma Moodle:"], $r7,[$tr7], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Dominio disciplinar por parte del profesor en la asignatura:"], $r8,[$tr8], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador del aprendizaje a lo largo del curso:"], $r10,[$tr10], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Desempeño del asesor(a) como facilitador durante el curso:"], $r10,[$tr10], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Oportunidad en la retroalimentación y respuestas:"], $sumDom1,[$dom1], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Prontitud con que tu asesor respondió a tus dudas, preguntas o comentarios:"], $r2,[$tr2], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta a tus dudas:"], $r2,[$tr2], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Prontitud de tu asesor en respuesta o aportación en los foros:"], $r4,[$tr4], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Prontitud de tu asesor para registrar tus calificaciónes en la plataforma:"], $r9,[$tr9], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Prontitud de tu asesor para registrar tus calificaciónes:"], $r9,[$tr9], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Calidad de retroalimentación y respuesta:"], $sumDom2,[$dom2], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas, preguntas o comentarios:"], $r3,[$tr3], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Comentarios o argumentos emitidos por tu asesor(a) para justificar las calificaciones que obtuviste:"], $r5,[$tr5], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Promoción por parte del asesor en argumentar las participaciones en base a los comentarios:"], $r6,[$tr6], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Calidad de las respuestas de tu asesor(a) a tus dudas:"], $r3,[$tr3], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Argumentos de tu asesor(a) para justificar tus calificaciones:"], $r5,[$tr5], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Promoción del asesor en argumentar las participaciones:"], $r6,[$tr6], $numGrupos, true);
         
         //$r12, $r18, $r15, $r13, $r17, $r16, $r20, $r14, $r21Colores, $r21Ilustraciones, $r21Tamanio
     }
@@ -228,17 +231,17 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Calidad de contenidos temáticos incluidos en el curso:"], $r12,[$tr12], $numGrupos, true);
         $this->addTable($anchoColumnas, ["Carga horaria declarada para este curso:"], $r18,[$tr18], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades de aprendizaje en el curso:"], $r15,[$tr15], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Pertenencia en el diseño de las actividades del curso:"], $r15,[$tr15], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Variedad de contenidos:"], $sumDom4,[$dom4], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
         $this->addTable($anchoColumnas, ["Variedad de contenidos temáticos incluidos en el curso:"], $r13,[$tr13], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades de aprendizaje incluidas en el curso:"], $r17,[$tr17], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Variedad en el diseño de las actividades del curso:"], $r17,[$tr17], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Nivel de autonomía:"], $sumDom5,[$dom5], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
-        $this->addTable($anchoColumnas, ["Los materiales incluídos en el curso te permitieron aprender por si mismo(a) estímulando el interés por investigar y profundizar en conocimientos nuevos:"], $r16,[$tr16], $numGrupos, true);
-        $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos curriculares de la materia:"], $r20,[$tr20], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Los materiales del curso estimularon tu interés por aprender:"], $r16,[$tr16], $numGrupos, true);
+        $this->addTable($anchoColumnas, ["Comprensión integral de los contenidos de la materia:"], $r20,[$tr20], $numGrupos, true);
         $this->SetFont('Arial', 'B', 10);
         $this->addTable($anchoColumnas, ["-Evaluación de contenidos:"], $sumDom6,[$dom6], $numGrupos, true);
         $this->SetFont('Arial', '', 10);
@@ -287,12 +290,14 @@ function obtenerParametroGET($nombre, $default = 'No definido') {
 }
 // Obtener parámetros GET
 $numcontrol = obtenerParametroGET('numcontrol');
-$periodo = obtenerParametroGET('periodo', 'No está definido "periodo"');
-$anio = obtenerParametroGET('anio', 'No está definido "anio"');
+$periodo = obtenerParametroGET('periodo', 'Sin definir "periodo"');
+$anio = obtenerParametroGET('anio', 'Sin definir "anio"');
+$unidad = obtenerParametroGET('unidad', 'Sin definir "unidad"');
+$nivel = obtenerParametroGET('nivel', 'Sin definir "nivel"');
 
 $error = '';
 $tipoError = 'error';
-if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'No está definido "periodo"' || $anio != 'No está definido "anio"') {
+if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'Sin definir "periodo"' || $anio != 'Sin definir "anio"') {
     try {
         // Conectar a la base de datos y obtener conexión
             try {
@@ -308,7 +313,8 @@ if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'No está definido 
             $consulta->bindParam(':numcontrol', $numcontrol);
             $consulta->execute();
             $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-        
+
+            $acta = $resultado['acta_id'] ?? 'No definido';
             // Asignar valores a partir de la consulta
             $dataFromDb = [
                 'nombre_docente' => $resultado['nombre_docente'] ?? 'No definido',
@@ -319,6 +325,18 @@ if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'No está definido 
             ];
             } catch (PDOException $exp) {
                 $tipoError = 'No se pudo obtener los datos de la base de datos para esta consulta (SELECT * FROM virtuales WHERE numcontrol = :numcontrol)';
+            }
+
+            try{
+                $consulta = $conn->prepare("SELECT DISTINCT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id");
+                $consulta->bindParam(':acta_id', $acta);
+                $consulta->execute();
+                $resultadoMod = $consulta->fetch(PDO::FETCH_ASSOC);
+                
+                $modalidad = $resultadoMod['modalidad'] ?? 'No definido';
+
+            } catch (PDOException $exp) {
+                $tipoError = 'No se pudo obtener los datos de la base de datos para esta consulta (SELECT DISTINCT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id)';
             }
         
             try{
@@ -753,6 +771,8 @@ if ($numcontrol != 'No definido "numcontrol"' || $periodo != 'No está definido 
                     $asesorL = 0;
                     $disenoC = 0;
                     $PromedioT = 0;
+                    //
+                    $modalidad = 'Ups! No hay datos';
                     
                 }
             }catch (PDOException $exp) {
@@ -774,7 +794,7 @@ $pdf->SetFont('Arial', '', 12);
 
 if ($error != 'Faltan datos por proporcionar.' && $tipoError != 'Por favor, proporcione regrese a la pagina anterior y pruebe de nuevo') {
     $pdf->Separador();
-    $pdf->TablaInicio($dataFromDb, $PromedioT);
+    $pdf->TablaInicio($dataFromDb, $PromedioT, $modalidad);
     $pdf->Separador();
     $pdf->FancyTable($header, $dataS, $anchoColumnas, $numGrupos, $totalPorGrupo, $aux, $r1, $tr1, $r22, $tr22, $asesor, $asesorL, $diseno, $disenoC);
     $pdf->TablaAsesor($anchoColumnas, $numGrupos, $aux, $r2, $tr2, $r3, $tr3, $r4, $tr4, $r5, $tr5, $r6, $tr6, $r7, $tr7, $r8, $tr8, $r9, $tr9, $r10, $tr10, $sumDom, $dom, $sumDom1, $dom1, $sumDom2, $dom2, $asesor, $asesorL);
@@ -787,9 +807,13 @@ if ($error != 'Faltan datos por proporcionar.' && $tipoError != 'Por favor, prop
 }
 
 
-
-$nombreArchivo = 'Reporte Individual ' . $numcontrol .' '. $periodo.' '. $anio .'.pdf';
+//anio - semestre - unidad - numcontrol
+$semestreT = '';
+foreach ($grupos as $semestre) {
+    $semestreT .= $semestre . '_';
+}
+$nombreArchivo = $anio . '-'. $semestreT . '-' . $unidad . '-' . $numcontrol .'.pdf';
 //$nombreArchivo, "D"
-$pdf->Output($nombreArchivo, "I");
+$pdf->Output(utf8_decode($nombreArchivo), "I");
 
 ?>
