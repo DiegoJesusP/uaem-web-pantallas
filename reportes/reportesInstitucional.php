@@ -168,33 +168,95 @@ class PDF extends FPDF{
         $this->MultiCell(0, 10, utf8_decode('l. Resultado Institucional. Modalidad y dimensiones de evaluación.'), 0, 'L');
         //CREACION DE TABLAS
         $this->SetTextColor(38, 71, 114);
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('Arial', 'B', 10);
         $this->AddTableHeaderMan([60, 125, 92], 6, ['', 'Participantes', 'Dimensiones de evaluación'], true, [220, 228, 241]);
         //
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 1'), 1, 1, 'C');
+        $subTitulos = [
+            "\n \n \n",
+            "Unidades académicas evaluadas", 
+            "Unidades curriculares evaluadas", 
+            "\nGrupos evaluados", 
+            "\nAsesores evaluados*", 
+            "\nEstudiantes registrados", 
+            "\nEstudiantes participantes", 
+            "\nInstrumentos Aplicados", 
+            "1) Funciones del asesor en línea", 
+            "2) Diseño y calidad del curso", 
+            "\nPromedio total"
+        ];
         //
-        $men = 130;
-        $women = 200;
-        $children = 18;
-        $other = 150;
-        $data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
+        $this->SetTextColor(0, 0, 0);
+        $this->AddTableSubT(6, $subTitulos, true, [217, 217, 217]);
+        $this->Ln(12);
+        $promI = 100;
+        $resultadoInstitucional = [
+            "Resultado institucional",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", //
+            "\n", //
+            "\n". $promI
+        ];
+        $this->AddTableBodyPage(6, $resultadoInstitucional, true, [217, 217, 217]);
+        $this->Ln(12);
+        $this->SetFont('Arial', '', 10);
+        $promHib = 200;
+        $modalidadHibrida = [
+            "Modalidad híbrida",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", //
+            "\n", //
+            "\n". $promHib
+        ];
+        $this->AddTableBodyPage(6, $modalidadHibrida, true, [217, 217, 217]);
+        $this->Ln(12);
+        $promVirt = 300;
+        $modalidadVirtual = [
+            "Modalidad virtual",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", //
+            "\n", //
+            "\n". $promVirt
+        ];
+        $this->AddTableBodyPage(6, $modalidadVirtual, true, [217, 217, 217]);
+        $this->Ln(12);
+        //
+        //
+        $data = array('Institucional' => $promI, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
 
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '1 - Pie chart', 0, 1);
-        $this->Ln(8);
+        $this->Ln(4);
+        $this->SetFont('Arial', '', 15);
+        $this->Cell(0, 5, utf8_decode('Resultado Institucional y Modalidad'), 0, 1, 'C');
+        $this->Ln(4);
 
         $this->SetFont('Arial', '', 10);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
         $this->SetXY(90, $valY);
-        //$col1=array(100,100,255);
         
         $tData = array_sum($data);
         $coloresRGB = $this->ColoresAleatorios($tData);
-        //$arreglo = array($col1,$col2,$col3, $col4);
+        //PieChart = $w, $h, $data, $format, $colors=null
         $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
-        $this->SetXY($valX, $valY + 40);
+        $this->SetXY($valX, $valY + 35);
         //**** */
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
@@ -330,8 +392,46 @@ class PDF extends FPDF{
         $this->Ln();
     }
 
-    function AddTableBodyPage1(){
-        
+    function AddTableSubT($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Guardar la posición actual
+            $x = $this->GetX();
+            $y = $this->GetY();
+
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), ($j == 0)? false : true, 'C', ($j == 0)? false : true);
+
+            // Volver a la posición original y ajustar X para la próxima columna
+            $this->SetXY($x + $tamColumna, $y);
+        }
+        $this->Ln();
+    }
+
+    function AddTableBodyPage($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $color = count($titulosTablas) -1;
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Guardar la posición actual
+            $x = $this->GetX();
+            $y = $this->GetY();
+            if ($j == $color) {
+                $this->SetFillColor(255, 192, 0);
+            }
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), 1, 'C', ($j == 0 || $j == $color)? true : false);
+
+            // Volver a la posición original y ajustar X para la próxima columna
+            $this->SetXY($x + $tamColumna, $y);
+        }
     }
 
     function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90){
@@ -478,7 +578,7 @@ class PDF extends FPDF{
         }
 
         //Legends
-        $this->SetFont('Arial', '', 10);
+        $this->SetFont('Arial', 'B', 10);
         $x1 = $XPage + 2 * $radius + 4 * $margin;
         $x2 = $x1 + $hLegend + $margin;
         $y1 = $YDiag - $radius + (2 * $radius - $this->NbVal*($hLegend + $margin)) / 2;
@@ -486,7 +586,7 @@ class PDF extends FPDF{
             $this->SetFillColor($colors[$i][0],$colors[$i][1],$colors[$i][2]);
             $this->Rect($x1, $y1, $hLegend, $hLegend, 'DF');
             $this->SetXY($x2,$y1);
-            $this->Cell(0,$hLegend,$this->legends[$i]);
+            $this->Cell(0,$hLegend,utf8_decode($this->legends[$i]));
             $y1+=$hLegend + $margin;
         }
     }
@@ -531,7 +631,7 @@ class PDF extends FPDF{
             $this->Rect($xval, $yval, $lval, $hval, 'DF');
             //Legend
             $this->SetXY(0, $yval);
-            $this->Cell($xval - $margin, $hval, $this->legends[$i],0,0,'R');
+            $this->Cell($xval - $margin, $hval, utf8_decode($this->legends[$i]),0,0,'R');
             $i++;
         }
 
