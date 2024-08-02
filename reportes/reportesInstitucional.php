@@ -166,8 +166,11 @@ class PDF extends FPDF{
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('l. Resultado Institucional. Modalidad y dimensiones de evaluación.'), 0, 'L');
-        
-        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
+        //CREACION DE TABLAS
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan([60, 125, 92], 6, ['', 'Participantes', 'Dimensiones de evaluación'], true, [220, 228, 241]);
+        //
         $this->Cell(0, 10, utf8_decode('Proximamente grafica 1'), 1, 1, 'C');
         //
         $men = 130;
@@ -268,7 +271,7 @@ class PDF extends FPDF{
         $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
     }
 
-    function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
+    function AddTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
         if ($useFillColor) {
             $this->SetFillColor(...$fillColor);
         }
@@ -295,6 +298,40 @@ class PDF extends FPDF{
         // Línea de cierre
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
+    }
+
+    function AddTableHeader($tam, $tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        //$this->Cell(93, 10, utf8_decode('o'), 1, 0, 'C', true);
+        $tamanio = 277 - $tam;
+        $numColumnas = $tamanio / (count($titulosTablas)-1);
+        $tamColumna = $tamanio - $numColumnas;
+        
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->Cell(($j == 0)? $tam : $numColumnas, $tamY, utf8_decode($titulo), 1, 0, 'C', ($j == 0)? false : true);
+        }
+        $this->Ln();
+    }
+
+    function AddTableHeaderMan($tam, $tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->Cell($tam[$j], $tamY, utf8_decode($titulo), ($j == 0)? false : true, 0, 'C', ($j == 0)? false : true);
+        }
+        $this->Ln();
+    }
+
+    function AddTableBodyPage1(){
+        
     }
 
     function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90){
