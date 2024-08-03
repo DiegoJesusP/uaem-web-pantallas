@@ -167,10 +167,9 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('l. Resultado Institucional. Modalidad y dimensiones de evaluación.'), 0, 'L');
         //CREACION DE TABLAS
-        $this->SetTextColor(38, 71, 114);
-        $this->SetFont('Arial', 'B', 10);
-        $this->AddTableHeaderMan([60, 125, 92], 6, ['', 'Participantes', 'Dimensiones de evaluación'], true, [220, 228, 241]);
         //
+        $separador = 10;
+        $tamanioAltoColumna = 5;
         $subTitulos = [
             "\n \n \n",
             "Unidades académicas evaluadas", 
@@ -182,15 +181,25 @@ class PDF extends FPDF{
             "\nInstrumentos Aplicados", 
             "1) Funciones del asesor en línea", 
             "2) Diseño y calidad del curso", 
-            "\nPromedio total"
+            "\nPromedio\ntotal"
         ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas = [($divisionTitulo), ($divisionTitulo * 7), ($divisionTitulo * 3)];
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 2), ['', 'Participantes', 'Dimensiones de evaluación'], true, [220, 228, 241]);
+        //
         //
         $this->SetTextColor(0, 0, 0);
-        $this->AddTableSubT(6, $subTitulos, true, [217, 217, 217]);
-        $this->Ln(12);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [217, 217, 217]);
+        $this->Ln($separador);
+        //
+        $this->SetFont('Arial', '', 10);
         $promI = 100;
         $resultadoInstitucional = [
-            "Resultado institucional",
+            "Resultado institucional**",
             "\n", 
             "\n", 
             "\n", 
@@ -202,9 +211,8 @@ class PDF extends FPDF{
             "\n", //
             "\n". $promI
         ];
-        $this->AddTableBodyPage(6, $resultadoInstitucional, true, [217, 217, 217]);
-        $this->Ln(12);
-        $this->SetFont('Arial', '', 10);
+        $this->AddTableBodyPage($tamanioAltoColumna, $resultadoInstitucional, true, [217, 217, 217]);
+        $this->Ln($separador);
         $promHib = 200;
         $modalidadHibrida = [
             "Modalidad híbrida",
@@ -219,8 +227,8 @@ class PDF extends FPDF{
             "\n", //
             "\n". $promHib
         ];
-        $this->AddTableBodyPage(6, $modalidadHibrida, true, [217, 217, 217]);
-        $this->Ln(12);
+        $this->AddTableBodyPage($tamanioAltoColumna, $modalidadHibrida, true, [217, 217, 217]);
+        $this->Ln($separador);
         $promVirt = 300;
         $modalidadVirtual = [
             "Modalidad virtual",
@@ -235,16 +243,17 @@ class PDF extends FPDF{
             "\n", //
             "\n". $promVirt
         ];
-        $this->AddTableBodyPage(6, $modalidadVirtual, true, [217, 217, 217]);
-        $this->Ln(12);
+        $this->AddTableBodyPage($tamanioAltoColumna, $modalidadVirtual, true, [217, 217, 217]);
+        $this->Ln($separador);
         //
+        $this->SetTextColor(38, 71, 114);
         //
         $data = array('Institucional' => $promI, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
 
-        $this->Ln(4);
-        $this->SetFont('Arial', '', 15);
-        $this->Cell(0, 5, utf8_decode('Resultado Institucional y Modalidad'), 0, 1, 'C');
-        $this->Ln(4);
+        $this->Ln(6);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Resultado Institucional y Modalidad'), 1, 1, 'C');
+        $this->Ln(3);
 
         $this->SetFont('Arial', '', 10);
         $valX = $this->GetX();
@@ -254,66 +263,73 @@ class PDF extends FPDF{
         
         $tData = array_sum($data);
         $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(250, 192, 144);
+        $col2=array(147, 205, 221);
+        $col3=array(217, 150, 148);
         //PieChart = $w, $h, $data, $format, $colors=null
-        $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
-        $this->SetXY($valX, $valY + 35);
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 30);
         //**** */
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
         $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluaciól docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
         $this->MultiCell(0, 6, utf8_decode('*Total de asesores participantes son contabilizados como registros únicos.'), 0, 'L');
-        $this->AddPage();
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 2'), 1, 1, 'C');
         //
-        //Bar diagram
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '2 - Bar diagram', 0, 1);
-        $this->Ln(8);
+        $this->AddPage();
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Resultado institucional por modalidad y dimensiones de evaluación'), 1, 1, 'C');
+        //
+        $this->Ln(4);
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Resultado Institucional'), 0, 1, 'C');
+        $this->Ln(3);
         $valX = $this->GetX();
         $valY = $this->GetY();
-        $this->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
-        $this->SetXY($valX, $valY + 80);
+        $dataInstitucional = array('Funciones del asesor' => $promHib, 'Diseño y calidad del curso' => $promVirt);
+        $this->BarDiagram(200, 30, $dataInstitucional, '%l : %v (%p)', array(250, 192, 144));
+        $this->SetXY($valX, $valY + 30);
+        //****  */
+        $this->Ln(3);
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Modalidad Híbrida'), 0, 1, 'C');
+        $this->Ln(3);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+        $dataHibrida = array('Funciones del asesor' => $promHib, 'Diseño y calidad del curso' => $promVirt);
+        $this->BarDiagram(200, 30, $dataHibrida, '%l : %v (%p)', array(147, 205, 221));
+        $this->SetXY($valX, $valY + 30);
+        //**** */
+        $this->Ln(3);
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Modalidad Virtual'), 0, 1, 'C');
+        $this->Ln(3);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+        $dataVirtual = array('Funciones del asesor' => $promHib, 'Diseño y calidad del curso' => $promVirt);
+        $this->BarDiagram(200, 30, $dataVirtual, '%l : %v (%p)', array(217, 150, 148));
+        $this->SetXY($valX, $valY + 30);
         //
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 2. Resultado Institucional por modalidad y dimensiones de evaluación.'), 0, 'R');
+        //
         $this->AddPage();
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 3'), 1, 1, 'C');
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Nivel de Participación de Estudiantes'), 1, 1, 'C');
+        //
+        $this->Ln(4);
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Número de Estudiantes'), 0, 1, 'C');
+        $this->Ln(3);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+        $dataEstudiantes = array('Registrados en sistema' => $promI, 'Participantes' => $promHib, 'Sin participación' => $promVirt);
+        $this->BarDiagram(200, 60, $dataEstudiantes, '%l : %v (%p)', array(79, 129, 189));
+        $this->SetXY($valX, $valY + 70);
+        //
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 3. Nivel de participación de estudiantes.'), 0, 'R');
         //
-        $men = 13;
-        $women = 20;
-        $children = 18;
-        $other = 15;
-        $data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
-
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '1 - Pie chart', 0, 1);
-        $this->Ln(8);
-
-        $this->SetFont('Arial', '', 10);
-        $valX = $this->GetX();
-        $valY = $this->GetY();
-
-        $this->SetXY(90, $valY);
-        //$col1=array(100,100,255);
-        
-        $tData = array_sum($data);
-        $coloresRGB = $this->ColoresAleatorios($tData);
-        //$arreglo = array($col1,$col2,$col3, $col4);
-        $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
-        $this->SetXY($valX, $valY + 40);
-
-        //Bar diagram
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '2 - Bar diagram', 0, 1);
-        $this->Ln(8);
-        $valX = $this->GetX();
-        $valY = $this->GetY();
-        $this->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
-        $this->SetXY($valX, $valY + 80);
     }
 
     function Page2Content(){
@@ -323,14 +339,410 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión.'), 0, 'L');
         
-        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 4'), 1, 1, 'C');
+        //
+        //
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\n \n \n",
+            "\nEstudiantes participantes", 
+            "\nInstrumentos aplicados", 
+            "Oportunidad en la retroalimentación y respuesta", 
+            "Calidad de retroalimentación y respuesta", 
+            "Dominio y desempeño del asesor en línea", 
+            "\nPromedio total de dimensión"
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas = [($divisionTitulo * 3), ($divisionTitulo * 4)];
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 15);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 5), ['', 'Desglose Dimensiones de evaluación'], true, [191, 191, 191]);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 3), ['', 'Dimensión: Funciones del asesor en línea'], true, [255, 229, 153]);
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', '', 11);
+        $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
+        $this->Ln($separador);
+        $promHib = 200;
+        $modalidadHibrida = [
+            "\nModalidad híbrida",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promHib
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadHibrida, true, [255, 229, 153]);
+        $this->Ln($separador);
+        $promVirt = 200;
+        $modalidadVirtual = [
+            "\nModalidad virtual",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promVirt
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [255, 229, 153]);
+        $this->Ln($separador);
+        $this->SetFont('Arial', 'B', 11);
+        $promInst = 200;
+        $modalidadInstitucional = [
+            "Resultado Institucional",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promInst
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadInstitucional, true, [255, 229, 153]);
+        $this->Ln($separador);
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        //--
+        $data = array('Institucional' => $promInst, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
+
+        $this->Ln(6);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Dimensión: Funciones del Asesor en Línea'), 1, 1, 'C');
+        $this->Ln(5);
+
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Prontitud de retroalimentación y respuesta'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 80);
+        //**** */
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Calidad de retroalimentación y respuesta'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Dominio y desempeño del asesor en línea'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Promedio total de dimensión'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 35);
+        //**** */
+        //
+        
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 4. Resultado Institucional, Modalidad, dimensiones de evaluación y desglose de dimensión: Funciones del asesor en línea.'), 0, 'R');
         $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 5'), 1, 1, 'C');
+        //
+        $this->AddPage();
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\n \n \n",
+            "\nEstudiantes participantes", 
+            "\nInstrumentos aplicados", 
+            "Diseño del curso en claridad", 
+            "Diseño del curso en calidad", 
+            "\nVariedad de contenidos", 
+            "Utilidad de la plataforma Moodle", 
+            "\n\nAutonomía", 
+            "Evaluación de contenidos",
+            "Diseño gráfico del curso",
+            "Promedio total de dimensión"
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas = [($divisionTitulo * 3), ($divisionTitulo * 8)];
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 15);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 5), ['', 'Desglose Dimensiones de evaluación'], true, [191, 191, 191]);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 3), ['', 'Dimensión: Diseño y calidad del curso'], true, [244, 176, 131]);
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', '', 11);
+        $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
+        $this->Ln($separador);
+        $promHib = 200;
+        $modalidadHibrida = [
+            "Modalidad híbrida",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promHib
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadHibrida, true, [244, 176, 131]);
+        $this->Ln($separador);
+        $promVirt = 200;
+        $modalidadVirtual = [
+            "Modalidad virtual",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promVirt
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [244, 176, 131]);
+        $this->Ln($separador);
+        $this->SetFont('Arial', 'B', 11);
+        $promInst = 200;
+        $modalidadInstitucional = [
+            "Resultado Institucional",
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n", 
+            "\n". $promInst
+        ];
+        $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadInstitucional, true, [244, 176, 131]);
+        $this->Ln($separador);
+
+        $this->Ln(6);
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Dimensión: Diseño y calidad del curso'), 1, 1, 'C');
+        $this->Ln(5);
+        // 
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Diseño del curso en claridad de contenidos'), 0, 1, 'C');
+        $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 80);
+        //**** */ 1
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Diseño del curso en calidad de contenidos'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */ 2
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Variedad de contenidos'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */ 3
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Utilidad de la plataforma Moodle'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 80);
+        //**** */ 4
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Autonomía '), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */ 5
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Evaluación de contenidos'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */ 6
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Diseño gráfico del curso'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 80);
+        //**** */ 7
+        $this->SetFont('Arial', 'I', 13);
+        $this->Cell(0, 5, utf8_decode('Promedio total de dimensión'), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 10);
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+
+        $this->SetXY(90, $valY);
+        
+        $tData = array_sum($data);
+        $coloresRGB = $this->ColoresAleatorios($tData);
+        $col1=array(155, 187, 89);
+        $col2=array(79, 129, 189);
+        $col3=array(192, 80, 77);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 40);
+        //**** */ 8
+        //
         $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
+    }
+
+    function Page3Content(){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura: Modalidad Híbrida.'), 0, 'L');
     }
 
     function AddTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -428,6 +840,25 @@ class PDF extends FPDF{
             // Mostrar el título de la tabla
             //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
             $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), 1, 'C', ($j == 0 || $j == $color)? true : false);
+
+            // Volver a la posición original y ajustar X para la próxima columna
+            $this->SetXY($x + $tamColumna, $y);
+        }
+    }
+
+    function AddTableBodyPage2($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $color = count($titulosTablas) -1;
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Guardar la posición actual
+            $x = $this->GetX();
+            $y = $this->GetY();
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), 1, 'C', ($j == 0)? true : false);
 
             // Volver a la posición original y ajustar X para la próxima columna
             $this->SetXY($x + $tamColumna, $y);
@@ -704,7 +1135,7 @@ class PDF extends FPDF{
         $this->SetFont('Arial', 'B', 12);
         $this->AddIndice($anchoColumnas, ["I. Resultado Institucional. Modalidad y dimensiones de evaluación."], $this->pageNumbers[0], true); 
         $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión."], $this->pageNumbers[1], true, [220, 228, 241]); 
-        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $num, true); 
+        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $this->pageNumbers[2], true); 
         $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n      * Modalidad Virtual"], $num, true, [220, 228, 241]); 
         //
     }
@@ -734,6 +1165,9 @@ $pdf->Page1Content();
 
 $pdf->AddPage();
 $pdf->Page2Content();
+
+$pdf->AddPage();
+$pdf->Page3Content();
 
 $pdf->AddPage();
 $pdf->IndiceData($pdf->pageNumbers);
