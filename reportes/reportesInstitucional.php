@@ -148,12 +148,14 @@ class PDF extends FPDF{
         }
         //
         foreach ($titulosTablas as $j => $titulo) {
+            //
+            $x = $this->GetX();
+            $y = $this->GetY();
             // Mostrar el título de la tabla
             //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
             $this->MultiCell($anchoColumnas[0], 10, utf8_decode($titulo), 1, 'L', $j % 2 == 0);
             $this->SetXY($this->GetX() + $anchoColumnas[0], $this->GetY() - 10);
             $this->MultiCell($anchoColumnas[1], 10, $data, 1, 'C', $j % 2 == 0);
-            
         }
         // Línea de cierre
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
@@ -1135,8 +1137,8 @@ class PDF extends FPDF{
         $this->SetFont('Arial', 'B', 12);
         $this->AddIndice($anchoColumnas, ["I. Resultado Institucional. Modalidad y dimensiones de evaluación."], $this->pageNumbers[0], true); 
         $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión."], $this->pageNumbers[1], true, [220, 228, 241]); 
-        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $this->pageNumbers[2], true); 
-        $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n      * Modalidad Virtual"], $num, true, [220, 228, 241]); 
+        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados: dimensiones de evaluación, unidad académica, programa educativo y asignatura - Híbrida"], $this->pageNumbers[2], true); 
+        $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados: dimensiones de evaluación, unidad académica, programa educativo y asignatura - Virtual"], $this->pageNumbers[2], true, [220, 228, 241]); 
         //
     }
 }
