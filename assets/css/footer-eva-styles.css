@@ -1,0 +1,52 @@
+/*===== FOOTER =====*/
+
+/* Estilo de fondo con degradado y color blanco para el texto del pie de página */
+.bg-custom-footer {
+    background: linear-gradient(90deg, #000000 20%, #3a5a96 80%);
+    color: white;
+    padding: 5px 0; /* Reduce padding superior e inferior */
+}
+
+/* Enlaces en el pie de página con color blanco y sin subrayado */
+.bg-custom-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Cambia el color del enlace al pasar el cursor sobre él */
+.bg-custom-footer a:hover {
+    color: #cccccc;
+}
+
+/* Contenedor del pie de página fijado en la parte inferior de la página */
+#footerContainer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.container {
+    margin-bottom: 0px;
+}
+
+/* Centra el contenido en la sección 'síguenos' del pie de página */
+.follow-us {
+    justify-content: center;
+}
+
+/* Ajusta la altura y el margen de las imágenes en la sección 'síguenos' */
+.follow-us img {
+    height: 40px; /* Reduce altura de las imágenes */
+    margin-right: 15px; /* Reduce margen derecho de las imágenes */
+}
+.follow-us img:hover {
+    transform: scale(1.1);
+}
+
+/* Ajusta el tamaño de los iconos en los párrafos */
+.footer-icon {
+    height: 14px; /* Reduce altura de los iconos en los párrafos */
+    vertical-align: middle; /* Alinea verticalmente los iconos con el texto */
+    margin-right: 3px; /* Reduce margen derecho de los iconos */
+}

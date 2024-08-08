@@ -1,4 +1,4 @@
-fetch('http://localhost/ejemplo/uaem-web-pantallas/templates/footerevadoc.html')
+fetch('./../templates/footerevadoc.php')
 .then(response => response.text())
 .then(data => {
     document.getElementById('footerEvaContainer').innerHTML = data;

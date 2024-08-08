@@ -221,6 +221,7 @@
     */
     ?>
     </div>
+    <div id="footerEvaContainer"></div>
     <script>
             //
             document.addEventListener('DOMContentLoaded', function() {
@@ -242,6 +243,7 @@
 //
     </script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/js/bootstrap.bundle.min.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeaderEva.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadFooterEva.js"></script>
 </body>
 </html>

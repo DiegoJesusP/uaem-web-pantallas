@@ -266,7 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         </div>
     </div>
-
+    <div id="footerEvaContainer"></div>
     <script>
          function selectPHP(cardName) {
             document.getElementById('selected_card').value = cardName;
@@ -347,6 +347,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
     </script>
     <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeader.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadHeaderEva.js"></script>
+    <script src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/js/loadFooterEva.js"></script>
 </body>
 </html>
