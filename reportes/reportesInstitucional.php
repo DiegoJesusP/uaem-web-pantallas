@@ -203,9 +203,9 @@ class PDF extends FPDF{
         $ER = ($MHE + $MVE);
         $EP = ($MHE + $MVE);
         $ESP = $ER - $EP;
-        $promIA = number_format(($PHAsesor + $PVAsesor) / 2, 2);
-        $promID = number_format(($PHDisenio + $PVDisenio) / 2, 2);
-        $promI = number_format(($promIA + $promID) / 2, 2);
+        $promIA = number_format(($PHAsesor + $PVAsesor) / 2, 1);
+        $promID = number_format(($PHDisenio + $PVDisenio) / 2, 1);
+        $promI = number_format(($promIA + $promID) / 2, 1);
         $resultadoInstitucional = [
             "Resultado institucional**",
             "\n". ($MHU + $MVU), 
@@ -222,7 +222,7 @@ class PDF extends FPDF{
         $this->AddTableBodyPage($tamanioAltoColumna, $resultadoInstitucional, true, [217, 217, 217]);
         $this->SetFont('Arial', '', 10);
         $this->Ln($separador);
-        $promHib = number_format(($PHAsesor + $PHDisenio) / 2, 2);
+        $promHib = number_format(($PHAsesor + $PHDisenio) / 2, 1);
         $modalidadHibrida = [
             "Modalidad híbrida",
             "\n". $MHU, 
@@ -238,7 +238,7 @@ class PDF extends FPDF{
         ];
         $this->AddTableBodyPage($tamanioAltoColumna, $modalidadHibrida, true, [217, 217, 217]);
         $this->Ln($separador);
-        $promVirt = number_format(($PVAsesor + $PVDisenio) / 2, 2);
+        $promVirt = number_format(($PVAsesor + $PVDisenio) / 2, 1);
         $modalidadVirtual = [
             "Modalidad virtual",
             "\n". $MVU, 
@@ -341,7 +341,7 @@ class PDF extends FPDF{
         //
     }
 
-    function Page2Content($MHE, $MVE, $MHInstr, $MVInstr){
+    function Page2Content($MHE, $MVE, $MHInstr, $MVInstr, $PHOportunidad, $PVOportunidad, $PHCalidad, $PVCalidad, $PHDominio, $PVDominio, $PHDclaridad, $PVDclaridad, $PHDcalidad, $PVDcalidad, $PHDvariedad, $PVDvariedad){
         $this->pageNumbers[] = $this->PageNo();
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
@@ -374,39 +374,43 @@ class PDF extends FPDF{
         $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
         $this->Ln($separador);
         $EP = ($MHE + $MVE);
-        $promHib = 200;
+        $IA = ($MHInstr + $MVInstr);
+        $promHib = number_format(($PHOportunidad + $PHCalidad + $PHDominio) / 3, 1);
         $modalidadHibrida = [
             "\nModalidad híbrida",
             "\n". $MHE, 
             "\n". $MHInstr, 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $PHOportunidad, 
+            "\n". $PHCalidad, 
+            "\n". $PHDominio, 
             "\n". $promHib
         ];
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadHibrida, true, [255, 229, 153]);
         $this->Ln($separador);
-        $promVirt = 200;
+        $promVirt = number_format(($PVOportunidad + $PVCalidad + $PVDominio) / 3, 1);
         $modalidadVirtual = [
             "\nModalidad virtual",
             "\n". $MVE, 
             "\n". $MVInstr, 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $PVOportunidad, 
+            "\n". $PVCalidad, 
+            "\n". $PVDominio, 
             "\n". $promVirt
         ];
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [255, 229, 153]);
         $this->Ln($separador);
         $this->SetFont('Arial', 'B', 11);
-        $promInst = 200;
+        $promInstOportunidad = number_format(($PHOportunidad + $PVOportunidad) / 2, 1);
+        $promInstCalidad = number_format(($PHCalidad + $PVCalidad) / 2, 1);
+        $promInstDominio = number_format(($PHDominio + $PVDominio) / 2, 1);
+        $promInst = number_format(($promInstOportunidad + $promInstCalidad + $promInstDominio) / 3, 1);
         $modalidadInstitucional = [
             "Resultado Institucional",
             "\n". $EP, 
-            "\n". ($MHInstr + $MVInstr), 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $IA, 
+            "\n". $promInstOportunidad, 
+            "\n". $promInstCalidad, 
+            "\n". $promInstDominio, 
             "\n". $promInst
         ];
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadInstitucional, true, [255, 229, 153]);
@@ -415,7 +419,6 @@ class PDF extends FPDF{
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         //--
-        $data = array('Institucional' => $promInst, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
 
         $this->Ln(6);
         $this->SetFont('Arial', 'B', 12);
@@ -426,6 +429,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Prontitud de retroalimentación y respuesta'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstOportunidad, 'Híbrida' => $PHOportunidad, 'Virtual' => $PVOportunidad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -445,6 +450,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Calidad de retroalimentación y respuesta'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstCalidad, 'Híbrida' => $PHCalidad, 'Virtual' => $PVCalidad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -464,6 +471,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Dominio y desempeño del asesor en línea'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstDominio, 'Híbrida' => $PHDominio, 'Virtual' => $PVDominio);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -483,6 +492,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Promedio total de dimensión'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstCalidad, 'Híbrida' => $PHCalidad, 'Virtual' => $PVCalidad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -490,9 +501,9 @@ class PDF extends FPDF{
         
         $tData = array_sum($data);
         $coloresRGB = $this->ColoresAleatorios($tData);
-        $col1=array(155, 187, 89);
-        $col2=array(79, 129, 189);
-        $col3=array(192, 80, 77);
+        $col1=array(250, 192, 144);
+        $col2=array(147, 205, 221);
+        $col3=array(217, 150, 148);
         //PieChart = $w, $h, $data, $format, $colors=null
         //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
         $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
@@ -538,11 +549,11 @@ class PDF extends FPDF{
         $promHib = 200;
         $modalidadHibrida = [
             "Modalidad híbrida",
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $MHE, 
+            "\n". $MHInstr, 
+            "\n". $PHDclaridad, 
+            "\n". $PHDcalidad, 
+            "\n". $PHDvariedad, 
             "\n", 
             "\n", 
             "\n", 
@@ -554,11 +565,11 @@ class PDF extends FPDF{
         $promVirt = 200;
         $modalidadVirtual = [
             "Modalidad virtual",
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $MVE, 
+            "\n". $MVInstr, 
+            "\n". $PVDclaridad, 
+            "\n". $PVDcalidad, 
+            "\n". $PVDvariedad, 
             "\n", 
             "\n", 
             "\n", 
@@ -568,14 +579,17 @@ class PDF extends FPDF{
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [244, 176, 131]);
         $this->Ln($separador);
         $this->SetFont('Arial', 'B', 11);
+        $promInstDclaridad = number_format(($PHDclaridad + $PVDclaridad) / 2, 1);
+        $promInstDcalidad = number_format(($PHDcalidad + $PVDcalidad) / 2, 1);
+        $promInstDvariedad = number_format(($PHDvariedad + $PVDvariedad) / 2, 1);
         $promInst = 200;
         $modalidadInstitucional = [
             "Resultado Institucional",
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
-            "\n", 
+            "\n". $EP, 
+            "\n". $IA, 
+            "\n". $promInstDclaridad, 
+            "\n". $promInstDcalidad, 
+            "\n". $promInstDvariedad, 
             "\n", 
             "\n", 
             "\n", 
@@ -595,6 +609,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Diseño del curso en claridad de contenidos'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstDclaridad, 'Híbrida' => $PHDclaridad, 'Virtual' => $PVDclaridad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -614,6 +630,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Diseño del curso en calidad de contenidos'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstDcalidad, 'Híbrida' => $PHDcalidad, 'Virtual' => $PVDcalidad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -633,6 +651,8 @@ class PDF extends FPDF{
         $this->Cell(0, 5, utf8_decode('Variedad de contenidos'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
+
+        $data = array('Institucional' => $promInstDvariedad, 'Híbrida' => $PHDvariedad, 'Virtual' => $PVDvariedad);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
@@ -1453,8 +1473,8 @@ try {
         }
     }
 
-    $PHAsesor = number_format($contH > 0 ? $MHAsesor / $contH : 0, 2);
-    $PVAsesor = number_format($contV > 0 ? $MVAsesor / $contV : 0, 2);
+    $PHAsesor = number_format($contH > 0 ? $MHAsesor / $contH : 0, 1);
+    $PVAsesor = number_format($contV > 0 ? $MVAsesor / $contV : 0, 1);
     // CONSULTA PROMEDIOS DISENIO Y CALIDAD
     $MHDisenio = 0;
     $MVDisenio  = 0;
@@ -1517,8 +1537,314 @@ try {
         }
     }
 
-    $PHDisenio = number_format($contH > 0 ? $MHDisenio / $contH : 0, 2);
-    $PVDisenio = number_format($contV > 0 ? $MVDisenio / $contV : 0, 2);
+    $PHDisenio = number_format($contH > 0 ? $MHDisenio / $contH : 0, 1);
+    $PVDisenio = number_format($contV > 0 ? $MVDisenio / $contV : 0, 1);
+    // CONSULTA Oportunidad en la retroalimentación y respuesta
+    $MHOporunidad = 0;
+    $MVOporunidad  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r2, 0) + COALESCE(r4, 0) + COALESCE(r9, 0)) * (100/30) AS calificacion
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(calificacion) AS promedio_oportunidad
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_oportunidad']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHOporunidad += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVOporunidad += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHOportunidad = number_format($contH > 0 ? $MHOporunidad / $contH : 0, 1);
+    $PVOportunidad = number_format($contV > 0 ? $MVOporunidad / $contV : 0, 1);
+    // CONSULTAR Calidad de retroalimentación y respuesta
+    $MHCalidad = 0;
+    $MVCalidad  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r3, 0) + COALESCE(r5, 0) + COALESCE(r6, 0)) * (100.0 / 30) AS suma_datos
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(suma_datos) AS promedio_calidad
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_calidad']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHCalidad += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVCalidad += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHCalidad = number_format($contH > 0 ? $MHCalidad / $contH : 0, 1);
+    $PVCalidad = number_format($contV > 0 ? $MVCalidad / $contV : 0, 1);
+    // CONSULTAR Dominio y desempeño del Asesor en línea
+    $MHDominio = 0;
+    $MVDominio  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r7, 0) + COALESCE(r8, 0) + COALESCE(r10, 0)) * (100.0 / 30) AS suma_datos
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(suma_datos) AS promedio_dominio
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_dominio']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHDominio += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVDominio += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHDominio = number_format($contH > 0 ? $MHDominio / $contH : 0, 1);
+    $PVDominio = number_format($contV > 0 ? $MVDominio / $contV : 0, 1);
+    // CONSULTAR Diseño del curso en claridad de contenidos
+    $MHDclaridad = 0;
+    $MVDclaridad  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r12, 0) + COALESCE(r18, 0) + COALESCE(r15, 0)) * (100.0 / 30) AS suma_datos
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(suma_datos) AS promedio_claridad
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_claridad']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHDclaridad += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVDclaridad += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHDclaridad = number_format($contH > 0 ? $MHDclaridad / $contH : 0, 1);
+    $PVDclaridad = number_format($contV > 0 ? $MVDclaridad / $contV : 0, 1);
+    // CONSULTAR Diseño del curso en calidad de contenidos
+    $MHDcalidad = 0;
+    $MVDcalidad  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r12, 0) + COALESCE(r18, 0) + COALESCE(r15, 0)) * (100.0 / 30) AS suma_datos
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(suma_datos) AS promedio_claridad
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_claridad']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHDcalidad += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVDcalidad += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHDcalidad = number_format($contH > 0 ? $MHDcalidad / $contH : 0, 1);
+    $PVDcalidad = number_format($contV > 0 ? $MVDcalidad / $contV : 0, 1);
+    // CONSULTAR Variedad de contenidos
+    $MHDvariedad = 0;
+    $MVDvariedad  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH promedios AS (
+    SELECT
+        acta_id,
+        (COALESCE(r12, 0) + COALESCE(r18, 0) + COALESCE(r15, 0)) * (100.0 / 30) AS suma_datos
+    FROM
+        preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(suma_datos) AS promedio_claridad
+    FROM
+        promedios
+    GROUP BY
+    acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_claridad']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHDvariedad += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVDvariedad += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHDvariedad = number_format($contH > 0 ? $MHDvariedad / $contH : 0, 1);
+    $PVDvariedad = number_format($contV > 0 ? $MVDvariedad / $contV : 0, 1);
     //
 } catch (PDOException $exp) {
     $tipoError = 'No se pudo conectar a la base de datos';
@@ -1539,7 +1865,7 @@ $pdf->AddPage();
 $pdf->Page1Content($MHU, $MVU, $MH, $MV, $MHG, $MVG, $MHA, $MVA, $MHE, $MVE, $MHInstr, $MVInstr, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio);
 
 $pdf->AddPage();
-$pdf->Page2Content($MHE, $MVE, $MHInstr, $MVInstr);
+$pdf->Page2Content($MHE, $MVE, $MHInstr, $MVInstr, $PHOportunidad, $PVOportunidad, $PHCalidad, $PVCalidad, $PHDominio, $PVDominio, $PHDclaridad, $PVDclaridad, $PHDcalidad, $PVDcalidad, $PHDvariedad, $PVDvariedad);
 
 $pdf->AddPage();
 $pdf->Page3Content();

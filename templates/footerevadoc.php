@@ -15,11 +15,11 @@
                     <img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/edificio.png" alt="edificio" class="img-fluid footer-icon" style="height: 80px; width: 80px;">
                 </div>
                 <div class="col-12 col-md-6 text-center text-md-center">
-                    <div class="mb-2">
-                        <h6>Departamento de Formación Docente</h6>
-                        <p><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/mapas-y-banderas.png" alt="ubicacion" class="img-fluid footer-icon"> Av. Universidad 1001 Col. Chamilpa C.P. 62209, Cuernavaca, Morelos</p> 
-                        <p><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/llamada-telefonica.png" alt="YouTube" class="img-fluid footer-icon"> (777) 329 70 00 Ext. 3249, 3352 y 3935</p>
-                        <p><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/correo-electronico.png" alt="YouTube" class="img-fluid footer-icon"> formacion.docente.ns@uaem.mx</p>
+                    <div >
+                        <h5>Departamento de Formación Docente</h6>
+                        <h6><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/mapas-y-banderas.png" alt="ubicacion" class="img-fluid footer-icon"> Av. Universidad 1001 Col. Chamilpa C.P. 62209, Cuernavaca, Morelos</h6> 
+                        <h6><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/llamada-telefonica.png" alt="YouTube" class="img-fluid footer-icon"> (777) 329 70 00 Ext. 3249, 3352 y 3935</h6>
+                        <h6><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/correo-electronico.png" alt="YouTube" class="img-fluid footer-icon"> formacion.docente.ns@uaem.mx</h6>
                     </div>
                 </div>                                
             </div>

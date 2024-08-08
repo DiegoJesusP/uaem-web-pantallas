@@ -20,7 +20,7 @@
 </head>
 <body style="background-color: #F6F6F6;">
     <div id="headerContainer"></div>
-    <div class="container mt-4 min-vh-100 textB">
+    <div class="container mt-4 textB">
         <h1 style="text-align: center;"><img src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/assets/img/encuesta.png" alt="ubicacion" class="img-fluid icon alin" style="width: 64px; height: 64px;">Resultados del Docente</h1>
         <hr>
         <div class="container text-center">
