@@ -3,6 +3,14 @@
 require_once './../library/fpdf/fpdf.php';
 include('./../php/conexion.php');
 
+function abreviarPrimeraPalabra($texto) {
+    $texto = mb_strtoupper($texto, 'UTF-8');
+    $palabras = explode(' ', $texto);
+    $abreviatura = mb_substr($palabras[0], 0, 1, 'UTF-8') . '.';
+    $resultado = $abreviatura . ' ' . implode(' ', array_slice($palabras, 1));
+    return $resultado;
+}
+
 class PDF extends FPDF{
     var $pageNumbers = array();
     function Header(){
@@ -781,7 +789,7 @@ class PDF extends FPDF{
         $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
     }
 
-    function Page3Content(){
+    function Page3Content($arrMH){
         $this->pageNumbers[] = $this->PageNo();
         //
         $this->SetTextColor(38, 71, 114);
@@ -792,7 +800,7 @@ class PDF extends FPDF{
         $tamanioAltoColumna = 5;
         $subTitulos = [
             "\n\nUnidad Académica",                         //1
-            "Programa Educativo",    //2
+            "\n\nPrograma Educativo",    //2
             "\nUnidad de aprendizaje curricular",  //3
             "\nEstudiante*",               //4
             "\nNumero de grupos",            //5
@@ -811,7 +819,8 @@ class PDF extends FPDF{
         $this->AddTableSubTC($tamanioAltoColumna, $subTitulos, true, [252, 228, 214]);
         $this->Ln($separador);
         //
-
+        $this->SetFont('Arial', '', 8);
+        $this->AddTableBodyTC($tamanioAltoColumna, $arrMH, true, [252, 228, 214]);
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
@@ -959,33 +968,68 @@ class PDF extends FPDF{
             
             switch ($j){
                 case 0:
-                    $ext = 20;
+                    $ext = 20.4;
                     $this->MultiCell($tamColumna + $ext, $tamY, utf8_decode($titulo), true, 'C', true);
                     $this->SetXY($x + $tamColumna + $ext, $y);
                     break;
                 case 1:
-                    $ext = 20;
+                    $ext = 20.4;
                     $this->MultiCell($tamColumna + $ext, $tamY, utf8_decode($titulo), true, 'C', true);
                     $this->SetXY($x + $tamColumna + $ext, $y);
                     break;
                 case 2:
-                    $ext = 20;
+                    $ext = 20.4;
                     $this->MultiCell($tamColumna + $ext, $tamY, utf8_decode($titulo), true, 'C', true);
                     $this->SetXY($x + $tamColumna + $ext, $y);
                     break;
                 default:
-                    $ext = 10;
+                    $ext = 10.2;
                     $this->MultiCell($tamColumna - $ext, $tamY, utf8_decode($titulo), true, 'C', true);
                     $this->SetXY($x + $tamColumna - $ext, $y);
                     break;
             }
-            // Mostrar el título de la tabla
-            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
-            
-
-            // Volver a la posición original y ajustar X para la próxima columna
         }
         $this->Ln();
+    }
+
+    function AddTableBodyTC($tamY, $datosEsc, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+    
+        foreach ($datosEsc as $fila) {
+            $tamColumna = 277 / count($fila); // Asume que cada fila tiene la misma cantidad de columnas
+            foreach ($fila as $j => $titulo) {
+                // Guardar la posición actual
+                $x = $this->GetX();
+                $y = $this->GetY();
+                
+                switch ($j) {
+                    case 0:
+                        $ext = 20.4;
+                        // Cell(float w [, float h [, string txt [, mixed border [, int ln [, string align [, boolean fill [, mixed link]]]]]]])
+                        $this->Cell($tamColumna + $ext, $tamY, utf8_decode($titulo), 1, 0, 'L', ($j % 2 == 0)? true : false);
+                        //$this->SetXY($x + $tamColumna + $ext, $y);
+                        break;
+                    case 1:
+                        $ext = 20.4;
+                        $this->Cell($tamColumna + $ext, $tamY, utf8_decode($titulo), 1, 0, 'L', ($j % 2 == 0)? true : false);
+                        //$this->SetXY($x + $tamColumna + $ext, $y);
+                        break;
+                    case 2:
+                        $ext = 20.4;
+                        $this->Cell($tamColumna + $ext, $tamY, utf8_decode($titulo), 1, 0, 'L', ($j % 2 == 0)? true : false);
+                        //$this->SetXY($x + $tamColumna + $ext, $y);
+                        break;
+                    default:
+                        $ext = 10.2;
+                        $this->Cell($tamColumna - $ext, $tamY, utf8_decode($titulo), 1, 0, 'C', ($j % 2 == 0)? true : false);
+                        //$this->SetXY($x + $tamColumna - $ext, $y);
+                        break;
+                }
+            }
+            $this->Ln(); // Agrega una nueva línea después de cada fila
+        }
     }
 
     function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90){
@@ -2138,6 +2182,134 @@ try {
 
     $PHDgrafico = number_format($contH > 0 ? $MHDgrafico / $contH : 0, 1);
     $PVDgrafico = number_format($contV > 0 ? $MVDgrafico / $contV : 0, 1);
+    // CONSULTAR Modalidades de escuela
+    $query = "SELECT
+    acta_id,
+    unidad,
+    carrera,
+    materia,
+    COUNT(DISTINCT numcontrol) AS total_alumnos,
+    COUNT(DISTINCT grupo) AS total_grupos,
+    COUNT(DISTINCT numcontrol) AS total_docentes
+FROM
+    virtuales
+GROUP BY
+    acta_id, unidad, carrera, materia;";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+
+// Obtener los resultados
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$unidad_totales = [];
+$acta_id = [];
+$datosEsc = [];
+
+// Procesar resultados
+foreach ($resultados as $fila) {
+    $acta_id[] = $fila['acta_id'];
+    $acta = $fila['acta_id'];
+    $unidad = $fila['unidad'];
+    $carrera = $fila['carrera'];
+    $materia = $fila['materia'];
+    $total_alumnos = $fila['total_alumnos'];
+    $total_grupos = $fila['total_grupos'];
+    $total_docentes = $fila['total_docentes'];
+
+    // Acumular el total de alumnos por unidad
+    if (!isset($unidad_totales[$unidad])) {
+        $unidad_totales[$unidad] = 0;
+    }
+    $unidad_totales[$unidad] += $total_alumnos;
+
+    // Consulta adicional dentro del bucle
+    $queryAsesor = "WITH asesor_en_linea AS (
+        SELECT
+            acta_id,
+            (r7 + r8 + r10 + r2 + r4 + r9 + r3 + r5 + r6) AS calificacion
+        FROM
+            preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(calificacion) AS promedio_calificacion
+    FROM
+        asesor_en_linea
+    WHERE
+        acta_id = :acta_id
+    GROUP BY
+        acta_id;";
+
+    $stmtAsesor = $conn->prepare($queryAsesor); // Preparar la consulta
+    $stmtAsesor->bindParam(':acta_id', $acta, PDO::PARAM_STR); // Enlazar el parámetro
+    $stmtAsesor->execute(); // Ejecutar la consulta
+    $resultadosAsesor = $stmtAsesor->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+
+    // Asegurar que hay resultados antes de intentar acceder a ellos
+    $promAsesor = isset($resultadosAsesor[0]['promedio_calificacion']) ? $resultadosAsesor[0]['promedio_calificacion'] : null;
+    ////////
+    $queryDisenio = "WITH calificaciones AS (
+    SELECT
+        acta_id,
+        (
+            SELECT AVG(value::numeric)
+            FROM unnest(string_to_array(r21, ',')) AS value
+            WHERE value ~ '^\d+(\.\d+)?$'
+        ) AS promedio_r21,
+        r12 + r18 + r15 + r13 + r17 + r16 + r20 + r14 AS suma_atributos_sin_promedio
+    FROM
+        preguntav
+    ),
+    calificaciones_con_promedio AS (
+        SELECT
+            acta_id,
+            promedio_r21,
+            suma_atributos_sin_promedio + promedio_r21 AS suma_atributos
+        FROM
+            calificaciones
+    )
+    SELECT
+        acta_id,
+        AVG(suma_atributos) AS promedio_calificacion
+    FROM
+        calificaciones_con_promedio
+    where
+        acta_id = :acta_id
+    GROUP BY
+        acta_id;";
+
+    $stmtDisenio = $conn->prepare($queryDisenio); // Preparar la consulta
+    $stmtDisenio->bindParam(':acta_id', $acta, PDO::PARAM_STR); // Enlazar el parámetro
+    $stmtDisenio->execute(); // Ejecutar la consulta
+    $resultadosDisenio = $stmtDisenio->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+
+    // Asegurar que hay resultados antes de intentar acceder a ellos
+    $promDisenio = isset($resultadosDisenio[0]['promedio_calificacion']) ? $resultadosDisenio[0]['promedio_calificacion'] : null;
+
+    $promT = ($promAsesor + $promDisenio) / 2;
+    // Almacenar los datos en el array
+    $datosEsc[] = [$unidad, $carrera, $materia, &$unidad_totales[$unidad], $total_grupos, $total_docentes, number_format($promAsesor, 1), number_format($promDisenio, 1), number_format($promT, 1)];
+    }
+    //
+    $arrMH = [];
+    $arrMV = [];
+    $cont = 0;
+    foreach ($acta_id as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $datoArr = $datosEsc[$cont];
+            if ($resultado['modalidad'] == 'H') {
+                $arrMH[] = $datoArr;
+            } else if ($resultado['modalidad'] == 'V') {
+                $arrMV[] = $datoArr;
+            }
+        }
+        $cont++;
+    }
     //
 } catch (PDOException $exp) {
     $tipoError = 'No se pudo conectar a la base de datos';
@@ -2163,7 +2335,7 @@ $pdf->Page2Content($MHE, $MVE, $MHInstr, $MVInstr, $PHOportunidad, $PVOportunida
     $PHDcontenidos, $PVDcontenidos, $PHDgrafico, $PVDgrafico);
 
 $pdf->AddPage();
-$pdf->Page3Content();
+$pdf->Page3Content($arrMH);
 
 $pdf->AddPage();
 $pdf->Page4Content();
