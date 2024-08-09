@@ -815,7 +815,6 @@ class PDF extends FPDF{
         //
         $this->SetTextColor(0, 0, 0);
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 10, utf8_decode('Medida Prueba'), 1, 1, 'C');
         $this->AddTableSubTC($tamanioAltoColumna, $subTitulos, true, [252, 228, 214]);
         $this->Ln($separador);
         //
@@ -828,12 +827,42 @@ class PDF extends FPDF{
         //
     }
 
-    function Page4Content(){
+    function Page4Content($arrMV){
         $this->pageNumbers[] = $this->PageNo();
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura: Modalidad Virtual.'), 0, 'L');
+        //
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\n\nUnidad Académica",                         //1
+            "\n\nPrograma Educativo",    //2
+            "\nUnidad de aprendizaje curricular",  //3
+            "\nEstudiante*",               //4
+            "\nNumero de grupos",            //5
+            "\nAsesores evaluados",        //6
+            "\n1)Funcion del asesor",      //7
+            "2)Diseño y calidad del curso",         //8
+            "Promedio total de evaluación"                //11
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas = [($divisionTitulo), ($divisionTitulo * 7), ($divisionTitulo * 3)];
+        //
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableSubTC($tamanioAltoColumna, $subTitulos, true, [252, 228, 214]);
+        $this->Ln($separador);
+        //
+        $this->SetFont('Arial', '', 8);
+        $this->AddTableBodyTC($tamanioAltoColumna, $arrMV, true, [252, 228, 214]);
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 6, utf8_decode('*Total de estudiantes participantes son contabilizados.'), 0, 'L');
+        //
     }
 
     function AddTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -2209,8 +2238,8 @@ $datosEsc = [];
 foreach ($resultados as $fila) {
     $acta_id[] = $fila['acta_id'];
     $acta = $fila['acta_id'];
-    $unidad = $fila['unidad'];
-    $carrera = $fila['carrera'];
+    $unidad = abreviarPrimeraPalabra($fila['unidad']);
+    $carrera = abreviarPrimeraPalabra($fila['carrera']);
     $materia = $fila['materia'];
     $total_alumnos = $fila['total_alumnos'];
     $total_grupos = $fila['total_grupos'];
@@ -2338,7 +2367,7 @@ $pdf->AddPage();
 $pdf->Page3Content($arrMH);
 
 $pdf->AddPage();
-$pdf->Page4Content();
+$pdf->Page4Content($arrMV);
 
 $pdf->AddPage();
 $pdf->IndiceData($pdf->pageNumbers);
