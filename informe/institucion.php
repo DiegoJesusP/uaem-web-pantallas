@@ -206,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<p>Este sistema no esta validado para $selected_card</p>";
                 echo "</div>";
                 break;
-            case 'NIVEL SUPERIOR Y POSTGRADO'://este es el bueno
+            case 'NIVEL SUPERIOR Y POSTGRADO':
                 $consulta = $conn->prepare("SELECT DISTINCT
                 EXTRACT(YEAR FROM fecha) AS anio,
                     CASE
@@ -227,18 +227,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     END
                 ORDER BY
                     anio, periodo");
-                // Ejecuta la consulta
+
                 $consulta->bindParam(':anio', $selected_periodo);
                 $consulta->execute();
                 $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-                // Consulta para obtener las unidades distintas
                 $consulta_unidades = $conn->prepare("SELECT DISTINCT unidad FROM virtuales");
                 $consulta_unidades->execute();
                 $unidades = $consulta_unidades->fetchAll(PDO::FETCH_ASSOC);
 
                 if ($resultado && $unidades) {
-                    // Agrupamos los resultados por año y periodo
+
                     $agrupado = [];
                     foreach ($resultado as $fila) {
                         $anio = $fila['anio'];
@@ -252,32 +251,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         foreach ($periodos as $periodo => $filas) {
                             echo "<div class='row mb-4'>";
                             echo "<div class='col-12'>";
-                            echo "<h3>Periodo: " . htmlspecialchars($periodo) . " - Año: " . htmlspecialchars($anio) . "</h3>";
-                            echo "</div>"; // Cierra col-12
-                            echo "</div>"; // Cierra row
+                            echo "<h3>" . htmlspecialchars($periodo) . " - " . htmlspecialchars($anio) . "</h3>";
+                            echo "</div>";
+                            echo "</div>";
 
                             echo "<div class='row d-flex'>";
-                            // Asumimos que hay suficientes unidades para mostrar en las tarjetas
+
                             foreach ($unidades as $index => $unidad) {
                                 echo "<div class='col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4'>";
                                 echo "<div class='card' style='width: 18rem; cursor: pointer;'>";
                                 echo "<div class='card-body text-center'>";
-                                echo "<h5 class='card-title'>Unidad: <br><b>" . htmlspecialchars($unidad['unidad']) . "</b></h5>";
-                                echo "<p>Periodo: " . htmlspecialchars($periodo) . "<br>Año: " . htmlspecialchars($anio) . "</p>";
-                                echo "<a href='http://" . $_SERVER['HTTP_HOST'] . "/uaem-web-pantallas/reportes/reportesUnidadAcademica.php' data-periodo='" . htmlspecialchars($periodo) . "' data-anio='" . htmlspecialchars($anio) . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
-                                echo "</div>"; // Cierra card-body
-                                echo "</div>"; // Cierra card
-                                echo "</div>"; // Cierra col
+                                echo "<h5 class='card-title'><br><b>" . htmlspecialchars($unidad['unidad']) . "</b></h5>";
+                                echo "<p>" . htmlspecialchars($periodo) . "<br>" . htmlspecialchars($anio) . "</p>";
+                                echo "<a href='http://" . $_SERVER['HTTP_HOST'] . "/uaem-web-pantallas/reportes/reportesUnidadAcademica.php' data-unidad='" . htmlspecialchars($unidad['unidad']) . "' data-periodo='" . htmlspecialchars($periodo) . "' data-anio='" . htmlspecialchars($anio) . "' class='btn btn-primary consultar-reporte'>Consultar Reporte(s)</a>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
 
-                                // Detener el bucle si ya no hay más unidades para mostrar
                                 if ($index >= count($unidades) - 1) {
                                     break;
                                 }
                             }
-                            echo "</div>"; // Cierra row de las cards
+                            echo "</div>";
                         }
                     }
-                    echo "</div>"; // Cierra container
+                    echo "</div>";
                 } else {
                     echo "<div class='d-flex justify-content-center'>";
                     echo "<p>No se encontraron resultados para el año seleccionado o no hay unidades disponibles.</p>";
@@ -304,36 +302,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             document.getElementById('selected_card').value = cardName;
         }
         function selectCard(card) {
-            // Deseleccionar todas las tarjetas
             var cards = document.querySelectorAll('.custom-card-sel');
             cards.forEach(function(c) {
                 c.classList.remove('selected');
             });
-
-            // Seleccionar la tarjeta clicada
             card.classList.add('selected');
-
-            // Mostrar el campo de periodo
             document.getElementById('periodo-label').classList.remove('hidden');
             document.getElementById('periodo-container').classList.remove('hidden');
-
-            // Obtener el texto de la tarjeta seleccionada
             var selectedText = card.querySelector('.card-title').innerText;
-
-            // Obtener el texto del periodo seleccionado
             var periodoSelect = document.getElementById('periodo-select');
             var selectedPeriodo = periodoSelect.options[periodoSelect.selectedIndex].text;
-
-            // Actualizar el elemento con el texto seleccionado
-            //document.getElementById('selection-info').innerText = 'Seleccionaste: ' + selectedText + ' - ' + selectedPeriodo;
-
-            // Limpiar el contenido anterior y crear un nuevo div
             const selectedCardInfo = document.getElementById('titulo');
-            selectedCardInfo.innerHTML = '';  // Limpiar el contenido anterior
-            selectedCardInfo.innerHTML = `<h2><span>${selectedText}</span> - <span>${selectedPeriodo}</span></h2>`;  // Añadir el nuevo contenido
+            selectedCardInfo.innerHTML = '';
+            selectedCardInfo.innerHTML = `<h2><span>${selectedText}</span> - <span>${selectedPeriodo}</span></h2>`;
         }
 
-        // Agregar evento change al select para actualizar el texto seleccionado cuando se cambie el periodo
         document.getElementById('periodo-select').addEventListener('change', function() {
             var selectedCard = document.querySelector('.custom-card-sel.selected');
             if (selectedCard) {
@@ -347,33 +330,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
         document.addEventListener('DOMContentLoaded', function() {
-    var buttons = document.querySelectorAll('.consultar-reporte');
-    
+            var buttons = document.querySelectorAll('.consultar-reporte');
+        
         buttons.forEach(function(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
+
                 var numcontrol = button.getAttribute('data-numcontrol');
                 var periodo = button.getAttribute('data-periodo');
                 var anio = button.getAttribute('data-anio');
-                window.location.href = 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/uaem-web-pantallas/reportes/<?php 
-                    switch ($selected_card){ 
-                        case 'INSTITUCIONAL':
-                            echo 'reportesInstitucional.php?';
-                            break;
-                        case 'DES':
-                            echo 'reportesDes.php?';
-                            break;
-                        case 'NIVEL MEDIO':
-                            echo 'reportesNivelMedio.php?';
-                            break;
-                        case 'NIVEL SUPERIOR Y POSTGRADO':
-                            echo 'reportesUnidadAcademica.php?';
-                            break;
-                        case 'HISTORICO':
-                            echo 'reportesHistorico.php?';
-                            break;
-                        } ?>
-                        periodo=' + encodeURIComponent(periodo) + '&anio=' + anio;
+                var unidad = button.getAttribute('data-unidad');
+                var selectedCard = "<?php echo $selected_card; ?>";
+
+                var baseURL = 'http://' + window.location.host + '/uaem-web-pantallas/reportes/';
+
+                switch (selectedCard) {
+                    case 'INSTITUCIONAL':
+                        baseURL += 'reportesInstitucional.php?';
+                        break;
+                    case 'DES':
+                        baseURL += 'reportesDes.php?';
+                        break;
+                    case 'NIVEL MEDIO':
+                        baseURL += 'reportesNivelMedio.php?';
+                        break;
+                    case 'NIVEL SUPERIOR Y POSTGRADO':
+                        baseURL += 'reportesUnidadAcademica.php?unidad=' + encodeURIComponent(unidad) + '&';
+                        break;
+                    case 'HISTORICO':
+                        baseURL += 'reportesHistorico.php?';
+                        break;
+                    default:
+                        console.error('Tarjeta seleccionada no válida');
+                        return;
+                }
+                baseURL += 'periodo=' + encodeURIComponent(periodo) + '&anio=' + encodeURIComponent(anio);
+                window.location.href = baseURL;
             });
         });
     });
