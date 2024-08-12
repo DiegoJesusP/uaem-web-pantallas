@@ -336,7 +336,7 @@ class PDF extends FPDF{
         $this->Ln($separador);
         //
         $tamanioAltoColumna = 8;
-        $promIU = ($PHPE + $PVPE) / 2;
+        $promIU = number_format(($PHPE + $PVPE) / 2, 1);
         $ER = ($MHG + $MVG);
         $EP = ($EHU + $EVU);
         $unidadData = [
@@ -583,7 +583,7 @@ class PDF extends FPDF{
         $medidas2 = [($divisionTitulo * 1), ($divisionTitulo * 9)];
         //
         $this->SetTextColor(0, 0, 0);
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('Arial', 'B', 10);
         $this->AddTableHeaderMan3($medidas1, ($tamanioAltoColumna + 2), ['Desglose Dimensiones de evaluación'], true, [191, 191, 191]);
         $this->AddTableHeaderMan3($medidas2, ($tamanioAltoColumna + 2), [$unidadP, 'Dimensión: Funciones del asesor en línea'], true, [218, 238, 243]);
         
@@ -660,18 +660,36 @@ class PDF extends FPDF{
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 10);
-        $this->MultiCell(0, 10, utf8_decode('Gráfico 4. Desglose dimensiones de evaluación. '. $unidadP), 0, 'R');
-        $this->MultiCell(0, 10, utf8_decode('* Total de estudiantes participantes de los programas educativos de la Unidad Académica son contabilizados como registros únicos'), 0, 'L');
+        $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Desglose dimensiones de evaluación. '. $unidadP), 0, 'R');
+        $this->MultiCell(0, 10, utf8_decode('*Total de estudiantes participantes de los programas educativos de la Unidad Académica son contabilizados como registros únicos'), 0, 'L');
         }
     }
 
-    function Page6Content(){
+    function Page6Content($unidadP, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio, $PHPE, $PVPE, $PHAsesorU, $PVAsesorU, $PHDisenioU, $PVDisenioU){
         $this->pageNumbers[] = $this->PageNo();
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('VI.- Resultado institucional por unidad académica y dimensiones de evaluación'), 0, 'L');
         //
+        $promIA = number_format(($PHAsesor + $PVAsesor) / 2, 1);
+        $promID = number_format(($PHDisenio + $PVDisenio) / 2, 1);
+        $promI = number_format(($promIA + $promID) / 2, 1);
+
+        $promIU = ($PHPE + $PVPE) / 2;
+
+        $promAsesor = number_format(($PHAsesorU + $PVAsesorU)/2, 1);
+        $promDisenio = number_format(($PHDisenioU + $PVDisenioU)/2, 1);
+        //
+        $valX = $this->GetX();
+        $valY = $this->GetY();
+        $dataEstudiantes = array('Resultado Institucional' => $promI, 'Resultado de '.$unidadP => $promIU,  'Asesor '.$unidadP => $promAsesor, 'Diseño '.$unidadP => $promDisenio);
+        $this->BarDiagram(270, 80, $dataEstudiantes, '%l : %v (%p)', array(79, 129, 189));
+        $this->SetXY($valX, $valY + 80);
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 10, utf8_decode('Grafica 6. Resultado institucional por unidad académica y dimensiones de evaluación. '. $unidadP), 0, 'R');
     }
 
     function Page7Content(){
@@ -2457,7 +2475,7 @@ $pdf->AddPage();
 $pdf->Page5Content($unidadP, $EHU, $EVU, $PHAsesorU, $PVAsesorU, $PHDisenioU, $PVDisenioU, $PHCLaridadU, $PVCLaridadU, $PHDCalidadU, $PVDCalidadU, $PHDVariedadU, $PVDVariedadU, $PHDMoodleU, $PVDMoodleU, $PHDAutonomiaU, $PVDAutonomiaU, $PHDContenidoU, $PVDContenidoU, $PHDGraficoU, $PVDGraficoU);
 
 $pdf->AddPage();
-$pdf->Page6Content();
+$pdf->Page6Content($unidadP, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio, $PHPE, $PVPE, $PHAsesorU, $PVAsesorU, $PHDisenioU, $PVDisenioU);
 
 $pdf->AddPage();
 $pdf->Page7Content();
