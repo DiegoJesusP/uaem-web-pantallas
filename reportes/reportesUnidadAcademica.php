@@ -185,7 +185,7 @@ class PDF extends FPDF{
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('l. RESULTADO INSTITUCIONAL.'), 0, 'L');
+        $this->MultiCell(0, 10, utf8_decode('I. Resultado Institucional'), 0, 'L');
         
         //$this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
         //
@@ -309,21 +309,19 @@ class PDF extends FPDF{
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('II.  Resultado de evaluación de la Escuela de Estudios Superiores de Jojutla. Niveles de participación y modalidad'), 0, 'L');
-        
-        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
+        $this->MultiCell(0, 10, utf8_decode('II.  Resultado de evaluación de ' . $unidadP . '. Niveles de participación y modalidad'), 0, 'L');
         //
         $separador = 10;
         $tamanioAltoColumna = 5;
         $subTitulos = [
-            "\nUnidad académica / Modalidad",                         //1
-            "Número de Asignaturas registradas",    //2
-            "Número de Asignaturas participantes",  //3
-            "\n\nNúmero de grupos",               //4
-            "\nRegistrados en sistema",            //5
-            "\nParticipantes en la evaluación *",        //6
-            "\nEvaluados por unidad académica",      //7 
-            "\nPromedio total de evaluación"                 //8
+            "\nUnidad académica / Modalidad",//1
+            "Número de Asignaturas registradas",//2
+            "Número de Asignaturas participantes",//3
+            "\n\nNúmero de grupos",//4
+            "\nRegistrados en sistema",//5
+            "\nParticipantes en la evaluación *",//6
+            "\nEvaluados por unidad académica",//7 
+            "\nPromedio total de evaluación"//8
         ];
         $divisionTitulo = 277 / count($subTitulos);
         $medidas = [($divisionTitulo), ($divisionTitulo * 3), ($divisionTitulo * 2), $divisionTitulo, $divisionTitulo];
@@ -331,12 +329,13 @@ class PDF extends FPDF{
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', 'B', 12);
         $this->AddTableHeaderMan2($medidas, ($tamanioAltoColumna + 2), ['', 'Asignaturas', 'Estudiantes', 'Asesores', ''], true, [218, 238, 243]);
-
+        
         $this->SetTextColor(0, 0, 0);
         $this->SetFont('Arial', 'B', 10);
         $this->AddTableSubT2($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
         $this->Ln($separador);
         //
+        $tamanioAltoColumna = 8;
         $promIU = ($PHPE + $PVPE) / 2;
         $ER = ($MHG + $MVG);
         $EP = ($EHU + $EVU);
@@ -380,7 +379,7 @@ class PDF extends FPDF{
         //$this->Ln($separador);
         //
         $this->SetTextColor(38, 71, 114);
-        $this->Ln(6);
+        $this->Ln(5);
         //
         $this->SetFont('Arial', 'B', 12);
         $this->Cell(0, 10, utf8_decode('Evaluacion a partir de la opinión de los estudiantes '. $unidadP), 1, 1, 'C');
@@ -395,6 +394,85 @@ class PDF extends FPDF{
         //
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 4. Resultado Institucional, Modalidad, dimensiones de evaluación y desglose de dimensión: Funciones del asesor en línea.'), 0, 'R');
+    }
+
+    function Page3Content($unidadP,$MHAPevaluados, $MVAPevaluados, $EHU, $EVU){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('III.  Resultado de evaluación de ' . $unidadP . '. Dimensiones de evaluación y modalidad'), 0, 'L');
+        //
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\nTotal de asesores evaluados*",//1
+            "Total de estudiantes participantes*",//2
+            "\nPromedio total de evaluación",  //3
+            "1) Funciones del asesor en línea",//4
+            "\n2) Diseño y calidad del curso"//5
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas1 = [($divisionTitulo*3), ($divisionTitulo * 2)];
+        $medidas2 = [($divisionTitulo*3), ($divisionTitulo * 2)];
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan($medidas1, ($tamanioAltoColumna + 2), ['', 'Dimensiones de evaluación'], true, [218, 238, 243]);
+        $this->AddTableHeaderMan3($medidas2, ($tamanioAltoColumna + 2), [$unidadP, 'Promedio total por dimensión'], true, [218, 238, 243]);
+        
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableSubT2($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
+        $this->Ln();
+
+        $this->SetFont('Arial', '', 10);
+        $tamanioAltoColumna = 8;
+        $unidadData = [
+            ($MHAPevaluados + $MVAPevaluados),//1
+            ($EHU + $EVU),//2
+            "\nPromedio total de evaluación",  //3
+            "1) Funciones del asesor en línea",//4
+            "\n2) Diseño y calidad del curso"//5
+        ];
+        
+        $this->AddTableBodyPage3C($tamanioAltoColumna, $unidadData, true, [255, 255, 255]);
+    }
+
+    function Page4Content($unidadP){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('IV. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'), 0, 'L');
+        //
+    }
+
+    function Page5Content($unidadP){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('V. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'), 0, 'L');
+        //
+    }
+
+    function Page6Content(){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('VI.- Resultado institucional por unidad académica y dimensiones de evaluación'), 0, 'L');
+        //
+    }
+
+    function Page7Content(){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura'), 0, 'L');
+        //
     }
 
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -432,8 +510,6 @@ class PDF extends FPDF{
         }
         
         foreach ($titulosTablas as $j => $titulo) {
-            // Mostrar el título de la tabla
-            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
             $this->Cell($tam[$j], $tamY, utf8_decode($titulo), ($j == 0)? false : true, 0, 'C', ($j == 0)? false : true);
         }
         $this->Ln();
@@ -445,7 +521,18 @@ class PDF extends FPDF{
         }
         
         foreach ($titulosTablas as $j => $titulo) {
-            $this->Cell($tam[$j], $tamY, utf8_decode($titulo), ($j == 0)? false : true, 0, 'C', ($j == 0 || $j == count($titulosTablas) - 1)? false : true);
+            $this->Cell($tam[$j], $tamY, utf8_decode($titulo), ($j == 0 || $j == count($titulosTablas) - 1)? false : true, 0, 'C', ($j == 0 || $j == count($titulosTablas) - 1)? false : true);
+        }
+        $this->Ln();
+    }
+
+    function AddTableHeaderMan3($tam, $tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        
+        foreach ($titulosTablas as $j => $titulo) {
+            $this->Cell($tam[$j], $tamY, utf8_decode($titulo), true, 0, 'C', true);
         }
         $this->Ln();
     }
@@ -537,6 +624,19 @@ class PDF extends FPDF{
         foreach ($titulosTablas as $j => $titulo) {
 
             $this->Cell($tamColumna, $tamY, utf8_decode($titulo), 1 , 0, 'C', ($j == 0)? true : false);
+        }
+        $this->Ln();
+    }
+
+    function AddTableBodyPage3C($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $color = count($titulosTablas) -1;
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+
+            $this->Cell($tamColumna, $tamY, utf8_decode($titulo), 1 , 0, 'C', true);
         }
         $this->Ln();
     }
@@ -793,7 +893,7 @@ class PDF extends FPDF{
         }
     }
 
-    function IndiceData($pages){
+    function IndiceData($pages, $unidadP){
         $xIni = 250;
         $xSeg = 20;
         // Contenido de la página 2 (operación)
@@ -809,10 +909,13 @@ class PDF extends FPDF{
         $anchoColumnas[] = $xSeg; // numero
         $num = 2;
         $this->SetFont('Arial', 'B', 12);
-        $this->AddIndice($anchoColumnas, ["I. Resultado Institucional. Modalidad y dimensiones de evaluación."], $this->pageNumbers[0], true); 
-        $this->AddIndice($anchoColumnas, ["II. Resultado Institucional. Modalidad, dimensiones de evaluación y de dimensión."], $this->pageNumbers[1], true, [220, 228, 241]); 
-        $this->AddIndice($anchoColumnas, ["III. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n     * Modalidad Híbrida"], $num, true); 
-        $this->AddIndice($anchoColumnas, ["IV. Desglose de resultados. Dimensiones de evaluación, unidad académica, programa educativo y asignatura:\n      * Modalidad Virtual"], $num, true, [220, 228, 241]); 
+        $this->AddIndice($anchoColumnas, ['I. Resultado Institucional'], $this->pageNumbers[0], true); 
+        $this->AddIndice($anchoColumnas, ['II.  Resultado de evaluación de ' . $unidadP . '. Niveles de participación y modalidad'], $this->pageNumbers[1], true, [220, 228, 241]); 
+        $this->AddIndice($anchoColumnas, ['III.  Resultado de evaluación de ' . $unidadP . '. Dimensiones de evaluación y modalidad'], $this->pageNumbers[2], true); 
+        $this->AddIndice($anchoColumnas, ['IV. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'. "\n\t" .'- Funciones del asesor en línea'], $this->pageNumbers[3], true, [220, 228, 241]);
+        $this->AddIndice($anchoColumnas, ['V. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'. "\n\t" .'- Diseño y calidad del curso'], $this->pageNumbers[4], true);
+        $this->AddIndice($anchoColumnas, ['VI.- Resultado institucional por unidad académica y dimensiones de evaluación'], $this->pageNumbers[5], true, [220, 228, 241]);
+        $this->AddIndice($anchoColumnas, ['VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura'], $this->pageNumbers[6], true);
         //
     }
 }
@@ -1362,6 +1465,53 @@ try {
 
     $PHPE = number_format($contH > 0 ? $MHAsesor / $contH : 0, 1);
     $PVPE = number_format($contV > 0 ? $MVAsesor / $contV : 0, 1);
+    // CONSULTAR ASESORES EVALUADOS
+    $MHAPevaluados = 0;
+    $MVAPevaluados = 0;
+    $consulta = $conn->prepare("WITH ranked_units AS (
+    SELECT
+        acta_id,
+        numcontrol,
+        unidad,
+        ROW_NUMBER() OVER (PARTITION BY numcontrol ORDER BY acta_id DESC) AS rn
+    FROM
+        virtuales
+    )
+    SELECT
+        acta_id,
+        numcontrol
+    FROM
+        ranked_units
+    WHERE
+        rn = 1 and unidad = :unidad
+    ORDER BY
+        acta_id DESC;");
+    $consulta->bindParam(':unidad', $unidad, PDO::PARAM_STR);
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+    $arr_acta = [];
+    $arr_unidad = [];
+    
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_unidad[] = $value['unidad'] ?? '';
+    }
+    
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHAPevaluados++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVAPevaluados++;
+            }
+        }
+    }
     //
 } catch (PDOException $exp) {
     $tipoError = 'No se pudo conectar a la base de datos';
@@ -1387,7 +1537,22 @@ $pdf->AddPage();
 $pdf->Page2Content($unidadP, $MHAR, $MVAR, $MHG, $MVG, $EHU, $EVU, $PHPE, $PVPE);
 
 $pdf->AddPage();
-$pdf->IndiceData($pdf->pageNumbers);
+$pdf->Page3Content($unidadP, $MHAPevaluados, $MVAPevaluados, $EHU, $EVU);
+
+$pdf->AddPage();
+$pdf->Page4Content($unidadP);
+
+$pdf->AddPage();
+$pdf->Page5Content($unidadP);
+
+$pdf->AddPage();
+$pdf->Page6Content();
+
+$pdf->AddPage();
+$pdf->Page7Content();
+
+$pdf->AddPage();
+$pdf->IndiceData($pdf->pageNumbers, $unidadP);
 
 $pdf->Output();
 
