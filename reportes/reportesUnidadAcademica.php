@@ -1,6 +1,25 @@
 <?php
 
 require_once './../library/fpdf/fpdf.php';
+include('./../php/conexion.php');
+
+function obtenerParametroGET($nombre, $default = 'No definido') {
+    return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
+}
+
+function convertirTexto($texto) {
+    $texto = mb_strtolower($texto, 'UTF-8');
+    $texto = mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
+    return $texto;
+}
+
+function abreviarPrimeraPalabra($texto) {
+    //$texto = mb_strtoupper($texto, 'UTF-8');
+    $palabras = explode(' ', $texto);
+    $abreviatura = mb_substr($palabras[0], 0, 1, 'UTF-8') . '.';
+    $resultado = $abreviatura . ' ' . implode(' ', array_slice($palabras, 1));
+    return $resultado;
+}
 
 class PDF extends FPDF{
     var $pageNumbers = array();
@@ -38,7 +57,7 @@ class PDF extends FPDF{
         $this->Cell(0, -10, utf8_decode('Página | ') . $this->PageNo(), 0, 0, 'R');
     }
 
-    function Portada(){
+    function Portada($unidad){
         $xIni = 90;
         $xSeg = 150;
         $xIniCuadro = 50;
@@ -101,11 +120,12 @@ class PDF extends FPDF{
         $this->Ln();
         $this->SetFont('Arial', '', 14);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xSeg, 10, utf8_decode('AAAAAAAAAAAAAAAAAH '), 0, 0, 'R', true);
+        $this->Cell($xSeg, 10, utf8_decode($unidad), 0, 0, 'R', true);
         $this->Ln();
         $this->SetFillColor(235, 243, 246);
         $this->Cell($xIni, 10, utf8_decode(''), 0, 0, 'R');
-        $this->Cell($xSeg, 10, utf8_decode(''), 0, 0, 'R', true);
+        $this->SetTextColor(80, 80, 80);
+        $this->Cell($xSeg, 10, utf8_decode('Asignaturas híbridas y/o virtuales'), 0, 0, 'R', true);
         $this->Ln(50);
         //
         $this->SetFillColor(74, 172, 197);
@@ -160,95 +180,128 @@ class PDF extends FPDF{
         $this->Ln();
     }
 
-    function Page1Content(){
+    function Page1Content($MHU, $MVU, $MH, $MV, $MHG, $MVG, $MHA, $MVA, $MHE, $MVE, $MHInstr, $MVInstr, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio){
         $this->pageNumbers[] = $this->PageNo();
         // Contenido de la página 3 (texto y operación)
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('l. Resultado Institucional. Modalidad y dimensiones de evaluación.'), 0, 'L');
+        $this->MultiCell(0, 10, utf8_decode('l. RESULTADO INSTITUCIONAL.'), 0, 'L');
         
-        $this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 1'), 1, 1, 'C');
+        //$this->Cell(0, 10, utf8_decode('Proximamente tablas'), 1, 1, 'C');
         //
-        $men = 130;
-        $women = 200;
-        $children = 18;
-        $other = 150;
-        $data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\n \n \n",                         //1
+            "Unidades académicas evaluadas",    //2
+            "Unidades curriculares evaluadas",  //3
+            "\nGrupos evaluados",               //4
+            "\nAsesores evaluados*",            //5
+            "\nEstudiantes registrados",        //6
+            "\nEstudiantes participantes",      //7
+            "\nInstrumentos Aplicados",         //8
+            "1) Funciones del asesor en línea", //9
+            "2) Diseño y calidad del curso",    //10
+            "\nPromedio\ntotal"                 //11
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas = [($divisionTitulo), ($divisionTitulo * 7), ($divisionTitulo * 3)];
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->AddTableHeaderMan($medidas, ($tamanioAltoColumna + 2), ['', 'Participantes', 'Dimensiones de evaluación'], true, [220, 228, 241]);
+        //
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [217, 217, 217]);
+        $this->Ln($separador);
 
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '1 - Pie chart', 0, 1);
-        $this->Ln(8);
+        $this->SetFont('Arial', '', 10);
+        $ER = ($MHE + $MVE);
+        $EP = ($MHE + $MVE);
+        $ESP = $ER - $EP;
+        $promIA = number_format(($PHAsesor + $PVAsesor) / 2, 1);
+        $promID = number_format(($PHDisenio + $PVDisenio) / 2, 1);
+        $promI = number_format(($promIA + $promID) / 2, 1);
+        $resultadoInstitucional = [
+            "Resultado institucional**",
+            "\n". ($MHU + $MVU), 
+            "\n". ($MH + $MV), 
+            "\n". ($MHG + $MVG), 
+            "\n". ($MHA + $MVA), 
+            "\n". $ER, 
+            "\n". $EP, 
+            "\n". ($MHInstr + $MVInstr), 
+            "\n". $promIA, //
+            "\n". $promID, //
+            "\n". $promI
+        ];
+        $this->AddTableBodyPage($tamanioAltoColumna, $resultadoInstitucional, true, [217, 217, 217]);
+        $this->SetFont('Arial', '', 10);
+        $this->Ln($separador);
+        $promHib = number_format(($PHAsesor + $PHDisenio) / 2, 1);
+        $modalidadHibrida = [
+            "Modalidad híbrida",
+            "\n". $MHU, 
+            "\n". $MH,
+            "\n". $MHG, 
+            "\n". $MHA, 
+            "\n". $MHE, 
+            "\n". $MHE, 
+            "\n". $MHInstr, 
+            "\n". $PHAsesor, //
+            "\n". $PHDisenio, //
+            "\n". $promHib
+        ];
+        $this->AddTableBodyPage($tamanioAltoColumna, $modalidadHibrida, true, [217, 217, 217]);
+        $this->Ln($separador);
+        $promVirt = number_format(($PVAsesor + $PVDisenio) / 2, 1);
+        $modalidadVirtual = [
+            "Modalidad virtual",
+            "\n". $MVU, 
+            "\n". $MV,  
+            "\n". $MVG, 
+            "\n". $MVA, 
+            "\n". $MVE, 
+            "\n". $MVE, 
+            "\n". $MVInstr, 
+            "\n". $PVAsesor, //
+            "\n". $PVDisenio, //
+            "\n". $promVirt
+        ];
+        $this->AddTableBodyPage($tamanioAltoColumna, $modalidadVirtual, true, [217, 217, 217]);
+        $this->Ln($separador);
+        //
+        $this->SetTextColor(38, 71, 114);
+        $data = array('Institucional' => $promI, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
+
+        $this->Ln(6);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Resultado Institucional y Modalidad'), 1, 1, 'C');
+        $this->Ln(3);
 
         $this->SetFont('Arial', '', 10);
         $valX = $this->GetX();
         $valY = $this->GetY();
 
         $this->SetXY(90, $valY);
-        //$col1=array(100,100,255);
         
         $tData = array_sum($data);
         $coloresRGB = $this->ColoresAleatorios($tData);
-        //$arreglo = array($col1,$col2,$col3, $col4);
-        $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
-        $this->SetXY($valX, $valY + 40);
+        $col1=array(250, 192, 144);
+        $col2=array(147, 205, 221);
+        $col3=array(217, 150, 148);
+        //PieChart = $w, $h, $data, $format, $colors=null
+        //$this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
+        $this->PieChart(100, 35, $data, '%l (%p)', array($col1,$col2,$col3));
+        $this->SetXY($valX, $valY + 35);
         //**** */
+        $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
-        $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluaciól docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
+        $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluación docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
         $this->MultiCell(0, 6, utf8_decode('*Total de asesores participantes son contabilizados como registros únicos.'), 0, 'L');
-        $this->AddPage();
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 2'), 1, 1, 'C');
-        //
-        //Bar diagram
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '2 - Bar diagram', 0, 1);
-        $this->Ln(8);
-        $valX = $this->GetX();
-        $valY = $this->GetY();
-        $this->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
-        $this->SetXY($valX, $valY + 80);
-        //
-        $this->SetFont('Arial', '', 10);
-        $this->MultiCell(0, 10, utf8_decode('Gráfico 2. Resultado Institucional por modalidad y dimensiones de evaluación.'), 0, 'R');
-        $this->AddPage();
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, utf8_decode('Proximamente grafica 3'), 1, 1, 'C');
-        $this->SetFont('Arial', '', 10);
-        $this->MultiCell(0, 10, utf8_decode('Gráfico 3. Nivel de participación de estudiantes.'), 0, 'R');
-        //
-        $men = 13;
-        $women = 20;
-        $children = 18;
-        $other = 15;
-        $data = array('Men' => $men, 'Women' => $women, 'Children' => $children, 'Other' => $other);
-
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '1 - Pie chart', 0, 1);
-        $this->Ln(8);
-
-        $this->SetFont('Arial', '', 10);
-        $valX = $this->GetX();
-        $valY = $this->GetY();
-
-        $this->SetXY(90, $valY);
-        //$col1=array(100,100,255);
-        
-        $tData = array_sum($data);
-        $coloresRGB = $this->ColoresAleatorios($tData);
-        //$arreglo = array($col1,$col2,$col3, $col4);
-        $this->PieChart(100, 35, $data, '%l (%p)', $coloresRGB);
-        $this->SetXY($valX, $valY + 40);
-
-        //Bar diagram
-        $this->SetFont('Arial', 'BIU', 12);
-        $this->Cell(0, 5, '2 - Bar diagram', 0, 1);
-        $this->Ln(8);
-        $valX = $this->GetX();
-        $valY = $this->GetY();
-        $this->BarDiagram(190, 70, $data, '%l : %v (%p)', array(255,175,100));
-        $this->SetXY($valX, $valY + 80);
     }
 
     function Page2Content(){
@@ -295,6 +348,61 @@ class PDF extends FPDF{
         // Línea de cierre
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
+    }
+
+    function AddTableHeaderMan($tam, $tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        
+        foreach ($titulosTablas as $j => $titulo) {
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->Cell($tam[$j], $tamY, utf8_decode($titulo), ($j == 0)? false : true, 0, 'C', ($j == 0)? false : true);
+        }
+        $this->Ln();
+    }
+
+    function AddTableSubT($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Guardar la posición actual
+            $x = $this->GetX();
+            $y = $this->GetY();
+
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), ($j == 0)? false : true, 'C', ($j == 0)? false : true);
+
+            // Volver a la posición original y ajustar X para la próxima columna
+            $this->SetXY($x + $tamColumna, $y);
+        }
+        $this->Ln();
+    }
+
+    function AddTableBodyPage($tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        $color = count($titulosTablas) -1;
+        $tamColumna = 277 / count($titulosTablas);
+        foreach ($titulosTablas as $j => $titulo) {
+            // Guardar la posición actual
+            $x = $this->GetX();
+            $y = $this->GetY();
+            if ($j == $color) {
+                $this->SetFillColor(255, 192, 0);
+            }
+            // Mostrar el título de la tabla
+            //MultiCell(float w, float h, string txt [, mixed border [, string align [, boolean fill]]])
+            $this->MultiCell($tamColumna, $tamY, utf8_decode($titulo), 1, 'C', ($j == 0 || $j == $color)? true : false);
+
+            // Volver a la posición original y ajustar X para la próxima columna
+            $this->SetXY($x + $tamColumna, $y);
+        }
     }
 
     function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90){
@@ -441,7 +549,7 @@ class PDF extends FPDF{
         }
 
         //Legends
-        $this->SetFont('Arial', '', 10);
+        $this->SetFont('Arial', 'B', 10);
         $x1 = $XPage + 2 * $radius + 4 * $margin;
         $x2 = $x1 + $hLegend + $margin;
         $y1 = $YDiag - $radius + (2 * $radius - $this->NbVal*($hLegend + $margin)) / 2;
@@ -449,7 +557,7 @@ class PDF extends FPDF{
             $this->SetFillColor($colors[$i][0],$colors[$i][1],$colors[$i][2]);
             $this->Rect($x1, $y1, $hLegend, $hLegend, 'DF');
             $this->SetXY($x2,$y1);
-            $this->Cell(0,$hLegend,$this->legends[$i]);
+            $this->Cell(0,$hLegend,utf8_decode($this->legends[$i]));
             $y1+=$hLegend + $margin;
         }
     }
@@ -494,7 +602,7 @@ class PDF extends FPDF{
             $this->Rect($xval, $yval, $lval, $hval, 'DF');
             //Legend
             $this->SetXY(0, $yval);
-            $this->Cell($xval - $margin, $hval, $this->legends[$i],0,0,'R');
+            $this->Cell($xval - $margin, $hval, utf8_decode($this->legends[$i]),0,0,'R');
             $i++;
         }
 
@@ -572,28 +680,380 @@ class PDF extends FPDF{
         //
     }
 }
-//
-function obtenerParametroGET($nombre, $default = 'No definido') {
-    return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
-}
 // Obtener parámetros GET
-$periodo = obtenerParametroGET('periodo', 'No está definido "periodo"');
-$anio = obtenerParametroGET('anio', 'No está definido "anio"');
+$periodo = obtenerParametroGET('periodo', 'Sin definir "periodo"');
+$anio = obtenerParametroGET('anio', 'Sin definir "anio"');
 //
+try {
+    $conexion = new CConexion();
+    $conn = $conexion->conexionBD();
+    // CONSULTA UNIDADES ACADEMICAS
+    $MHU = 0;
+    $MVU = 0;
+    $consulta = $conn->prepare("WITH ranked_units AS (
+    SELECT
+        acta_id,
+        unidad,
+        ROW_NUMBER() OVER (PARTITION BY unidad ORDER BY acta_id DESC) AS rn
+    FROM
+        virtuales
+    )
+    SELECT
+        acta_id,
+        unidad
+    FROM
+        ranked_units
+    WHERE
+        rn = 1
+    ORDER BY
+        acta_id DESC;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+    $arr_acta = [];
+    $arr_unidad = [];
+    
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_unidad[] = $value['unidad'] ?? '';
+    }
+    
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHU++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVU++;
+            }
+        }
+    }
+    // CONSULTA MODALIDAD
+    $consulta = $conn->prepare("SELECT DISTINCT acta_id, unidad FROM virtuales ORDER BY acta_id DESC;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    $arr_acta = [];
+    $arr_unidad = [];
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_unidad[] = $value['unidad'] ?? '';
+    }
+    $MH = 0;
+    $MV = 0;
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MV++;
+            }
+        }
+    }
+    // CONSULTA GRUPOS
+    $consulta = $conn->prepare("WITH ranked_units AS (
+    SELECT
+        acta_id,
+        grupo,
+        ROW_NUMBER() OVER (PARTITION BY grupo ORDER BY acta_id DESC) AS rn
+    FROM
+        virtuales
+    )
+    SELECT
+        acta_id,
+        grupo
+    FROM
+        ranked_units
+    WHERE
+        rn = 1
+    ORDER BY
+        acta_id DESC;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    $arr_acta = [];
+    $arr_grupo = [];
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_grupo[] = $value['grupo'] ?? '';
+    }
+    $MHG = 0;
+    $MVG = 0;
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHG++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVG++;
+            }
+        }
+    }
+    // CONSULTA ASESORES
+    $MHA = 0;
+    $MVA = 0;
+    $consulta = $conn->prepare("WITH ranked_units AS (
+    SELECT
+        acta_id,
+        numcontrol,
+        ROW_NUMBER() OVER (PARTITION BY numcontrol ORDER BY acta_id DESC) AS rn
+    FROM
+        virtuales
+    )
+    SELECT
+        acta_id,
+        numcontrol
+    FROM
+        ranked_units
+    WHERE
+        rn = 1
+    ORDER BY
+        acta_id DESC;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+    $arr_acta = [];
+    $arr_unidad = [];
+    
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_unidad[] = $value['unidad'] ?? '';
+    }
+    
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHA++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVA++;
+            }
+        }
+    }
+    // CONSULTA ESTUDIANTES
+    $MHE = 0;
+    $MVE = 0;
+    $consulta = $conn->prepare("WITH ranked_units AS (
+    SELECT
+        acta_id,
+        matricula,
+        ROW_NUMBER() OVER (PARTITION BY matricula ORDER BY acta_id DESC) AS rn
+    FROM
+        virtuales
+    )
+    SELECT
+        acta_id,
+        matricula
+    FROM
+        ranked_units
+    WHERE
+        rn = 1
+    ORDER BY
+        acta_id DESC;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+    $arr_acta = [];
+    $arr_unidad = [];
+    
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+        $arr_unidad[] = $value['unidad'] ?? '';
+    }
+    
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHE++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVE++;
+            }
+        }
+    }
+    // CONSULTA INSTRUMENTOS
+    $MHInstr = 0;
+    $MVInstr = 0;
+    $consulta = $conn->prepare("SELECT DISTINCT acta_id FROM virtuales;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+    $arr_acta = [];
+    
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'] ?? '';
+    }
+    
+    foreach ($arr_acta as $value) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $value, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        if ($resultado) {
+            if ($resultado['modalidad'] == 'H') {
+                $MHInstr++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVInstr++;
+            }
+        }
+    }
+    // CONSULTA PROMEDIOS ASESOR EN LINEA
+    $MHAsesor = 0;
+    $MVAsesor = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("
+    WITH calificaciones AS (
+        SELECT
+            acta_id,
+            (r7 + r8 + r10 + r2 + r4 + r9 + r3 + r5 + r6) AS calificacion
+        FROM
+            preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(calificacion) AS promedio_calificacion
+    FROM
+        calificaciones
+    GROUP BY
+        acta_id
+    ");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_calificacion']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHAsesor += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVAsesor += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHAsesor = number_format($contH > 0 ? $MHAsesor / $contH : 0, 1);
+    $PVAsesor = number_format($contV > 0 ? $MVAsesor / $contV : 0, 1);
+    // CONSULTA PROMEDIOS DISENIO Y CALIDAD
+    $MHDisenio = 0;
+    $MVDisenio  = 0;
+    $contH = 0;
+    $contV = 0;
+    $consulta = $conn->prepare("WITH calificaciones AS (
+    SELECT
+        acta_id,
+        (
+            SELECT AVG(value::numeric)
+            FROM unnest(string_to_array(r21, ',')) AS value
+            WHERE value ~ '^\d+(\.\d+)?$'
+        ) AS promedio_r21,
+        r12 + r18 + r15 + r13 + r17 + r16 + r20 + r14 AS suma_atributos_sin_promedio
+    FROM
+        preguntav
+    ),
+    calificaciones_con_promedio AS (
+        SELECT
+            acta_id,
+            promedio_r21,
+            suma_atributos_sin_promedio + promedio_r21 AS suma_atributos
+        FROM
+            calificaciones
+    )
+    SELECT
+        acta_id,
+        AVG(suma_atributos) AS promedio_calificacion
+    FROM
+        calificaciones_con_promedio
+    GROUP BY
+        acta_id;");
+    $consulta->execute();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr_acta = [];
+    $arr_promedio = [];
+
+    foreach ($resultado as $value) {
+        $arr_acta[] = $value['acta_id'];
+        $arr_promedio[$value['acta_id']] = $value['promedio_calificacion']; 
+    }
+
+    foreach ($arr_acta as $acta_id) {
+        $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+        $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $promedio_calificacion = $arr_promedio[$acta_id] ?? 0; 
+
+            if ($resultado['modalidad'] == 'H') {
+                $MHDisenio += $promedio_calificacion;
+                $contH++;
+            } else if ($resultado['modalidad'] == 'V') {
+                $MVDisenio += $promedio_calificacion;
+                $contV++;
+            }
+        }
+    }
+
+    $PHDisenio = number_format($contH > 0 ? $MHDisenio / $contH : 0, 1);
+    $PVDisenio = number_format($contV > 0 ? $MVDisenio / $contV : 0, 1);
+} catch (PDOException $exp) {
+    $tipoError = 'No se pudo conectar a la base de datos';
+}
 
 $pdf = new PDF('L','mm','A4');
 $pdf->AliasNbPages();
 //
-$pdf->setFooterText('Reporte Institucional modalidad híbrida y/o virtual', ($periodo . ' ' . $anio));
-// Agregar páginas con contenido diferente
+$unidad = obtenerParametroGET('unidad', 'Sin definir "unidad"');
+$unidadP = convertirTexto($unidad);
+$unidadF = abreviarPrimeraPalabra($unidadP);
+$pdf->setFooterText('Reporte híbridas y/o virtuales. '. $unidadF, ($periodo . ' ' . $anio));
+
 $pdf->AddPage();
-$pdf->Portada();
+$pdf->Portada($unidadP);
 
 //$pdf->AddPage();
 //$pdf->Indice();
 
 $pdf->AddPage();
-$pdf->Page1Content();
+$pdf->Page1Content($MHU, $MVU, $MH, $MV, $MHG, $MVG, $MHA, $MVA, $MHE, $MVE, $MHInstr, $MVInstr, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio);
 
 $pdf->AddPage();
 $pdf->Page2Content();

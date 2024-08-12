@@ -1341,8 +1341,8 @@ function obtenerParametroGET($nombre, $default = 'No definido') {
     return isset($_GET[$nombre]) ? htmlspecialchars($_GET[$nombre]) : $default;
 }
 // Obtener parámetros GET
-$periodo = obtenerParametroGET('periodo', 'No está definido "periodo"');
-$anio = obtenerParametroGET('anio', 'No está definido "anio"');
+$periodo = obtenerParametroGET('periodo', 'Sin definir "periodo"');
+$anio = obtenerParametroGET('anio', 'Sin definir "anio"');
 //
 $error = '';
 $tipoError = 'error';
