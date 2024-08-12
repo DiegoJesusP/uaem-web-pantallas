@@ -692,13 +692,33 @@ class PDF extends FPDF{
         $this->MultiCell(0, 10, utf8_decode('Grafica 6. Resultado institucional por unidad académica y dimensiones de evaluación. '. $unidadP), 0, 'R');
     }
 
-    function Page7Content(){
+    function Page7Content($unidadP){
         $this->pageNumbers[] = $this->PageNo();
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         $this->MultiCell(0, 10, utf8_decode('VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura'), 0, 'L');
         //
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\nPrograma/s educativo/s",//1
+            "\n\nModalidad",//2
+            "\nNombre de la asignatura",  //3
+            "\n\nNúmero de grupos",//4
+            "Estudiantes registrados en sistema", //5
+            "\nEstudiantes participantes *", //6
+            "\nAsesores evaluados", //7
+            "\nPromedio total de dimensión" //9
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas1 = [($divisionTitulo * 8)];
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableHeaderMan3($medidas1, ($tamanioAltoColumna + 2), [$unidadP], true, [191, 191, 191]);
+        $this->AddTableSubT2($tamanioAltoColumna, $subTitulos, true, [218, 238, 243]);
+        $this->Ln();
     }
 
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -2441,7 +2461,8 @@ try {
 
     $PHDGraficoU = number_format($contH > 0 ? $MHDgrafico / $contH : 0, 1);
     $PVDGraficoU = number_format($contV > 0 ? $MVDgrafico / $contV : 0, 1);
-    //
+    // CONSULTA FINAL
+    
 } catch (PDOException $exp) {
     $tipoError = 'No se pudo conectar a la base de datos';
 }
@@ -2478,7 +2499,7 @@ $pdf->AddPage();
 $pdf->Page6Content($unidadP, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio, $PHPE, $PVPE, $PHAsesorU, $PVAsesorU, $PHDisenioU, $PVDisenioU);
 
 $pdf->AddPage();
-$pdf->Page7Content();
+$pdf->Page7Content($unidadP);
 
 $pdf->AddPage();
 $pdf->IndiceData($pdf->pageNumbers, $unidadP);
