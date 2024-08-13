@@ -21,7 +21,9 @@ if ($conn) {
         echo "<hr>";
     }
 }
-//
+// 
+$unidad = 'FACULTAD DE ARTES';
+
 $query = "SELECT
     acta_id,
     unidad,
@@ -32,9 +34,12 @@ $query = "SELECT
     COUNT(DISTINCT numcontrol) AS total_docentes
 FROM
     virtuales
+WHERE
+    unidad = :unidad
 GROUP BY
     acta_id, unidad, carrera, materia;";
 $stmt = $conn->prepare($query);
+$stmt->bindParam(':unidad', $unidad, PDO::PARAM_STR);
 $stmt->execute();
 
 // Obtener los resultados

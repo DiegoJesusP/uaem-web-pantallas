@@ -2227,14 +2227,13 @@ GROUP BY
 $stmt = $conn->prepare($query);
 $stmt->execute();
 
-// Obtener los resultados
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $unidad_totales = [];
 $acta_id = [];
 $datosEsc = [];
 
-// Procesar resultados
+
 foreach ($resultados as $fila) {
     $acta_id[] = $fila['acta_id'];
     $acta = $fila['acta_id'];
@@ -2245,13 +2244,11 @@ foreach ($resultados as $fila) {
     $total_grupos = $fila['total_grupos'];
     $total_docentes = $fila['total_docentes'];
 
-    // Acumular el total de alumnos por unidad
     if (!isset($unidad_totales[$unidad])) {
         $unidad_totales[$unidad] = 0;
     }
     $unidad_totales[$unidad] += $total_alumnos;
 
-    // Consulta adicional dentro del bucle
     $queryAsesor = "WITH asesor_en_linea AS (
         SELECT
             acta_id,
@@ -2269,12 +2266,11 @@ foreach ($resultados as $fila) {
     GROUP BY
         acta_id;";
 
-    $stmtAsesor = $conn->prepare($queryAsesor); // Preparar la consulta
-    $stmtAsesor->bindParam(':acta_id', $acta, PDO::PARAM_STR); // Enlazar el parámetro
-    $stmtAsesor->execute(); // Ejecutar la consulta
-    $resultadosAsesor = $stmtAsesor->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+    $stmtAsesor = $conn->prepare($queryAsesor);
+    $stmtAsesor->bindParam(':acta_id', $acta, PDO::PARAM_STR);
+    $stmtAsesor->execute();
+    $resultadosAsesor = $stmtAsesor->fetchAll(PDO::FETCH_ASSOC);
 
-    // Asegurar que hay resultados antes de intentar acceder a ellos
     $promAsesor = isset($resultadosAsesor[0]['promedio_calificacion']) ? $resultadosAsesor[0]['promedio_calificacion'] : null;
     ////////
     $queryDisenio = "WITH calificaciones AS (
@@ -2372,6 +2368,8 @@ $pdf->Page4Content($arrMV);
 $pdf->AddPage();
 $pdf->IndiceData($pdf->pageNumbers);
 
-$pdf->Output();
+$nombreArchivo = 'HV_INSTITUCIONAL_'. $anio .'.pdf';
+//$nombreArchivo, "D"
+$pdf->Output(utf8_decode($nombreArchivo), "I");
 
 ?>

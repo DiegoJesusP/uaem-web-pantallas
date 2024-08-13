@@ -21,6 +21,10 @@ function abreviarPrimeraPalabra($texto) {
     return $resultado;
 }
 
+function reemplazarGuiones($texto) {
+    return str_replace(' ', '_', $texto);
+}
+
 class PDF extends FPDF{
     var $pageNumbers = array();
     function Header(){
@@ -701,33 +705,74 @@ class PDF extends FPDF{
         }
     }
 
-    function Page7Content($unidadP){
+    function Page7Content($unidadP, $arrMH){
         $this->pageNumbers[] = $this->PageNo();
         //
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, utf8_decode('VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura'), 0, 'L');
+        $this->MultiCell(0, 10, utf8_decode('VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura - Modalidad Híbrida'), 0, 'L');
         //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Modalidad Híbrida'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 12);
         $separador = 10;
         $tamanioAltoColumna = 5;
         $subTitulos = [
             "\nPrograma/s educativo/s",//1
-            "\n\nModalidad",//2
             "\nNombre de la asignatura",  //3
             "\n\nNúmero de grupos",//4
             "Estudiantes registrados en sistema", //5
             "\nEstudiantes participantes *", //6
-            "\nAsesores evaluados", //7
+            "\n\nAsesores evaluados", //7
             "\nPromedio total de dimensión" //9
         ];
         $divisionTitulo = 277 / count($subTitulos);
-        $medidas1 = [($divisionTitulo * 8)];
+        $medidas1 = [($divisionTitulo * 7)];
         //
         $this->SetTextColor(0, 0, 0);
         $this->SetFont('Arial', 'B', 10);
         $this->AddTableHeaderMan3($medidas1, ($tamanioAltoColumna + 2), [$unidadP], true, [191, 191, 191]);
         $this->AddTableSubT2($tamanioAltoColumna, $subTitulos, true, [218, 238, 243]);
-        $this->Ln();
+        $this->Ln($separador);
+
+        $this->SetFont('Arial', '', 8);
+        $this->AddTableBodyTC($tamanioAltoColumna, $arrMH, true, [252, 228, 214]);
+    }
+
+    function Page8Content($unidadP, $arrMV){
+        $this->pageNumbers[] = $this->PageNo();
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, utf8_decode('VIII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura - Modalidad Virtual'), 0, 'L');
+        //
+        $this->SetTextColor(38, 71, 114);
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 10, utf8_decode('Modalidad Virtual'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 12);
+        $separador = 10;
+        $tamanioAltoColumna = 5;
+        $subTitulos = [
+            "\nPrograma/s educativo/s",//1
+            "\nNombre de la asignatura",  //3
+            "\n\nNúmero de grupos",//4
+            "Estudiantes registrados en sistema", //5
+            "\nEstudiantes participantes *", //6
+            "\n\nAsesores evaluados", //7
+            "\nPromedio total de dimensión" //9
+        ];
+        $divisionTitulo = 277 / count($subTitulos);
+        $medidas1 = [($divisionTitulo * 7)];
+        //
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 10);
+        $this->AddTableHeaderMan3($medidas1, ($tamanioAltoColumna + 2), [$unidadP], true, [191, 191, 191]);
+        $this->AddTableSubT2($tamanioAltoColumna, $subTitulos, true, [218, 238, 243]);
+        $this->Ln($separador);
+
+        $this->SetFont('Arial', '', 8);
+        $this->AddTableBodyTC($tamanioAltoColumna, $arrMV, true, [252, 228, 214]);
     }
 
     function addTable($anchoColumnas, $titulosTablas, $data, $total, $numGrupos, $useFillColor = true, $fillColor = [255, 255, 255]) {
@@ -757,6 +802,24 @@ class PDF extends FPDF{
         // Línea de cierre
         $this->Cell(array_sum($anchoColumnas), 0, '', 'T');
         $this->Ln();
+    }
+
+    function AddTableBodyTC($tamY, $datosEsc, $useFillColor = true, $fillColor = [255, 255, 255]){
+        if ($useFillColor) {
+            $this->SetFillColor(...$fillColor);
+        }
+        if ($datosEsc !== null){
+            foreach ($datosEsc as $fila) {
+                $tamColumna = 277 / count($fila); // Asume que cada fila tiene la misma cantidad de columnas
+                foreach ($fila as $j => $titulo) {
+                    $this->Cell($tamColumna, $tamY, utf8_decode($titulo), 1, 0, 'C', ($j % 2 == 0)? true : false);
+                }
+                $this->Ln(); // Agrega una nueva línea después de cada fila
+            }
+        }else {
+            $this->Cell(277, 6, utf8_decode('No hay datos para mostrar'), 1, 0, 'C', true);
+            $this->Ln();
+        }
     }
 
     function AddTableHeaderMan($tam, $tamY, $titulosTablas, $useFillColor = true, $fillColor = [255, 255, 255]){
@@ -1191,7 +1254,8 @@ class PDF extends FPDF{
         $this->AddIndice($anchoColumnas, ['IV. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'. "\n\t" .'- Funciones del asesor en línea'], $this->pageNumbers[3], true, [220, 228, 241]);
         $this->AddIndice($anchoColumnas, ['V. Resultado de evaluación de ' . $unidadP . '. Modalidad, dimensiones de evaluación y desglose de dimensión'. "\n\t" .'- Diseño y calidad del curso'], $this->pageNumbers[4], true);
         $this->AddIndice($anchoColumnas, ['VI.- Resultado institucional por unidad académica y dimensiones de evaluación'], $this->pageNumbers[5], true, [220, 228, 241]);
-        $this->AddIndice($anchoColumnas, ['VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura'], $this->pageNumbers[6], true);
+        $this->AddIndice($anchoColumnas, ['VII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura - Modalidad Híbrida'], $this->pageNumbers[6], true);
+        $this->AddIndice($anchoColumnas, ['VIII.- Niveles de participación y resultado de evaluación por programa educativo y asignatura - Modalidad Virtual'], $this->pageNumbers[7], true, [220, 228, 241]);
         //
     }
 }
@@ -2471,7 +2535,137 @@ try {
     $PHDGraficoU = number_format($contH > 0 ? $MHDgrafico / $contH : 0, 1);
     $PVDGraficoU = number_format($contV > 0 ? $MVDgrafico / $contV : 0, 1);
     // CONSULTA FINAL
-    
+    $query = "SELECT
+    acta_id,
+    unidad,
+    carrera,
+    materia,
+    COUNT(DISTINCT numcontrol) AS total_alumnos,
+    COUNT(DISTINCT grupo) AS total_grupos,
+    COUNT(DISTINCT numcontrol) AS total_docentes
+FROM
+    virtuales
+WHERE
+    unidad = :unidad
+GROUP BY
+    acta_id, unidad, carrera, materia;";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':unidad', $unidad, PDO::PARAM_STR);
+$stmt->execute();
+
+// Obtener los resultados
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$unidad_totales = [];
+$acta_id = [];
+$datosEsc = [];
+
+// Procesar resultados
+foreach ($resultados as $fila) {
+    $acta_id[] = $fila['acta_id'];
+    $acta = $fila['acta_id'];
+    $unidad = $fila['unidad'];
+    $carrera = $fila['carrera'];
+    $materia = $fila['materia'];
+    $total_alumnos = $fila['total_alumnos'];
+    $total_grupos = $fila['total_grupos'];
+    $total_docentes = $fila['total_docentes'];
+
+    // Acumular el total de alumnos por unidad
+    if (!isset($unidad_totales[$unidad])) {
+        $unidad_totales[$unidad] = 0;
+    }
+    $unidad_totales[$unidad] += $total_alumnos;
+
+    // Consulta adicional dentro del bucle
+    $queryAsesor = "WITH asesor_en_linea AS (
+        SELECT
+            acta_id,
+            (r7 + r8 + r10 + r2 + r4 + r9 + r3 + r5 + r6) AS calificacion
+        FROM
+            preguntav
+    )
+    SELECT
+        acta_id,
+        AVG(calificacion) AS promedio_calificacion
+    FROM
+        asesor_en_linea
+    WHERE
+        acta_id = :acta_id
+    GROUP BY
+        acta_id;";
+
+    $stmtAsesor = $conn->prepare($queryAsesor); // Preparar la consulta
+    $stmtAsesor->bindParam(':acta_id', $acta, PDO::PARAM_STR); // Enlazar el parámetro
+    $stmtAsesor->execute(); // Ejecutar la consulta
+    $resultadosAsesor = $stmtAsesor->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+
+    // Asegurar que hay resultados antes de intentar acceder a ellos
+    $promAsesor = isset($resultadosAsesor[0]['promedio_calificacion']) ? $resultadosAsesor[0]['promedio_calificacion'] : null;
+    ////////
+    $queryDisenio = "WITH calificaciones AS (
+    SELECT
+        acta_id,
+        (
+            SELECT AVG(value::numeric)
+            FROM unnest(string_to_array(r21, ',')) AS value
+            WHERE value ~ '^\d+(\.\d+)?$'
+        ) AS promedio_r21,
+        r12 + r18 + r15 + r13 + r17 + r16 + r20 + r14 AS suma_atributos_sin_promedio
+    FROM
+        preguntav
+    ),
+    calificaciones_con_promedio AS (
+        SELECT
+            acta_id,
+            promedio_r21,
+            suma_atributos_sin_promedio + promedio_r21 AS suma_atributos
+        FROM
+            calificaciones
+    )
+    SELECT
+        acta_id,
+        AVG(suma_atributos) AS promedio_calificacion
+    FROM
+        calificaciones_con_promedio
+    where
+        acta_id = :acta_id
+    GROUP BY
+        acta_id;";
+
+    $stmtDisenio = $conn->prepare($queryDisenio); // Preparar la consulta
+    $stmtDisenio->bindParam(':acta_id', $acta, PDO::PARAM_STR); // Enlazar el parámetro
+    $stmtDisenio->execute(); // Ejecutar la consulta
+    $resultadosDisenio = $stmtDisenio->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+
+    // Asegurar que hay resultados antes de intentar acceder a ellos
+    $promDisenio = isset($resultadosDisenio[0]['promedio_calificacion']) ? $resultadosDisenio[0]['promedio_calificacion'] : null;
+
+    $promT = ($promAsesor + $promDisenio) / 2;
+    // Almacenar los datos en el array
+    $datosEsc[] = [$carrera, $materia, $total_grupos, &$unidad_totales[$unidad], &$unidad_totales[$unidad], $total_docentes, number_format($promT, 1)];
+}
+//
+$arrMH = [];
+$arrMV = [];
+$cont = 0;
+foreach ($acta_id as $acta_id) {
+    $consulta = $conn->prepare("SELECT modalidad FROM virtuales_modalidad WHERE acta_id = :acta_id;");
+    $consulta->bindParam(':acta_id', $acta_id, PDO::PARAM_STR);
+    $consulta->execute();
+    $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+    if ($resultado) {
+        $datoArr = $datosEsc[$cont];
+        if ($resultado['modalidad'] == 'H') {
+            $arrMH[] = $datoArr;
+        } else if ($resultado['modalidad'] == 'V') {
+            $arrMV[] = $datoArr;
+        }
+    }
+    $cont++;
+}
+    //
 } catch (PDOException $exp) {
     $tipoError = 'No se pudo conectar a la base de datos';
 }
@@ -2508,11 +2702,17 @@ $pdf->AddPage();
 $pdf->Page6Content($unidadP, $PHAsesor, $PVAsesor, $PHDisenio, $PVDisenio, $PHPE, $PVPE, $PHAsesorU, $PVAsesorU, $PHDisenioU, $PVDisenioU);
 
 $pdf->AddPage();
-$pdf->Page7Content($unidadP);
+$pdf->Page7Content($unidadP, $arrMH);
+
+$pdf->AddPage();
+$pdf->Page8Content($unidadP, $arrMV);
 
 $pdf->AddPage();
 $pdf->IndiceData($pdf->pageNumbers, $unidadP);
 
-$pdf->Output();
+$unidadNA = reemplazarGuiones($unidad);
+$nombreArchivo = 'REPHV_'. $unidadNA . '_' . $anio .'.pdf';
+//$nombreArchivo, "D"
+$pdf->Output(utf8_decode($nombreArchivo), "I");
 
 ?>
