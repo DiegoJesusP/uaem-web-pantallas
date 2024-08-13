@@ -211,9 +211,9 @@ class PDF extends FPDF{
         $ER = ($MHE + $MVE);
         $EP = ($MHE + $MVE);
         $ESP = $ER - $EP;
-        $promIA = (($PHAsesor + $PVAsesor)>0)?number_format(($PHAsesor + $PVAsesor) / 2, 1):0;
-        $promID = (($PHDisenio + $PVDisenio)>0)?number_format(($PHDisenio + $PVDisenio) / 2, 1):0;
-        $promI = (($promIA + $promID)>0)?number_format(($promIA + $promID) / 2, 1):0;
+        $promIA = number_format(($PHAsesor + $PVAsesor) / 2, 1);
+        $promID = number_format(($PHDisenio + $PVDisenio) / 2, 1);
+        $promI = number_format(($promIA + $promID) / 2, 1);
         $resultadoInstitucional = [
             "Resultado institucional**",
             "\n". ($MHU + $MVU), 
@@ -230,7 +230,7 @@ class PDF extends FPDF{
         $this->AddTableBodyPage($tamanioAltoColumna, $resultadoInstitucional, true, [217, 217, 217]);
         $this->SetFont('Arial', '', 10);
         $this->Ln($separador);
-        $promHib = (($PHAsesor + $PHDisenio)>0)?number_format(($PHAsesor + $PHDisenio) / 2, 1):0;
+        $promHib = number_format(($PHAsesor + $PHDisenio) / 2, 1);
         $modalidadHibrida = [
             "Modalidad híbrida",
             "\n". $MHU, 
@@ -246,7 +246,7 @@ class PDF extends FPDF{
         ];
         $this->AddTableBodyPage($tamanioAltoColumna, $modalidadHibrida, true, [217, 217, 217]);
         $this->Ln($separador);
-        $promVirt = (($PVAsesor + $PVDisenio)>0)?number_format(($PVAsesor + $PVDisenio) / 2, 1):0;
+        $promVirt = number_format(($PVAsesor + $PVDisenio) / 2, 1);
         $modalidadVirtual = [
             "Modalidad virtual",
             "\n". $MVU, 
@@ -265,7 +265,6 @@ class PDF extends FPDF{
         //
         $this->SetTextColor(38, 71, 114);
         //
-        if ($promI > 0 && $promHib > 0 && $promVirt > 0) {
         $data = array('Institucional' => $promI, 'Híbrida' => $promHib, 'Virtual' => $promVirt);
 
         $this->Ln(6);
@@ -291,7 +290,6 @@ class PDF extends FPDF{
         //**** */
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 1. Resultado institucional y modalidad.'), 0, 'R');
-        }
         $this->MultiCell(0, 6, utf8_decode('**El resultado institucional refiere al índice global de los resultados de evaluaciól docente de los programas educativos de las unidades académicas participantes por modalidad.'), 0, 'L');
         $this->MultiCell(0, 6, utf8_decode('*Total de asesores participantes son contabilizados como registros únicos.'), 0, 'L');
         //
@@ -299,7 +297,6 @@ class PDF extends FPDF{
         $this->SetFont('Arial', 'B', 12);
         $this->Cell(0, 10, utf8_decode('Resultado institucional por modalidad y dimensiones de evaluación'), 1, 1, 'C');
         //
-        if($promIA > 0 && $promID > 0 && $PHAsesor > 0 && $PHDisenio > 0 && $PVAsesor > 0 && $PVDisenio > 0 && $ER > 0 && $EP > 0 && $ESP > 0){
         $this->Ln(4);
         $this->SetFont('Arial', 'I', 13);
         $this->Cell(0, 5, utf8_decode('Resultado Institucional'), 0, 1, 'C');
@@ -349,7 +346,6 @@ class PDF extends FPDF{
         //
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 3. Nivel de participación de estudiantes.'), 0, 'R');
-        }
         //
     }
 
@@ -387,7 +383,7 @@ class PDF extends FPDF{
         $this->Ln($separador);
         $EP = ($MHE + $MVE);
         $IA = ($MHInstr + $MVInstr);
-        $promHib = (($PHOportunidad + $PHCalidad + $PHDominio)>0)?number_format(($PHOportunidad + $PHCalidad + $PHDominio) / 3, 1):0;
+        $promHib = number_format(($PHOportunidad + $PHCalidad + $PHDominio) / 3, 1);
         $modalidadHibrida = [
             "\nModalidad híbrida",
             "\n". $MHE, 
@@ -399,7 +395,7 @@ class PDF extends FPDF{
         ];
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadHibrida, true, [255, 229, 153]);
         $this->Ln($separador);
-        $promVirt = (($PVOportunidad + $PVCalidad + $PVDominio)>0)?number_format(($PVOportunidad + $PVCalidad + $PVDominio) / 3, 1):0;
+        $promVirt = number_format(($PVOportunidad + $PVCalidad + $PVDominio) / 3, 1);
         $modalidadVirtual = [
             "\nModalidad virtual",
             "\n". $MVE, 
@@ -412,10 +408,10 @@ class PDF extends FPDF{
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [255, 229, 153]);
         $this->Ln($separador);
         $this->SetFont('Arial', 'B', 11);
-        $promInstOportunidad = (($PHOportunidad + $PVOportunidad)>0)?number_format(($PHOportunidad + $PVOportunidad) / 2, 1):0;
-        $promInstCalidad = (($PHCalidad + $PVCalidad)>0)?number_format(($PHCalidad + $PVCalidad) / 2, 1):0;
-        $promInstDominio = (($PHDominio + $PVDominio)>0)?number_format(($PHDominio + $PVDominio) / 2, 1):0;
-        $promInst = (($promInstOportunidad + $promInstCalidad + $promInstDominio)>0)?number_format(($promInstOportunidad + $promInstCalidad + $promInstDominio) / 3, 1):0;
+        $promInstOportunidad = number_format(($PHOportunidad + $PVOportunidad) / 2, 1);
+        $promInstCalidad = number_format(($PHCalidad + $PVCalidad) / 2, 1);
+        $promInstDominio = number_format(($PHDominio + $PVDominio) / 2, 1);
+        $promInst = number_format(($promInstOportunidad + $promInstCalidad + $promInstDominio) / 3, 1);
         $modalidadInstitucional = [
             "Resultado Institucional",
             "\n". $EP, 
@@ -431,7 +427,7 @@ class PDF extends FPDF{
         $this->SetTextColor(38, 71, 114);
         $this->SetFont('Arial', '', 12);
         //--
-        if ($promInstOportunidad > 0 && $PHOportunidad > 0 && $PVOportunidad > 0 && $promInstCalidad > 0 && $PHcalidad > 0 && $PVCalidad > 0 && $promInstDominio > 0 && $PHDominio > 0 && $PVDominio > 0) {
+
         $this->Ln(6);
         $this->SetFont('Arial', 'B', 12);
         $this->Cell(0, 10, utf8_decode('Dimensión: Funciones del Asesor en Línea'), 1, 1, 'C');
@@ -526,7 +522,6 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 10);
         $this->MultiCell(0, 10, utf8_decode('Gráfico 4. Resultado Institucional, Modalidad, dimensiones de evaluación y desglose de dimensión: Funciones del asesor en línea.'), 0, 'R');
         $this->SetFont('Arial', '', 12);
-        }
         //
         $this->AddPage();
         $this->SetTextColor(38, 71, 114);
@@ -559,7 +554,7 @@ class PDF extends FPDF{
         $this->SetFont('Arial', '', 11);
         $this->AddTableSubT($tamanioAltoColumna, $subTitulos, true, [242, 242, 242]);
         $this->Ln($separador);
-        $promHib = (($PHDclaridad + $PHDcalidad + $PHDvariedad + $PHDutilidad + $PHDautonomia + $PHDcontenidos + $PHDgrafico)>0)?number_format(($PHDclaridad + $PHDcalidad + $PHDvariedad + $PHDutilidad + $PHDautonomia + $PHDcontenidos + $PHDgrafico) / 7, 1):0;
+        $promHib = number_format(($PHDclaridad + $PHDcalidad + $PHDvariedad + $PHDutilidad + $PHDautonomia + $PHDcontenidos + $PHDgrafico) / 7, 1);
         $modalidadHibrida = [
             "Modalidad híbrida",
             "\n". $MHE, 
@@ -575,7 +570,7 @@ class PDF extends FPDF{
         ];
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadHibrida, true, [244, 176, 131]);
         $this->Ln($separador);
-        $promVirt = (($PVDclaridad + $PVDcalidad + $PVDvariedad + $PVDutilidad + $PVDautonomia + $PVDcontenidos + $PVDgrafico)>0)?number_format(($PVDclaridad + $PVDcalidad + $PVDvariedad + $PVDutilidad + $PVDautonomia + $PVDcontenidos + $PVDgrafico) / 7, 1):0;
+        $promVirt = number_format(($PVDclaridad + $PVDcalidad + $PVDvariedad + $PVDutilidad + $PVDautonomia + $PVDcontenidos + $PVDgrafico) / 7, 1);
         $modalidadVirtual = [
             "Modalidad virtual",
             "\n". $MVE, 
@@ -592,15 +587,14 @@ class PDF extends FPDF{
         $this->AddTableBodyPage2($tamanioAltoColumna, $modalidadVirtual, true, [244, 176, 131]);
         $this->Ln($separador);
         $this->SetFont('Arial', 'B', 11);
-        $promInstDclaridad = (($PHDclaridad + $PVDclaridad)>0)?number_format(($PHDclaridad + $PVDclaridad) / 2, 1):0;
-        $promInstDcalidad = (($PHDcalidad + $PVDcalidad)>0)?number_format(($PHDcalidad + $PVDcalidad) / 2, 1):0;
-        $promInstDvariedad = (($PHDvariedad + $PVDvariedad)>0)?number_format(($PHDvariedad + $PVDvariedad) / 2, 1):0;
-        $promInstDutilidad = (($PHDutilidad + $PVDutilidad)>0)?number_format(($PHDutilidad + $PVDutilidad) / 2, 1):0;
-        $promInstDautonomia = (($PHDautonomia + $PVDautonomia)>0)?number_format(($PHDautonomia + $PVDautonomia) / 2, 1):0;
-        $promInstDcontenidos = (($PHDcontenidos + $PVDcontenidos)>0)?number_format(($PHDcontenidos + $PVDcontenidos) / 2, 1):0;
-        $promInstDgrafico = (($PHDgrafico + $PVDgrafico)>0)?number_format(($PHDgrafico + $PVDgrafico) / 2, 1):0;
-        $sumaPromInst = ($promInstDclaridad + $promInstDcalidad + $promInstDvariedad + $promInstDutilidad + $promInstDautonomia + $promInstDcontenidos + $promInstDgrafico);
-        $promInst = (($sumaPromInst)>0)?number_format(($sumaPromInst) / 7, 1):0;
+        $promInstDclaridad = number_format(($PHDclaridad + $PVDclaridad) / 2, 1);
+        $promInstDcalidad = number_format(($PHDcalidad + $PVDcalidad) / 2, 1);
+        $promInstDvariedad = number_format(($PHDvariedad + $PVDvariedad) / 2, 1);
+        $promInstDutilidad = number_format(($PHDutilidad + $PVDutilidad) / 2, 1);
+        $promInstDautonomia = number_format(($PHDautonomia + $PVDautonomia) / 2, 1);
+        $promInstDcontenidos = number_format(($PHDcontenidos + $PVDcontenidos) / 2, 1);
+        $promInstDgrafico = number_format(($PHDgrafico + $PVDgrafico) / 2, 1);
+        $promInst = number_format(($promInstDclaridad + $promInstDcalidad + $promInstDvariedad + $promInstDutilidad + $promInstDautonomia + $promInstDcontenidos + $promInstDgrafico) / 7, 1);
         $modalidadInstitucional = [
             "Resultado Institucional",
             "\n". $EP, 
@@ -628,7 +622,6 @@ class PDF extends FPDF{
         $this->Ln(2);
         $this->SetFont('Arial', '', 10);
 
-        if($promInstDclaridad > 0 && $PHDclaridad > 0 && $PVDclaridad > 0 && $promInstDcalidad > 0 && $PHDcalidad > 0 && $PVDcalidad > 0 && $promInstDvariedad > 0 && $PHDvariedad > 0 && $PVDvariedad > 0 && $promInstDutilidad > 0 && $PHDutilidad > 0 && $PVDutilidad > 0 && $promInstDautonomia > 0 && $PHDautonomia > 0 && $PVDautonomia > 0 && $promInstDcontenidos > 0 && $PHDcontenidos > 0 && $PVDcontenidos > 0 && $promInstDgrafico > 0 && $PHDgrafico > 0 && $PVDgrafico > 0){
         $data = array('Institucional' => $promInstDclaridad, 'Híbrida' => $PHDclaridad, 'Virtual' => $PVDclaridad); //1
         $valX = $this->GetX();
         $valY = $this->GetY();
@@ -794,7 +787,6 @@ class PDF extends FPDF{
         //**** */ 8
         //
         $this->MultiCell(0, 10, utf8_decode('Gráfico 5. Resultado Institucional. Modalidad , dimensiones de evaluación y desglose de dimensión: Diseño y calidad del curso.'), 0, 'R');
-        }
     }
 
     function Page3Content($arrMH){
@@ -2323,7 +2315,7 @@ foreach ($resultados as $fila) {
     // Asegurar que hay resultados antes de intentar acceder a ellos
     $promDisenio = isset($resultadosDisenio[0]['promedio_calificacion']) ? $resultadosDisenio[0]['promedio_calificacion'] : null;
 
-    $promT = (($promAsesor + $promDisenio)>0)?(($promAsesor + $promDisenio) / 2):0;
+    $promT = ($promAsesor + $promDisenio) / 2;
     // Almacenar los datos en el array
     $datosEsc[] = [$unidad, $carrera, $materia, &$unidad_totales[$unidad], $total_grupos, $total_docentes, number_format($promAsesor, 1), number_format($promDisenio, 1), number_format($promT, 1)];
     }
